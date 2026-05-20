@@ -1,12 +1,5 @@
 <mat-toolbar color="primary">
 
-  <!-- Bouton hamburger (visible quand connecté) -->
-  @if (isLoggedIn()) {
-    <button mat-icon-button (click)="sidenav.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button>
-  }
-
   <!-- Logo -->
   <div class="logo" routerLink="/">
     <img src="/logo2.jpg" alt="Logo Covaldys" class="logo-img" width="2048" height="2048">
@@ -16,7 +9,7 @@
     </div>
   </div>
 
-  <!-- Navigation visiteur — centrée -->
+  <!-- Navigation visiteur -->
   @if (!isLoggedIn()) {
     <nav>
       <a mat-button routerLink="/">Home</a>
@@ -26,9 +19,22 @@
     </nav>
   }
 
+  <!-- Titre de la page courante (connecté) -->
+  @if (isLoggedIn()) {
+    <span class="page-title">{{ pageTitle() }}</span>
+  }
+
   <span class="spacer"></span>
 
-  <!-- Icônes réseaux sociaux — à droite -->
+  <!-- Infos membre connecté -->
+  @if (isLoggedIn()) {
+    <div class="user-info-header">
+      <span class="membership-badge">✅ Effectif</span>
+      <span class="user-name">👤 Pseudo</span>
+    </div>
+  }
+
+  <!-- Icônes réseaux sociaux -->
   <div class="social-icons">
     <a href="https://www.facebook.com/covaldys" target="_blank">
       <mat-icon>facebook</mat-icon>

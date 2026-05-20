@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { Header } from './shared/components/header/header';
@@ -16,4 +16,10 @@ import { SidenavContent } from './shared/components/sidenav-content/sidenav-cont
   styleUrl: './app.scss'
 })
 export class App {
+  sidenavExpanded = signal(false);
+  isLoggedIn = signal(true); // temporaire
+
+  toggleSidenav(): void {
+    this.sidenavExpanded.update(v => !v);
+  }
 }

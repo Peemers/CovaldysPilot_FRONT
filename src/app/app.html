@@ -1,11 +1,18 @@
+<app-header></app-header>
+
 <mat-sidenav-container class="sidenav-container">
 
-  <mat-sidenav #sidenav mode="over" [opened]="false">
-    <app-sidenav-content></app-sidenav-content>
-  </mat-sidenav>
+  @if (isLoggedIn()) {
+    <mat-sidenav mode="side" [opened]="true"
+                 [style.width]="sidenavExpanded() ? '280px' : '65px'">
+      <app-sidenav-content
+        [expanded]="sidenavExpanded"
+        (toggleEvent)="toggleSidenav()">
+      </app-sidenav-content>
+    </mat-sidenav>
+  }
 
   <mat-sidenav-content>
-    <app-header [sidenav]="sidenav"></app-header>
     <main class="main-content">
       <router-outlet></router-outlet>
     </main>

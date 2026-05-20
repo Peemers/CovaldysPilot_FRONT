@@ -1,0 +1,13 @@
+.sidenav-container {
+  height: calc(100vh - 100px);
+}
+
+mat-sidenav {
+  width: 65px;
+  transition: width 0.3s ease;
+  overflow: hidden;
+
+  &.expanded {
+    width: 280px;
+  }
+}
