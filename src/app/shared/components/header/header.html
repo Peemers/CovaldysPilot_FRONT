@@ -1,14 +1,14 @@
 <mat-toolbar color="primary">
-
+  
   <!-- Logo -->
   <div class="logo" routerLink="/">
-    <img src="/logo2.jpg" alt="Logo Covaldys" class="logo-img" width="2048" height="2048">
+    <img src="/logo2.jpg" alt="Logo Covaldys" class="logo-img" width="128" height="128">
     <div class="logo-text">
       <strong>Covaldys</strong>
       <small>COnservation de la VAlée D'Yves</small>
     </div>
   </div>
-
+  
   <!-- Navigation visiteur -->
   @if (!isLoggedIn()) {
     <nav>
@@ -18,14 +18,14 @@
       <a mat-button routerLink="/contact">Contact</a>
     </nav>
   }
-
-  <!-- Titre de la page courante (connecté) -->
+  
+  <!-- Titre de page centré quand connecté -->
   @if (isLoggedIn()) {
-    <span class="page-title">{{ pageTitle() }}</span>
+    <span class="spacer"></span>
+    <h1 class="page-title">{{ pageTitle() }}</h1>
+    <span class="spacer"></span>
   }
-
-  <span class="spacer"></span>
-
+  
   <!-- Infos membre connecté -->
   @if (isLoggedIn()) {
     <div class="user-info-header">
@@ -33,7 +33,7 @@
       <span class="user-name">👤 Pseudo</span>
     </div>
   }
-
+  
   <!-- Icônes réseaux sociaux -->
   <div class="social-icons">
     <a href="https://www.facebook.com/covaldys" target="_blank">
