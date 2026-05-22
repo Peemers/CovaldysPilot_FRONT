@@ -1,0 +1,109 @@
+<div class="register-container">
+  <mat-card class="register-card">
+    <mat-card-header>
+      <img src="/logo2.jpg" alt="Logo Covaldys" class="register-logo" height="40" width="40">
+      <mat-card-title class="Registering">Enregistrez-vous</mat-card-title>
+      <mat-card-subtitle>Entrez vos données</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Votre Pseudo</mat-label>
+          <input matInput formControlName="pseudo" placeholder="Choisissez votre pseudo">
+          <mat-icon matSuffix>badge</mat-icon>
+          @if (registerForm.get('pseudo')?.hasError('required')) {
+            <mat-error>Ce champ est obligatoire</mat-error>
+          }
+          @if (registerForm.get('pseudo')?.hasError('minlength')) {
+            <mat-error>Minimum 3 caractères</mat-error>
+          }
+        </mat-form-field>
+        
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Votre Email</mat-label>
+          <input matInput formControlName="email" placeholder="Inserez votre email">
+          <mat-icon matSuffix>mail</mat-icon>
+          @if (registerForm.get('email')?.hasError('required')) {
+            <mat-error>Ce champ est obligatoire</mat-error>
+          }
+          @if (registerForm.get('email')?.hasError('email')) {
+            <mat-error>Email invalide</mat-error>
+          }
+        </mat-form-field>
+        
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Votre mot de passe (1 caractère spécial et une majuscule minimum)</mat-label>
+          <input matInput formControlName="password"
+                 [type]="hidePassword() ? 'password' : 'text'">
+          <button mat-icon-button matSuffix type="button"
+                  (click)="hidePassword.set(!hidePassword())">
+            <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          @if (registerForm.get('password')?.hasError('required')) {
+            <mat-error>Ce champ est obligatoire</mat-error>
+          }
+          @if (registerForm.get('password')?.hasError('minlength')) {
+            <mat-error>8 caractères minimum</mat-error>
+          }
+          @if (registerForm.get('password')?.hasError('pattern')) {
+            <mat-error>Mot de passe invalide</mat-error>
+          }
+        </mat-form-field>
+        
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Confirmation du mot de passe</mat-label>
+          <input matInput formControlName="confirmPassword"
+                 [type]="hideConfirmPassword() ? 'password' : 'text'">
+          <button mat-icon-button matSuffix type="button"
+                  (click)="hideConfirmPassword.set(!hideConfirmPassword())">
+            <mat-icon>{{ hideConfirmPassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          @if (registerForm.get('password')?.hasError('required')) {
+            <mat-error>Ce champ est requis</mat-error>
+          }
+          @if (registerForm.hasError('passwordMismatch')) {
+            <mat-error>Les mots de passe ne concordent pas</mat-error>
+          }
+        </mat-form-field>
+        
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Date de naissance</mat-label>
+          <input matInput formControlName="birthday" type="date">
+          <mat-icon matSuffix>cake</mat-icon>
+          @if (registerForm.get('birthday')?.hasError('required')) {
+            <mat-error>Date de naissance requise</mat-error>
+          }
+        </mat-form-field>
+        
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Genre (optionnel)</mat-label>
+          <mat-select formControlName="gender">
+            <mat-option value="">Préfère ne pas préciser</mat-option>
+            <mat-option value="Homme">Homme</mat-option>
+            <mat-option value="Femme">Femme</mat-option>
+            <mat-option value="Autre">Autre</mat-option>
+          </mat-select>
+        </mat-form-field>
+        
+        @if (errorMessage()) {
+          <div class="error-message">
+            <mat-icon>error</mat-icon>
+            <span>{{ errorMessage() }}</span>
+          </div>
+        }
+        <button mat-raised-button type="submit"
+                class="full-width submit-btn" [disabled]="isLoading()">
+          @if (isLoading()) {
+            <mat-spinner diameter="20"></mat-spinner>
+          } @else {
+            S'enregistrer
+          }
+        </button>
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <span>Deja membre ?</span>
+      <a routerLink="/login" mat-button color="primary">Se connecter</a>
+    </mat-card-actions>
+  </mat-card>
+</div>
