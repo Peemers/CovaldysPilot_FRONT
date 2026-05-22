@@ -1,15 +1,15 @@
 <div class="login-container">
   <mat-card class="login-card">
-
+    
     <mat-card-header>
       <img src="/logo2.jpg" alt="Logo Covaldys" class="login-logo">
       <mat-card-title class="connection">Connexion</mat-card-title>
       <mat-card-subtitle>Bienvenue sur Covaldys</mat-card-subtitle>
     </mat-card-header>
-
+    
     <mat-card-content>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-
+        
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Email ou Pseudo</mat-label>
           <input matInput formControlName="emailOrPseudo" placeholder="votre@email.be">
@@ -18,7 +18,7 @@
             <mat-error>Ce champ est obligatoire</mat-error>
           }
         </mat-form-field>
-
+        
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Mot de passe</mat-label>
           <input matInput formControlName="password"
@@ -31,7 +31,7 @@
             <mat-error>Ce champ est obligatoire</mat-error>
           }
         </mat-form-field>
-
+        
         <!-- Message d'erreur -->
         @if (errorMessage()) {
           <div class="error-message">
@@ -39,7 +39,7 @@
             <span>{{ errorMessage() }}</span>
           </div>
         }
-
+        
         <button mat-raised-button color="primary" type="submit"
                 class="full-width submit-btn" [disabled]="isLoading()">
           @if (isLoading()) {
@@ -48,14 +48,14 @@
             Se connecter
           }
         </button>
-
+      
       </form>
     </mat-card-content>
-
+    
     <mat-card-actions>
       <span>Pas encore membre ?</span>
       <a routerLink="/register" mat-button color="primary">S'inscrire</a>
     </mat-card-actions>
-
+  
   </mat-card>
 </div>

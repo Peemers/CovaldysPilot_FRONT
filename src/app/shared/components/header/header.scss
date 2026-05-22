@@ -6,12 +6,11 @@ mat-toolbar {
   border-bottom: 2px solid rgba(255, 255, 255, 0.15) !important;
   color: white !important;
   height: auto !important;
-  min-height: 90px !important;        // plus imposant
-  padding: 12px 32px !important;      // plus d'air
+  min-height: 90px !important;
+  padding: 12px 32px !important;
   flex-wrap: wrap !important;
   align-items: center !important;
   justify-content: space-between !important;
-  border-radius: 0 0 20px 20px;       // arrondi seulement en bas
   position: relative;
 
   &::before {
@@ -186,7 +185,7 @@ mat-toolbar {
 
   // MEDIA QUERIES
   @media (max-width: 768px) {
-    border-radius: 0 0 15px 15px;
+
     min-height: 64px !important;
     padding: 8px 16px !important;
 
@@ -212,7 +211,7 @@ mat-toolbar {
     }
 
     .user-info-header {
-      margin-right: 8px;
+      margin-right: 0px;
       gap: 8px;
 
       .membership-badge {
@@ -225,9 +224,9 @@ mat-toolbar {
     }
 
     .page-title{
-      margin-left: 60px;
       font-size: 1.3rem !important;
       max-width: 140px;
+      margin-right: 40px;
     }
   }
 }
@@ -236,11 +235,11 @@ mat-toolbar {
   font-size: 2rem;
   font-weight: 600;
   font-family: 'playfair Display', serif;
-  margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: center;
   letter-spacing: 0.5px;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  margin-right: 30px;
 }
