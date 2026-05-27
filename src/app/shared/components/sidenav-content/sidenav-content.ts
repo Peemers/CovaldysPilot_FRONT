@@ -1,9 +1,10 @@
-import { Component, Input, Output, EventEmitter, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatIconButton } from '@angular/material/button';
+import {Component, Input, Output, EventEmitter, signal, inject} from '@angular/core';
+import {RouterLink, RouterLinkActive} from '@angular/router';
+import {MatListModule} from '@angular/material/list';
+import {MatIconModule} from '@angular/material/icon';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatIconButton} from '@angular/material/button';
+import {AuthService} from '../../services/auth';
 
 @Component({
   selector: 'app-sidenav-content',
@@ -21,7 +22,8 @@ import { MatIconButton } from '@angular/material/button';
 export class SidenavContent {
   @Input() expanded = signal(false);
   @Output() toggleEvent = new EventEmitter<void>();
-  isAdmin = signal(false);
+
+  readonly authService = inject(AuthService);
 
   toggle(): void {
     this.toggleEvent.emit();

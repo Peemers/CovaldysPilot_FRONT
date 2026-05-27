@@ -1,10 +1,11 @@
-import {Component, Input, signal} from '@angular/core';
+import {Component, inject, Input, signal} from '@angular/core';
 import {MatSidenav} from '@angular/material/sidenav';
 import {MatToolbar} from '@angular/material/toolbar';
 import {MatIcon} from '@angular/material/icon';
 import {MatButton} from '@angular/material/button';
 import {RouterLink, Router, NavigationEnd} from '@angular/router';
 import {filter} from 'rxjs/operators';
+import {AuthService} from '../../services/auth';
 
 @Component({
   selector: 'app-header',
@@ -20,7 +21,7 @@ import {filter} from 'rxjs/operators';
 export class Header {
   @Input() sidenav!: MatSidenav;
 
-  isLoggedIn = signal(true); // temporaire
+  readonly  authService = inject(AuthService);
   pageTitle = signal('Accueil');
 
   // Map des routes vers les titres
