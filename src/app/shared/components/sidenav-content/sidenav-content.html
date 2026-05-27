@@ -6,7 +6,8 @@
   @if (expanded()) {
     <div class="user-info">
       <mat-icon>account_circle</mat-icon>
-      <span class="user-name">{{ authService.user()?.pseudo }}</span>
+      <span class="user-name">{{ authService.user()?.firstName }}</span>
+      <span class="user-name">{{ authService.user()?.lastName }}</span>
     </div>
   }
 </div>

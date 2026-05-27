@@ -9,7 +9,6 @@ import {Router, RouterLink} from "@angular/router";
 import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} from "@angular/material/card";
 import {AuthService} from "../../../shared/services/auth";
 import {RegisterRequest} from "../../../shared/models/auth.models";
-import {MatDatepickerInput} from "@angular/material/datepicker";
 import {MatOption, MatSelect} from "@angular/material/select";
 
 const passwordMatchValidator = (group: AbstractControl): ValidationErrors | null => {
@@ -55,6 +54,9 @@ export class Register {
     this.registerForm = this.fb.group({
       pseudo: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(16)]],
       email: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.email]],
+      firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
+      lastName: ['', [Validators.maxLength(100)]],
+      phoneNumber: ['', [Validators.maxLength(20)]],
       password: ['', [
         Validators.required,
         Validators.minLength(8),

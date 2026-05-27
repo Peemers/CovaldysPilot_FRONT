@@ -18,7 +18,31 @@
             <mat-error>Minimum 3 caractères</mat-error>
           }
         </mat-form-field>
-        
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Prénom</mat-label>
+          <input matInput formControlName="firstName" placeholder="Votre prénom">
+          <mat-icon matSuffix>person</mat-icon>
+          @if (registerForm.get('firstName')?.hasError('required')) {
+            <mat-error>Le prénom est obligatoire</mat-error>
+          }
+          @if (registerForm.get('firstName')?.hasError('minlength')) {
+            <mat-error>Minimum 2 caractères</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nom de famille (optionnel)</mat-label>
+          <input matInput formControlName="lastName" placeholder="Votre nom">
+          <mat-icon matSuffix>person_outline</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Numéro de téléphone (optionnel)</mat-label>
+          <input matInput formControlName="phoneNumber" placeholder="+32 470 00 00 00">
+          <mat-icon matSuffix>phone</mat-icon>
+        </mat-form-field>
+
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Votre Email</mat-label>
           <input matInput formControlName="email" placeholder="Inserez votre email">
@@ -30,7 +54,7 @@
             <mat-error>Email invalide</mat-error>
           }
         </mat-form-field>
-        
+
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Votre mot de passe (1 caractère spécial et une majuscule minimum)</mat-label>
           <input matInput formControlName="password"
@@ -49,7 +73,7 @@
             <mat-error>Mot de passe invalide</mat-error>
           }
         </mat-form-field>
-        
+
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Confirmation du mot de passe</mat-label>
           <input matInput formControlName="confirmPassword"
@@ -65,7 +89,7 @@
             <mat-error>Les mots de passe ne concordent pas</mat-error>
           }
         </mat-form-field>
-        
+
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Date de naissance</mat-label>
           <input matInput formControlName="birthday" type="date">
@@ -74,7 +98,7 @@
             <mat-error>Date de naissance requise</mat-error>
           }
         </mat-form-field>
-        
+
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Genre (optionnel)</mat-label>
           <mat-select formControlName="gender">
@@ -84,7 +108,7 @@
             <mat-option value="Autre">Autre</mat-option>
           </mat-select>
         </mat-form-field>
-        
+
         @if (errorMessage()) {
           <div class="error-message">
             <mat-icon>error</mat-icon>

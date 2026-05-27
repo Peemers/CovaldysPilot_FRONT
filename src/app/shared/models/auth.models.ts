@@ -5,6 +5,8 @@
   pseudo: string;
   role: string;
   expiresAt: string;
+  firstName: string;
+  lastName?: string;
 }
 
 export interface LoginRequest {
@@ -19,6 +21,9 @@ export interface RegisterRequest {
   confirmPassword: string;
   birthday: string;
   gender?: string;
+  firstName: string;
+  lastName?: string;
+  phoneNumber?: string;
 }
 
 export interface ConnectedUser {
@@ -26,4 +31,6 @@ export interface ConnectedUser {
   pseudo: string;
   role: string;
   isMembershipUpToDate: boolean;
+  firstName: string;
+  lastName?: string;
 }
