@@ -1,5 +1,5 @@
 <mat-toolbar color="primary">
-  
+
   <!-- Logo -->
   <div class="logo" routerLink="/">
     <img src="/logo2.jpg" alt="Logo Covaldys" class="logo-img" width="128" height="128">
@@ -8,9 +8,9 @@
       <small>COnservation de la VAlée D'Yves</small>
     </div>
   </div>
-  
+
   <!-- Navigation visiteur -->
-  @if (!isLoggedIn()) {
+  @if (!authService.isLoggedIn()) {
     <nav>
       <a mat-button routerLink="/">Home</a>
       <a mat-button routerLink="/articles">Articles</a>
@@ -18,22 +18,25 @@
       <a mat-button routerLink="/contact">Contact</a>
     </nav>
   }
-  
+
   <!-- Titre de page centré quand connecté -->
-  @if (isLoggedIn()) {
+  @if (authService.isLoggedIn()) {
     <span class="spacer"></span>
     <h1 class="page-title">{{ pageTitle() }}</h1>
     <span class="spacer"></span>
   }
-  
+
   <!-- Infos membre connecté -->
-  @if (isLoggedIn()) {
+  @if (authService.isLoggedIn()) {
     <div class="user-info-header">
-      <span class="membership-badge">✅ Effectif</span>
-      <span class="user-name">👤 Pseudo</span>
+    <span class="membership-badge">
+      @if (authService.isMembershipUpToDate()) { ✅ Effectif }
+      @else { Membre }
+    </span>
+      <span class="user-name">👤 {{ authService.user()?.pseudo }}</span>
     </div>
   }
-  
+
   <!-- Icônes réseaux sociaux -->
   <div class="social-icons">
     <a href="https://www.facebook.com/covaldys" target="_blank">

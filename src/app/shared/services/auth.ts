@@ -10,7 +10,7 @@ import { AuthResponse, LoginRequest, RegisterRequest, ConnectedUser } from '../m
 })
 export class AuthService {
 
-  private readonly apiUrl = 'http://localhost:5005/api/auth';
+  private readonly apiUrl = 'https://localhost:7124/api/auth';
 
   // État de l'utilisateur connecté
   private currentUser = signal<ConnectedUser | null>(null);

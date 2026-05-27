@@ -35,7 +35,7 @@
         <h2>Bienvenue, {{authService.user()?.pseudo}} ! 🙌</h2>
         <p>Heureux de vous revoir sur la plateforme Covaldys.</p>
 
-        @if (!authService.isMembershipUpToDate()){
+        @if (!authService.isMembershipUpToDate() && !authService.isAdmin()){
           <div class="membership-alert">
             <mat-icon>info</mat-icon>
             <span>Rejoignez l'aventure et soutenez Covaldys !</span>

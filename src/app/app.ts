@@ -1,8 +1,9 @@
-import { Component, signal } from '@angular/core';
+import {Component, inject, signal} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { Header } from './shared/components/header/header';
 import { SidenavContent } from './shared/components/sidenav-content/sidenav-content';
+import {AuthService} from './shared/services/auth';
 
 @Component({
   selector: 'app-root',
@@ -16,8 +17,8 @@ import { SidenavContent } from './shared/components/sidenav-content/sidenav-cont
   styleUrl: './app.scss'
 })
 export class App {
+  readonly authService = inject(AuthService);
   sidenavExpanded = signal(false);
-  isLoggedIn = signal(true); // temporaire
 
   toggleSidenav(): void {
     this.sidenavExpanded.update(v => !v);

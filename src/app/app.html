@@ -2,7 +2,7 @@
 
 <mat-sidenav-container class="sidenav-container">
 
-  @if (isLoggedIn()) {
+  @if (authService.isLoggedIn()) {
     <mat-sidenav mode="side" [opened]="true"
                  [style.width]="sidenavExpanded() ? '280px' : '65px'">
       <app-sidenav-content
