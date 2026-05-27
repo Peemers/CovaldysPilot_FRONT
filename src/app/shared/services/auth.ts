@@ -57,7 +57,9 @@ export class AuthService {
       userId: response.userId,
       pseudo: response.pseudo,
       role: response.role,
-      isMembershipUpToDate: false // sera mis à jour plus tard
+      isMembershipUpToDate: false, // sera mis à jour plus tard
+      firstName: response.firstName,
+      lastName: response.lastName,
     });
   }
 
