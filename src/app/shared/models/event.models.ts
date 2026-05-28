@@ -1,6 +1,6 @@
 export enum EventStatus {
   EnAttente = 'EnAttente',
-  Encours = 'Encours',
+  Encours = 'EnCours',
   Termine = 'Termine',
   Annule = 'Annule',
 }
@@ -55,15 +55,15 @@ export interface EventResponseDto {
   coverImage?: string;
   startDate: string;
   endDate: string;
-  RegistrationDeadline: string;
+  registrationDeadline: string;
   minParticipants: number;
   maxParticipants: number;
   isWaitingListActive: boolean;
-  waitingListPosition: number;
+  waitingListPosition?: number;
   currentParticipants: number;
-  Status: EventStatus;
+  status: EventStatus;
   createdAt: string;
-  UpdatedAt?: string;
+  updatedAt?: string;
   canRegister: boolean;
   isRegistered: boolean;
 }
