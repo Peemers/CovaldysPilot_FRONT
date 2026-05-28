@@ -1,0 +1,70 @@
+export enum EventStatus {
+  EnAttente = 'EnAttente',
+  Encours = 'Encours',
+  Termine = 'Termine',
+  Annule = 'Annule',
+}
+
+export interface CreateCategoryResponseDto {
+  Name: string;
+}
+
+export interface CategoryResponseDto {
+  id: string;
+  name: string;
+  createAt: string;
+}
+
+export interface CreateEventRequestDto {
+  name: string;
+  description: string;
+  price?: number;
+  location?: string;
+  coverImage?: string;
+  startDate: string;
+  endDate: string;
+  registrationDeadline: string;
+  minParticipants: number;
+  maxParticipants: number;
+  isWaitingListActive: boolean;
+  categoryIds: string[];
+}
+
+export interface UpdateEventRequestDto {
+  name: string;
+  description: string;
+  price?: number;
+  location?: string;
+  coverImage?: string;
+  startDate: string;
+  endDate: string;
+  registrationDeadline: string;
+  minParticipants: number;
+  maxParticipants: number;
+  isWaitingListActive: boolean;
+  categoryIds: string[];
+}
+
+export interface EventResponseDto {
+  id: string;
+  categories: CategoryResponseDto[];
+  name: string;
+  description: string;
+  location?: string;
+  price?: number;
+  coverImage?: string;
+  startDate: string;
+  endDate: string;
+  RegistrationDeadline: string;
+  minParticipants: number;
+  maxParticipants: number;
+  isWaitingListActive: boolean;
+  waitingListPosition: number;
+  currentParticipants: number;
+  Status: EventStatus;
+  createdAt: string;
+  UpdatedAt?: string;
+  canRegister: boolean;
+  isRegistered: boolean;
+}
+
