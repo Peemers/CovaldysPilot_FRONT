@@ -31,6 +31,7 @@
     <div class="user-info-header">
     <span class="membership-badge">
       @if (authService.isMembershipUpToDate()) { ✅ Effectif }
+      @else if (authService.isAdmin()){Admin}
       @else { Membre }
     </span>
       <span class="user-name">👤 {{ authService.user()?.pseudo }}</span>

@@ -10,6 +10,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatChipsModule} from "@angular/material/chips";
 import {RouterLink} from "@angular/router";
 import {DatePipe, SlicePipe} from "@angular/common";
+import {AuthService} from '../../shared/services/auth';
 
 @Component({
   selector: 'app-events',
@@ -28,6 +29,7 @@ export class Events implements OnInit {
   private readonly eventService = inject(EventService);
   private readonly signInService = inject(SignInService);
   private readonly snackBar = inject(MatSnackBar)
+  readonly authService = inject(AuthService);
 
   events = signal<EventResponseDto[]>([])
   isLoading = signal(true)
