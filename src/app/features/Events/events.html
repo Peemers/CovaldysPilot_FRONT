@@ -30,7 +30,9 @@
           
           <!-- Image couverture -->
           @if (event.coverImage) {
-            <img mat-card-image [src]="event.coverImage" [alt]="event.name">
+            <div id="imgContainer">
+            <img mat-card-image [src]="event.coverImage" [alt]="event.name" id="image">
+            </div>
           }
           
           <mat-card-header>
@@ -81,7 +83,7 @@
             </div>
           </mat-card-content>
           
-          <mat-card-actions>
+          <mat-card-actions class="matcardaction">
             <!-- Bouton contextuel selon statut -->
             @if (event.isRegistered) {
               <button mat-stroked-button color="warn"
@@ -102,11 +104,9 @@
                 Liste d'attente
               </button>
             }
-            
-            
-            <a mat-button [routerLink]="['/evenements', event.id]">
+            <a mat-stroked-button id="details" [routerLink]="['/evenements', event.id]">
               <mat-icon id="maticon">info</mat-icon>
-              <div id="detail">Détails</div>
+              Détails
             </a>
             
             
