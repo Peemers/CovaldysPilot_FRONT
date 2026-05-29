@@ -1,0 +1,121 @@
+.events-container {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 24px;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.error-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #c0392b;
+  background-color: #fdecea;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 60px;
+  color: #666;
+
+  mat-icon {
+    font-size: 4rem;
+    width: 4rem;
+    height: 4rem;
+    opacity: 0.4;
+    color: white !important;
+  }
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.event-card {
+  border-radius: 12px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 3px solid black;
+
+  background: linear-gradient(rgba(90, 90, 90, 0.5), rgba(40, 40, 40, 0.5)),
+  url('/bg_card.png') center/cover no-repeat;
+
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  .description {
+    color: white;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin: 12px 0;
+  }
+
+  .event-details {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 12px 0;
+  }
+
+  .detail-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.1rem;
+
+    mat-icon {
+      font-size: 1.0rem;
+      width: 1.1rem;
+      height: 1.1rem;
+      color: white;
+    }
+
+  }
+  mat-card-title{
+    color: white;
+  }
+
+  .categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+    color: white;
+  }
+}
+
+#matship{
+  background-color: #cdc7c7;
+}
+#maticon{
+  color: white;
+  font-size: 1.2rem;
+}
+#detail{
+  color: white;
+}

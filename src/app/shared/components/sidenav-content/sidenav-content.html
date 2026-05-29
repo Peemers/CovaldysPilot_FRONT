@@ -7,7 +7,6 @@
     <div class="user-info">
       <mat-icon>account_circle</mat-icon>
       <span class="user-name">{{ authService.user()?.firstName }}</span>
-      <span class="user-name">{{ authService.user()?.lastName }}</span>
     </div>
   }
 </div>
@@ -26,7 +25,7 @@
         <span matListItemTitle>Home Admin</span>
       }
     </a>
-    <a mat-list-item routerLink="/admin/evenements" routerLinkActive="active-link">
+    <a mat-list-item routerLink="/admin/events" routerLinkActive="active-link">
       <mat-icon matListItemIcon>event</mat-icon>
       @if (expanded()) {
         <span matListItemTitle>Gestion événements</span>
@@ -59,13 +58,13 @@
       <span matListItemTitle>Home</span>
     }
   </a>
-  <a mat-list-item routerLink="/evenements" routerLinkActive="active-link">
+  <a mat-list-item routerLink="/events" routerLinkActive="active-link">
     <mat-icon matListItemIcon>event</mat-icon>
     @if (expanded()) {
       <span matListItemTitle>Événements à venir</span>
     }
   </a>
-  <a mat-list-item routerLink="/evenements/passes" routerLinkActive="active-link">
+  <a mat-list-item routerLink="/events/passes" routerLinkActive="active-link">
     <mat-icon matListItemIcon>history</mat-icon>
     @if (expanded()) {
       <span matListItemTitle>Événements passés</span>

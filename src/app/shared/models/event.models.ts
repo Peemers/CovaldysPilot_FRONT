@@ -1,6 +1,6 @@
 export enum EventStatus {
   EnAttente = 'EnAttente',
-  Encours = 'EnCours',
+  EnCours = 'EnCours',
   Termine = 'Termine',
   Annule = 'Annule',
 }

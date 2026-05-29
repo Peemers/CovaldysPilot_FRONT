@@ -8,22 +8,22 @@ import {SignInResponseDto} from "../models/sign-in.models";
 })
 export class SignInService {
 
-  private readonly apiUrl = 'http://localhost:7124/sign-in';
+  private readonly apiUrl = 'https://localhost:7124/api/signin';
   private readonly http = inject(HttpClient);
 
-  register(eventId: string): Observable<SignInResponseDto>{
+  register(eventId: string): Observable<SignInResponseDto> {
     return this.http.post<SignInResponseDto>(this.apiUrl, {eventId});
   }
 
-  Unregister(signInId: string) : Observable<SignInResponseDto>{
-    return this.http.delete<SignInResponseDto>(`${this.apiUrl}/${signInId}`)
+  unregister(signInId: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${signInId}`)
   }
 
-  getMySignIn(): Observable<SignInResponseDto>{
-    return this.http.get<SignInResponseDto>('${this.apiUrl}/user')
+  getMySignIn(): Observable<SignInResponseDto[]> {
+    return this.http.get<SignInResponseDto[]>(`${this.apiUrl}/user`)
   }
 
-  getByEvent(eventId: string): Observable<SignInResponseDto>{
-    return this.http.get<SignInResponseDto>(`$\{this.apiUrl}/event/${eventId}`);
+  getByEvent(eventId: string): Observable<SignInResponseDto[]> {
+    return this.http.get<SignInResponseDto[]>(`${this.apiUrl}/event/${eventId}`);
   }
 }

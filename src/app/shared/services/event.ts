@@ -42,4 +42,6 @@ export class EventService {
     return this.http.patch<void>(`${this.apiUrl}/${id}/close`, {});
   }
 
+
+
 }
