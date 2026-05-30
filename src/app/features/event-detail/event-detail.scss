@@ -27,6 +27,7 @@
   background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(20, 20, 20, 0.85)),
   url('/bg_card.png') center/cover no-repeat;
   overflow: hidden;
+  position: relative; // ← pour le logo
 
   mat-card-title {
     color: white !important;
@@ -38,6 +39,21 @@
   mat-card-actions {
     position: relative;
     z-index: 1;
+  }
+}
+
+
+.card-logo {
+  position: absolute;
+  bottom: 10px;
+  right: 18px;
+  z-index: 2;
+  opacity: 0.8;
+
+  img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
   }
 }
 
@@ -96,7 +112,26 @@ mat-card-actions {
   padding: 16px !important;
   flex-wrap: wrap;
 
-  button, a {
+  // Bouton Démarrer
+  .btn-start {
+    background-color: #2D6A4F !important;
+    color: #2D6A4F !important;
+  }
+
+  // Bouton Annuler
+  .btn-cancel {
+    background-color: transparent !important;
+    border: 2px solid #c0392b !important;
+    color: white !important;
+  }
+
+  // Bouton Clôturer
+  .btn-close {
+    background-color: #555 !important;
+    color: white !important;
+  }
+
+  a {
     color: white !important;
   }
 

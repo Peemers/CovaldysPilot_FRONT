@@ -91,13 +91,13 @@
                 <mat-icon>cancel</mat-icon>
                 Se désinscrire
               </button>
-            } @else if (event.canRegister && !authService.isAdmin) {
+            } @else if (event.canRegister && !authService.isAdmin()) {
               <button mat-raised-button color="primary"
                       (click)="register(event.id)">
                 <mat-icon>how_to_reg</mat-icon>
                 S'inscrire
               </button>
-            } @else if (event.isWaitingListActive && event.status === EventStatus.EnAttente) {
+            } @else if (event.isWaitingListActive && event.status === EventStatus.EnAttente && !authService.isAdmin()) {
               <button mat-stroked-button color="accent"
                       (click)="register(event.id)">
                 <mat-icon>queue</mat-icon>
