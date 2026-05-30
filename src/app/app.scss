@@ -11,3 +11,19 @@ mat-sidenav {
     width: 280px;
   }
 }
+.main-content {
+  position: relative;
+  min-height: 100%;
+
+  &::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url('/bg.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: blur(10px);
+    transform: scale(1.05); // ← évite les bords blancs du blur
+    z-index: -1;
+  }
+}

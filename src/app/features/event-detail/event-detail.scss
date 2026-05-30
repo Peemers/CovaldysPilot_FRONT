@@ -1,0 +1,132 @@
+.detail-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.error-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #c0392b;
+  background-color: #fdecea;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.info-card {
+  border-radius: 12px !important;
+  box-shadow: 0 4px 16px rgba(15, 15, 15, 0.8) !important;
+  background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(20, 20, 20, 0.85)),
+  url('/bg_card.png') center/cover no-repeat;
+  overflow: hidden;
+
+  mat-card-title {
+    color: white !important;
+    font-size: 1.3rem;
+  }
+
+  mat-card-header,
+  mat-card-content,
+  mat-card-actions {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.card-title-overlay {
+  padding: 24px 16px 8px 16px;
+  position: relative;
+  z-index: 1;
+
+  h1 {
+    color: white;
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    text-align: center;
+  }
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+  mat-icon {
+    color: rgba(255, 255, 255, 0.8) !important;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  p, span {
+    color: white !important;
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+mat-chip {
+  color: white !important;
+  --mdc-chip-label-text-color: white;
+  background-color: rgba(45, 106, 79, 0.7) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+}
+
+mat-card-actions {
+  display: flex;
+  gap: 12px;
+  padding: 16px !important;
+  flex-wrap: wrap;
+
+  button, a {
+    color: white !important;
+  }
+
+  mat-icon {
+    color: white !important;
+  }
+}
+
+.waiting-card {
+  margin-top: 16px;
+  border-radius: 12px !important;
+  background-color: #e8f5e9 !important;
+  border-left: 4px solid var(--covaldys-green) !important;
+
+  mat-card-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px !important;
+
+    mat-icon {
+      color: var(--covaldys-green);
+      font-size: 2rem;
+      width: 2rem;
+      height: 2rem;
+    }
+
+    p {
+      margin: 0;
+      color: #2D6A4F;
+    }
+  }
+}
