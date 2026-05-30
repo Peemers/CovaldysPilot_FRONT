@@ -31,7 +31,7 @@
           <!-- Image couverture -->
           @if (event.coverImage) {
             <div id="imgContainer">
-            <img mat-card-image [src]="event.coverImage" [alt]="event.name" id="image">
+            <img mat-card-image [src]="event.coverImage" [alt]="event.name" class="cover-image">
             </div>
           }
 
@@ -83,7 +83,7 @@
             </div>
           </mat-card-content>
 
-          <mat-card-actions class="matcardaction">
+          <mat-card-actions>
             <!-- Bouton contextuel selon statut -->
             @if (event.isRegistered) {
               <button mat-stroked-button color="warn"
