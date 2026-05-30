@@ -1,6 +1,7 @@
 import {Routes} from '@angular/router';
 import {guestGuard} from './shared/guards/guest-guard';
 import {authGuard} from "./shared/guards/auth-guard";
+import {adminGuard} from './shared/guards/admin-guard';
 
 export const routes: Routes = [
   {
@@ -26,6 +27,11 @@ export const routes: Routes = [
     path: 'events/:id',
     canActivate: [authGuard],
     loadComponent: () => import('./features/event-detail/event-detail').then(m => m.EventDetail)
+  },
+  {
+    path: 'admin',
+    canActivate: [authGuard, adminGuard],
+    loadComponent: () => import('./features/admin/dashboard/dashboard').then(m => m.Dashboard)
   },
   {
     path: '**',

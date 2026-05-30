@@ -26,4 +26,11 @@ mat-sidenav {
     transform: scale(1.05); // ← évite les bords blancs du blur
     z-index: -1;
   }
+  &::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45); // ← voile sombre
+    z-index: -1;
+  }
 }
