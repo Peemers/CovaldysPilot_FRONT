@@ -1,12 +1,12 @@
 <div class="events-container">
-
+  
   <!-- Loading -->
   @if (isLoading()) {
     <div class="loading-container">
       <mat-spinner diameter="60"></mat-spinner>
     </div>
   }
-
+  
   <!-- Erreur -->
   @if (errorMessage()) {
     <div class="error-container">
@@ -14,7 +14,7 @@
       <p>{{ errorMessage() }}</p>
     </div>
   }
-
+  
   <!-- Liste événements -->
   @if (!isLoading() && !errorMessage()) {
     @if (events().length === 0) {
@@ -23,11 +23,11 @@
         <p>Aucun événement disponible pour le moment.</p>
       </div>
     }
-
+    
     <div class="events-grid">
       @for (event of events(); track event.id) {
         <mat-card class="event-card">
-
+          
           <!-- Image couverture -->
           @if (event.coverImage) {
             <div id="imgContainer">
@@ -42,11 +42,11 @@
               </mat-chip>
             </mat-card-subtitle>
           </mat-card-header>
-
+          
           <mat-card-content>
-
+            
             <p class="description">{{ event.description | slice:0:150 }}...</p>
-
+            
             <div class="event-details">
               @if (event.location) {
                 <div class="detail-item">
@@ -74,7 +74,7 @@
                 </div>
               }
             </div>
-
+            
             <!-- Catégories -->
             <div class="categories">
               @for (category of event.categories; track category.id) {
@@ -82,7 +82,7 @@
               }
             </div>
           </mat-card-content>
-
+          
           <mat-card-actions>
             <!-- Bouton contextuel selon statut -->
             @if (event.isRegistered) {
@@ -97,7 +97,11 @@
                 <mat-icon>how_to_reg</mat-icon>
                 S'inscrire
               </button>
-            } @else if (event.isWaitingListActive && event.status === EventStatus.EnAttente && !authService.isAdmin()) {
+            } @else if (!event.canRegister &&
+            event.isWaitingListActive &&
+            event.status === EventStatus.EnAttente &&
+            !authService.isAdmin() &&
+            event.currentParticipants >= event.maxParticipants) {
               <button mat-stroked-button color="accent"
                       (click)="register(event.id)">
                 <mat-icon>queue</mat-icon>
@@ -108,10 +112,10 @@
               <mat-icon id="maticon">info</mat-icon>
               Détails
             </a>
-
-
+          
+          
           </mat-card-actions>
-
+        
         </mat-card>
       }
     </div>
