@@ -37,8 +37,10 @@ export class Header {
     '/admin/membres': 'Gestion des membres',
     '/admin/articles': 'Gestion des articles',
     '/events': 'Événements à venir',
-  };
+    '/admin/events/create' : "Créer un événement",
+    '/admin/events' : "Gestion des events",
 
+  };
   constructor(private router: Router) {
     this.router.events.pipe(
      filter(event => event instanceof NavigationEnd)
