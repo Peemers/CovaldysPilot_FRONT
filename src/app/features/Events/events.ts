@@ -11,6 +11,7 @@ import {MatChipsModule} from "@angular/material/chips";
 import {RouterLink} from "@angular/router";
 import {DatePipe, SlicePipe} from "@angular/common";
 import {AuthService} from '../../shared/services/auth';
+import {MatTooltip} from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-events',
@@ -21,7 +22,7 @@ import {AuthService} from '../../shared/services/auth';
     MatProgressSpinnerModule,
     MatSnackBarModule,
     RouterLink,
-    DatePipe, SlicePipe],
+    DatePipe, SlicePipe,],
   templateUrl: './events.html',
   styleUrl: './events.scss',
 })

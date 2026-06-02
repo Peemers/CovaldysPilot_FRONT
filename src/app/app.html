@@ -4,7 +4,7 @@
 
   @if (authService.isLoggedIn()) {
     <mat-sidenav mode="side" [opened]="true"
-                 [style.width]="sidenavExpanded() ? '280px' : '65px'">
+                 [style.width]="sidenavExpanded() ? '280px' : '85px'">
       <app-sidenav-content
         [expanded]="sidenavExpanded"
         (toggleEvent)="toggleSidenav()">

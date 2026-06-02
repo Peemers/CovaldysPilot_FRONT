@@ -34,6 +34,24 @@ export const routes: Routes = [
     loadComponent: () => import('./features/admin/dashboard/dashboard').then(m => m.Dashboard)
   },
   {
+    path: 'admin/events',
+    canActivate: [authGuard, adminGuard],
+    loadComponent: () => import('./features/admin/events-management/events-management')
+     .then(m => m.EventsManagement)
+  },
+  {
+    path: 'admin/events/create',
+    canActivate: [authGuard, adminGuard],
+    loadComponent: () => import('./features/admin/event-form/event-form')
+     .then(m => m.EventForm)
+  },
+  {
+    path: 'admin/events/:id/edit',
+    canActivate: [authGuard, adminGuard],
+    loadComponent: () => import('./features/admin/event-form/event-form')
+     .then(m => m.EventForm)
+  },
+  {
     path: '**',
     redirectTo: ''
   }
