@@ -35,3 +35,5 @@ export const authInterceptor: HttpInterceptorFn = (
 
   return next(req);
 };
+
+//TODO : Refresh Token automatique dans auth-interceptor.ts

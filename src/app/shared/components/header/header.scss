@@ -208,7 +208,8 @@ mat-toolbar {
     }
 
     nav {
-      display: none;
+      display: flex;
+      flex-wrap: wrap;
     }
 
     .user-info-header {
