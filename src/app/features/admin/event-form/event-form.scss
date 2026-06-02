@@ -100,12 +100,13 @@
     }
   }
 }
-
 .submit-container {
   display: flex;
   justify-content: flex-end;
   padding-top: 16px;
   border-top: 1px solid rgba(255,255,255,0.2);
+  align-items: center;
+  justify-content: center;
 
   button {
     min-width: 180px;
@@ -117,6 +118,21 @@
     mat-icon {
       color: white !important;
     }
+  }
+}
+::ng-deep {
+  .mat-mdc-select-value-text {
+    color: white !important;
+  }
+
+  .mat-mdc-select-arrow {
+    color: white !important;
+  }
+}
+.submit-container button {
+  ::ng-deep .mat-icon {
+    margin-right: 8px;
+    vertical-align: middle;
   }
 }
 

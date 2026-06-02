@@ -116,12 +116,12 @@
           
           <!-- Submit -->
           <div class="submit-container">
-            <button mat-raised-button color="primary" type="submit"
+            <button mat-raised-button type="submit"
                     [disabled]="isLoading()">
               @if (isLoading()) {
                 <mat-spinner diameter="20"></mat-spinner>
               } @else {
-                <mat-icon>{{ isEditMode() ? 'save' : 'add' }}</mat-icon>
+                <mat-icon>{{ isEditMode() ? 'save' : 'check' }}</mat-icon>
                 {{ isEditMode() ? 'Enregistrer' : 'Créer l\'événement' }}
               }
             </button>
