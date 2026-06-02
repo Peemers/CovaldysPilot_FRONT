@@ -21,7 +21,7 @@ import {AuthService} from '../../services/auth';
 export class Header {
   @Input() sidenav!: MatSidenav;
 
-  readonly  authService = inject(AuthService);
+  readonly authService = inject(AuthService);
   pageTitle = signal('Accueil');
 
   // Map des routes vers les titres
@@ -29,7 +29,6 @@ export class Header {
     '/': 'Accueil',
     '/login': 'Connexion',
     '/register': 'Inscription',
-    '/evenements': 'Événements à venir',
     '/evenements/passes': 'Événements passés',
     '/articles': 'Articles',
     '/contact': 'Contact',
@@ -37,8 +36,11 @@ export class Header {
     '/admin/evenements': 'Gestion des événements',
     '/admin/membres': 'Gestion des membres',
     '/admin/articles': 'Gestion des articles',
-  };
+    '/events': 'Événements à venir',
+    '/admin/events/create' : "Créer un événement",
+    '/admin/events' : "Gestion des events",
 
+  };
   constructor(private router: Router) {
     this.router.events.pipe(
      filter(event => event instanceof NavigationEnd)

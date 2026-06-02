@@ -12,6 +12,7 @@ mat-toolbar {
   align-items: center !important;
   justify-content: space-between !important;
   position: relative;
+  z-index: 100;
 
   &::before {
     content: '';

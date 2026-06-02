@@ -1,0 +1,107 @@
+<div class="dashboard-container">
+
+  <h1 class="dashboard-title">
+    <mat-icon>dashboard</mat-icon>
+    Dashboard Administration
+  </h1>
+
+  <!-- Compteurs -->
+  <div class="stats-grid">
+
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <mat-icon class="stat-icon">event</mat-icon>
+        <div class="stat-info">
+          <span class="stat-number">{{ totalEvents() }}</span>
+          <span class="stat-label">Événements total</span>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <a mat-button routerLink="/admin/events">Consulter la liste</a>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <mat-icon class="stat-icon pending">schedule</mat-icon>
+        <div class="stat-info">
+          <span class="stat-number">{{ upcomingEvents() }}</span>
+          <span class="stat-label">Événements en attente</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <mat-icon class="stat-icon ongoing">play_circle</mat-icon>
+        <div class="stat-info">
+          <span class="stat-number">{{ ongoingEvents() }}</span>
+          <span class="stat-label">Événements en cours</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+
+  <!-- Actions rapides -->
+  <div class="quick-actions">
+    <h2>Actions rapides</h2>
+    <div class="actions-grid">
+      <a mat-raised-button color="primary" routerLink="/admin/events/create">
+        <mat-icon>add</mat-icon>
+        Créer un événement
+      </a>
+      <a mat-raised-button routerLink="/admin/membres">
+        <mat-icon>people</mat-icon>
+        Gérer les membres
+      </a>
+      <a mat-raised-button routerLink="/admin/articles">
+        <mat-icon>article</mat-icon>
+        Gérer les articles
+      </a>
+    </div>
+  </div>
+
+  <!-- Prochain événement -->
+  @if (nextEvent()) {
+    <div class="next-event">
+      <h2>Prochain événement</h2>
+      <mat-card class="next-event-card">
+        <mat-card-header>
+          <mat-card-title>{{ nextEvent()!.name }}</mat-card-title>
+          <mat-card-subtitle>
+            {{ nextEvent()!.startDate | date:'dd/MM/yyyy HH:mm' }}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="next-event-info">
+            @if (nextEvent()!.location) {
+              <div class="info-item">
+                <mat-icon>location_on</mat-icon>
+                <span>{{ nextEvent()!.location }}</span>
+              </div>
+            }
+            <div class="info-item">
+              <mat-icon>people</mat-icon>
+              <span>{{ nextEvent()!.currentParticipants }} / {{ nextEvent()!.maxParticipants }} participants</span>
+            </div>
+            @if (nextEvent()!.price) {
+              <div class="info-item">
+                <mat-icon>euro</mat-icon>
+                <span>{{ nextEvent()!.price }} €</span>
+              </div>
+            }
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <a mat-raised-button color="primary"
+             [routerLink]="['/events', nextEvent()!.id]">
+            <mat-icon>visibility</mat-icon>
+            Voir les détails
+          </a>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  }
+
+</div>

@@ -1,0 +1,202 @@
+<div class="detail-container">
+  
+  <!-- Loading -->
+  @if (isLoading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="60"></mat-spinner>
+    </div>
+  }
+  
+  <!-- Erreur -->
+  @if (errorMessage()) {
+    <div class="error-container">
+      <mat-icon>error</mat-icon>
+      <p>{{ errorMessage() }}</p>
+    </div>
+  }
+  
+  <!-- Détail événement -->
+  @if (!isLoading() && event()) {
+    <div class="detail-content">
+      <div class="detail-grid">
+        
+        <mat-card class="info-card">
+          
+          <!-- Titre dans la card -->
+          <div class="card-title-overlay">
+            <h1>{{ event()!.name }}</h1>
+          </div>
+          
+          <mat-card-header>
+            <mat-card-title>Informations :</mat-card-title>
+          </mat-card-header>
+          
+          <mat-card-content>
+            <div class="info-item">
+              <mat-icon>description</mat-icon>
+              <p>{{ event()!.description }}</p>
+            </div>
+            
+            @if (event()!.location) {
+              <div class="info-item">
+                <mat-icon>location_on</mat-icon>
+                <span>{{ event()!.location }}</span>
+              </div>
+            }
+            
+            <div class="info-item">
+              <mat-icon>calendar_today</mat-icon>
+              <span>Début : {{ event()!.startDate | date:'dd/MM/yyyy HH:mm' }}</span>
+            </div>
+            
+            <div class="info-item">
+              <mat-icon>event</mat-icon>
+              <span>Fin : {{ event()!.endDate | date:'dd/MM/yyyy HH:mm' }}</span>
+            </div>
+            
+            <div class="info-item">
+              <mat-icon>schedule</mat-icon>
+              <span>Inscription avant : {{ event()!.registrationDeadline | date:'dd/MM/yyyy' }}</span>
+            </div>
+            
+            <div class="info-item">
+              <mat-icon>people</mat-icon>
+              <span>{{ event()!.currentParticipants }} / {{ event()!.maxParticipants }} participants</span>
+            </div>
+            
+            @if (event()!.price) {
+              <div class="info-item">
+                <mat-icon>euro</mat-icon>
+                <span>{{ event()!.price }} €</span>
+              </div>
+            } @else {
+              <div class="info-item">
+                <mat-icon>volunteer_activism</mat-icon>
+                <span>Gratuit</span>
+              </div>
+            }
+            
+            <div class="categories">
+              @for (category of event()!.categories; track category.id) {
+                <mat-chip>{{ category.name }}</mat-chip>
+              }
+            </div>
+          </mat-card-content>
+          
+          <mat-card-actions>
+            <!-- Boutons inscription seulement pour les membres -->
+            @if (!authService.isAdmin()) {
+              @if (event()!.isRegistered) {
+                <button mat-stroked-button color="warn"
+                        (click)="unregister(event()!.id)">
+                  <mat-icon>cancel</mat-icon>
+                  Se désinscrire
+                </button>
+              } @else if (event()!.canRegister) {
+                <button mat-raised-button color="primary"
+                        (click)="register()">
+                  <mat-icon>how_to_reg</mat-icon>
+                  S'inscrire
+                </button>
+              } @else if (event()!.isWaitingListActive && event()!.status === EventStatus.EnAttente) {
+                <button mat-stroked-button color="accent"
+                        (click)="register()">
+                  <mat-icon>queue</mat-icon>
+                  Rejoindre la liste d'attente
+                </button>
+              }
+            }
+            
+            <a mat-button routerLink="/events">
+              <mat-icon>arrow_back</mat-icon>
+              Retour
+            </a>
+            
+            <!-- Boutons admin -->
+            @if (authService.isAdmin()) {
+              @if (event()!.status === EventStatus.EnAttente) {
+                <button mat-raised-button class="btn-start" (click)="start()">
+                  <mat-icon>play_arrow</mat-icon>
+                  Démarrer
+                </button>
+                <button mat-stroked-button class="btn-cancel" (click)="cancel()">
+                  <mat-icon>cancel</mat-icon>
+                  Annuler
+                </button>
+              }
+              @if (event()!.status === EventStatus.EnCours) {
+                <button mat-raised-button class="btn-close" (click)="close()">
+                  <mat-icon>stop</mat-icon>
+                  Clôturer
+                </button>
+                <button mat-stroked-button class="btn-cancel" (click)="cancel()">
+                  <mat-icon>cancel</mat-icon>
+                  Annuler
+                </button>
+              }
+            }
+          </mat-card-actions>
+          
+          <div class="card-logo">
+            <img src="/logo2.jpg" alt="Covaldys">
+          </div>
+        
+        </mat-card>
+        
+        <!-- Section inscrits (admin seulement) -->
+        @if (authService.isAdmin() && signIns().length > 0) {
+          <mat-card class="signins-card">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon>people</mat-icon>
+                Inscrits ({{ signIns().length }})
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              @for (signIn of signIns(); track signIn.id) {
+                <div class="signin-item">
+                  <div class="signin-info">
+                    <mat-icon>{{ signIn.isOnWaitingList ? 'queue' : 'check_circle' }}</mat-icon>
+                    <span>{{ signIn.userFirstName }} {{ signIn.userLastName }} ({{ signIn.userPseudo }})</span>
+                    @if (signIn.isOnWaitingList) {
+                      <mat-chip>Liste d'attente #{{ signIn.waitingListPosition }}</mat-chip>
+                    }
+                    @if (signIn.isPaymentValid) {
+                      <mat-chip color="primary">✅ Payé</mat-chip>
+                    } @else {
+                      <mat-chip color="warn">⏳ Paiement en attente</mat-chip>
+                    }
+                    <button mat-icon-button color="warn"
+                            (click)="adminUnregister(signIn.id)"
+                            matTooltip="Désinscrire ce membre">
+                      <mat-icon>person_remove</mat-icon>
+                    </button>
+                    @if (!signIn.isPaymentValid) {
+                      <button mat-icon-button color="primary"
+                              (click)="validatePayment(signIn.id)"
+                              matTooltip="Valider le paiement">
+                        <mat-icon>payments</mat-icon>
+                      </button>
+                    }
+                  </div>
+                </div>
+              }
+            </mat-card-content>
+          </mat-card>
+        }
+        
+        <!-- Position liste d'attente -->
+        @if (event()!.waitingListPosition) {
+          <mat-card class="waiting-card">
+            <mat-card-content>
+              <mat-icon>queue</mat-icon>
+              <p>Vous êtes en position <strong>{{ event()!.waitingListPosition }}</strong> sur la liste d'attente.</p>
+            </mat-card-content>
+          </mat-card>
+        }
+      
+      </div>
+    </div>
+  }
+
+</div>
