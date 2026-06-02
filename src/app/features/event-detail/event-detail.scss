@@ -1,6 +1,6 @@
 .detail-container {
   padding: 24px;
-  max-width: 1200px;
+  max-width: 1500px;
   margin: 0 auto;
 }
 
@@ -97,6 +97,7 @@
   flex-wrap: wrap;
   gap: 8px;
   margin-top: 16px;
+  color: white;
 }
 
 mat-chip {
@@ -115,7 +116,7 @@ mat-card-actions {
   // Bouton Démarrer
   .btn-start {
     background-color: #2D6A4F !important;
-    color: #2D6A4F !important;
+    color: white !important;
   }
 
   // Bouton Annuler
@@ -165,3 +166,83 @@ mat-card-actions {
     }
   }
 }
+.signins-card {
+  margin-top: 16px;
+  border-radius: 12px !important;
+  background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(20, 20, 20, 0.85)),
+  url('/bg_card.png') center/cover no-repeat !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3) !important;
+
+  mat-card-title {
+    color: white !important;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    mat-icon {
+      color: white !important;
+    }
+  }
+}
+
+.signin-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.signin-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+
+  mat-icon {
+    color: rgba(255,255,255,0.8) !important;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+  }
+
+  span {
+    color: white !important;
+    font-weight: 500;
+  }
+
+  mat-chip {
+    font-size: 0.75rem !important;
+    color: white !important;
+    --mdc-chip-label-text-color: white !important;
+  }
+}
+
+.signin-actions {
+  flex-shrink: 0;
+  button {
+    white-space: nowrap;
+    color: white !important;
+    border-color: rgba(255,255,255,0.5) !important;
+
+
+    mat-icon {
+      color: white !important;
+    }
+  }
+}
+
+::ng-deep //ng deep pour écraser le style de material car ils sont encapsulés {
+  .signins-card, .info-card {
+    .mat-mdc-chip {
+      background-color: rgba(27, 67, 50, 0.9) !important;
+
+      .mdc-evolution-chip__text-label {
+        color: white !important;
+      }
+    }
+  }

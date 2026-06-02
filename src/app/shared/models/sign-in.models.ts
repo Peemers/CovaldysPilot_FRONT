@@ -7,7 +7,10 @@ export interface SignInResponseDto {
   eventId: string;
   userId: string;
   registrationDate: string;
-  isOnWaitingList: string;
-  waitingListPosition: string;
-  isPayementValide: boolean;
+  isOnWaitingList: boolean;
+  waitingListPosition: number;
+  isPaymentValid: boolean;
+  userPseudo?: string;
+  userFirstName?: string;
+  userLastName?: string;
 }

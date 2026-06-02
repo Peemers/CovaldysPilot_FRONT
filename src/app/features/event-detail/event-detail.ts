@@ -11,6 +11,7 @@ import {MatChipsModule} from '@angular/material/chips';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {DatePipe} from '@angular/common';
 import {AuthService} from '../../shared/services/auth';
+import {SignInResponseDto} from "../../shared/models/sign-in.models";
 
 @Component({
   selector: 'app-event-detail',
@@ -35,6 +36,7 @@ export class EventDetail implements OnInit {
   event = signal<EventResponseDto | null>(null);
   isLoading = signal<boolean>(true);
   errorMessage = signal<string | null>(null);
+  signIns = signal<SignInResponseDto[]>([])
 
   readonly EventStatus = EventStatus
 
@@ -48,6 +50,9 @@ export class EventDetail implements OnInit {
     this.eventService.getById(id).subscribe({
       next: (event: EventResponseDto) => {
         this.event.set(event);
+        if (this.authService.isAdmin()) {
+          this.loadSignIns(event.id);
+        }
         this.isLoading.set(false);
       },
       error: () => {
@@ -118,12 +123,37 @@ export class EventDetail implements OnInit {
     if (!id) return;
     this.eventService.close(id).subscribe({
       next: () => {
-        this.snackBar.open('Evénement annulé', 'Fermer', {duration: 4000})
+        this.snackBar.open('Evénement cloturé', 'Fermer', {duration: 4000})
+        this.loadEvent(id);
       },
       error: (err) => {
         this.snackBar.open(err.error?.message ?? 'Erreur lors de la cloture.', 'Fermer', {duration: 4000});
       }
     })
+  }
+
+  adminUnregister(signInId: string): void {
+    const eventId = this.event()?.id;
+    if (!eventId) return;
+    this.signInService.unregister(signInId).subscribe({
+      next: () => {
+        this.snackBar.open('Membre désinscrit !', 'Fermer', { duration: 3000 });
+        this.loadSignIns(eventId);
+      },
+      error: (err) => {
+        this.snackBar.open(err.error?.message ?? 'Erreur.', 'Fermer', { duration: 4000 });
+      }
+    });
+  }
+  loadSignIns(eventId: string): void {
+    this.signInService.getByEvent(eventId).subscribe({
+      next: (signIns: SignInResponseDto[]) => {
+        this.signIns.set(signIns);
+      }
+    });
+  }
+  validatePayment(signInId: string): void {
+    // TODO Sprint 3
   }
 }
 
