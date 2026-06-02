@@ -52,6 +52,12 @@ export const routes: Routes = [
      .then(m => m.EventForm)
   },
   {
+    path: 'admin/membres',
+    canActivate: [authGuard, adminGuard],
+    loadComponent: () => import('./features/admin/members-management/members-management')
+     .then(m => m.MembersManagement)
+  },
+  {
     path: '**',
     redirectTo: ''
   }

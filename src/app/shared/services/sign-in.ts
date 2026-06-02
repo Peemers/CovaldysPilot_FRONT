@@ -26,4 +26,8 @@ export class SignInService {
   getByEvent(eventId: string): Observable<SignInResponseDto[]> {
     return this.http.get<SignInResponseDto[]>(`${this.apiUrl}/event/${eventId}`);
   }
+
+  validatePayment(signInId: string): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/${signInId}/validate`, {});
+  }
 }

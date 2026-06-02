@@ -12,6 +12,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {DatePipe} from '@angular/common';
 import {AuthService} from '../../shared/services/auth';
 import {SignInResponseDto} from "../../shared/models/sign-in.models";
+import {MatTooltip, MatTooltipModule} from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-event-detail',
@@ -19,6 +20,7 @@ import {SignInResponseDto} from "../../shared/models/sign-in.models";
     MatButtonModule,
     MatIconModule,
     MatChipsModule,
+    MatTooltipModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
     RouterLink,
@@ -153,7 +155,17 @@ export class EventDetail implements OnInit {
     });
   }
   validatePayment(signInId: string): void {
-    // TODO Sprint 3
+    const eventId = this.event()?.id;
+    if (!eventId) return;
+    this.signInService.validatePayment(signInId).subscribe({
+      next: () => {
+        this.snackBar.open('Paiement validé !', 'Fermer', { duration: 3000 });
+        this.loadSignIns(eventId);
+      },
+      error: (err) => {
+        this.snackBar.open(err.error?.message ?? 'Erreur lors de la validation.', 'Fermer', { duration: 4000 });
+      }
+    });
   }
 }
 

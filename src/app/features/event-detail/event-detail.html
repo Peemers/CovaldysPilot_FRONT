@@ -171,6 +171,13 @@
                             matTooltip="Désinscrire ce membre">
                       <mat-icon>person_remove</mat-icon>
                     </button>
+                    @if (!signIn.isPaymentValid) {
+                      <button mat-icon-button color="primary"
+                              (click)="validatePayment(signIn.id)"
+                              matTooltip="Valider le paiement">
+                        <mat-icon>payments</mat-icon>
+                      </button>
+                    }
                   </div>
                 </div>
               }

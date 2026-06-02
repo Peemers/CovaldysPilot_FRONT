@@ -115,7 +115,7 @@ mat-card-actions {
 
   // Bouton Démarrer
   .btn-start {
-    background-color: #2D6A4F !important;
+    background-color: rgba(27, 67, 50, 0.9) !important;
     color: white !important;
   }
 
@@ -166,12 +166,13 @@ mat-card-actions {
     }
   }
 }
+
 .signins-card {
   margin-top: 16px;
   border-radius: 12px !important;
   background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(20, 20, 20, 0.85)),
   url('/bg_card.png') center/cover no-repeat !important;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.3) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
 
   mat-card-title {
     color: white !important;
@@ -190,7 +191,7 @@ mat-card-actions {
   justify-content: space-between;
   align-items: center;
   padding: 12px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 
   &:last-child {
     border-bottom: none;
@@ -204,7 +205,7 @@ mat-card-actions {
   flex-wrap: wrap;
 
   mat-icon {
-    color: rgba(255,255,255,0.8) !important;
+    color: rgba(255, 255, 255, 0.8) !important;
     justify-content: center;
     align-items: center;
     align-content: center;
@@ -224,10 +225,11 @@ mat-card-actions {
 
 .signin-actions {
   flex-shrink: 0;
+
   button {
     white-space: nowrap;
     color: white !important;
-    border-color: rgba(255,255,255,0.5) !important;
+    border-color: rgba(255, 255, 255, 0.5) !important;
 
 
     mat-icon {
@@ -237,12 +239,12 @@ mat-card-actions {
 }
 
 ::ng-deep //ng deep pour écraser le style de material car ils sont encapsulés {
-  .signins-card, .info-card {
-    .mat-mdc-chip {
-      background-color: rgba(27, 67, 50, 0.9) !important;
+{
+  .mat-mdc-chip {
+    background-color: rgba(27, 67, 50, 0.9) !important;
 
-      .mdc-evolution-chip__text-label {
-        color: white !important;
-      }
+    .mdc-evolution-chip__text-label {
+      color: white !important;
     }
   }
+}
