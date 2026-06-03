@@ -93,6 +93,8 @@ export class EventsManagement implements OnInit {
   }
 
   delete(id: string): void {
+    if (!window.confirm('Supprimer cet événement définitivement ? ' +
+      'Toutes les inscriptions seront supprimées et les statistiques ne seront pas comptabilisées pour cet événement')) return;
     this.eventService.delete(id).subscribe({
       next: () => {
         this.snackBar.open('Événement supprimé !', 'Fermer', { duration: 3000 });
