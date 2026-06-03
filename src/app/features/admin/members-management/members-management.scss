@@ -1,0 +1,115 @@
+.management-container {
+  padding: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.management-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+
+  h1 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+
+    mat-icon {
+      font-size: 2rem;
+      width: 2rem;
+      height: 2rem;
+      color: white;
+    }
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 12px;
+
+    button {
+      color: white !important;
+      background-color: rgba(27, 67, 50, 0.8) !important;
+      border: 1px solid rgba(255, 255, 255, 0.3) !important;
+
+      mat-icon {
+        color: white !important;
+      }
+    }
+  }
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.table-container {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  overflow-x: auto;
+}
+
+.members-table {
+  width: 100%;
+  background: white !important;
+
+  th.mat-header-cell {
+    background: rgba(27, 67, 50, 0.9) !important;
+    color: white !important;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2) !important;
+    padding: 16px !important;
+  }
+
+  td.mat-cell {
+    color: #333 !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+    padding: 12px 16px !important;
+  }
+
+  tr.mat-row {
+    &:hover {
+      background: rgba(45, 106, 79, 0.1) !important;
+    }
+  }
+}
+
+.member-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 8px 0;
+}
+
+.detail-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  mat-icon {
+    color: var(--covaldys-green);
+    flex-shrink: 0;
+  }
+
+  span {
+    font-size: 1rem;
+    color: #333;
+  }
+}
+
+@media (max-width: 768px) {
+  .mat-column-email,
+  .mat-column-createdAt {
+    display: none;
+  }
+}
