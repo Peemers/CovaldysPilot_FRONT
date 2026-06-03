@@ -30,8 +30,8 @@ export class EventService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  cancel(id: string): Observable<void> {
-    return this.http.patch<void>(`${this.apiUrl}/${id}/cancel`, {});
+  cancel(id: string, reason?: string): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/${id}/cancel`, {cancellationReason: reason ?? null});
   }
 
   start(id: string): Observable<void> {

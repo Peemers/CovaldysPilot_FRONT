@@ -109,7 +109,9 @@ export class EventDetail implements OnInit {
   cancel(): void {
     const id = this.event()?.id;
     if (!id) return;
-    this.eventService.cancel(id).subscribe({
+    const reason = window.prompt("Raison de l'annulation (optionnel) :") ?? undefined;
+    if (!window.confirm("Confirmer l'annulation de cet événement ?")) return;
+    this.eventService.cancel(id, reason).subscribe({
       next: () => {
         this.snackBar.open('Evénement annulé', 'Fermer', {duration: 3000});
         this.loadEvent(id);

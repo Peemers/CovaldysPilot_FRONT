@@ -67,7 +67,9 @@ export class EventsManagement implements OnInit {
   }
 
   cancel(id: string): void {
-    this.eventService.cancel(id).subscribe({
+    const reason = window.prompt("Raison de l'annulation (optionnel) :") ?? undefined;
+    if(!window.confirm("Confirmez l'annulation de cet événement ?")) return;
+    this.eventService.cancel(id, reason).subscribe({
       next: () => {
         this.snackBar.open('Événement annulé !', 'Fermer', { duration: 3000 });
         this.loadEvents();
