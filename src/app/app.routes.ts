@@ -31,6 +31,22 @@ export const routes: Routes = [
     loadComponent: () => import('./features/article-detail/article-detail').then(m => m.ArticleDetail)
   },
   {
+    path: 'admin/articles/create',
+    canActivate: [adminGuard, authGuard],
+    loadComponent: () => import('./features/admin/article-form/article-form').then(m => m.ArticleForm)
+  },
+  {
+    path: 'admin/article/:id/edit',
+    canActivate: [adminGuard, authGuard],
+    loadComponent: () => import('./features/admin/article-form/article-form').then(m => m.ArticleForm)
+  },
+  // {
+  //   path: 'admin/articles',
+  //   canActivate: [authGuard, adminGuard],
+  //   loadComponent: () => import('./features/admin/articles-management/articles-management')
+  //    .then(m => m.ArticlesManagement)
+  // },
+  {
     path: 'events/:id',
     loadComponent: () => import('./features/event-detail/event-detail').then(m => m.EventDetail)
   },
