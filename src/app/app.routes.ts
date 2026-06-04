@@ -20,7 +20,15 @@ export const routes: Routes = [
   },
   {
     path: 'events',
-    loadComponent: () => import('./features/Events/events').then(m => m.Events)
+    loadComponent: () => import('./features/events/events').then(m => m.Events)
+  },
+  {
+    path: 'articles',
+    loadComponent: () => import('./features/articles/articles').then(m => m.Articles)
+  },
+  {
+    path: 'articles/:id',
+    loadComponent: () => import('./features/article-detail/article-detail').then(m => m.ArticleDetail)
   },
   {
     path: 'events/:id',
