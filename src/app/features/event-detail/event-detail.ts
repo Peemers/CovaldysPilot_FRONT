@@ -13,6 +13,11 @@ import {DatePipe} from '@angular/common';
 import {AuthService} from '../../shared/services/auth';
 import {SignInResponseDto} from "../../shared/models/sign-in.models";
 import {MatTooltip, MatTooltipModule} from "@angular/material/tooltip";
+import {ReviewService} from '../../shared/services/review';
+import {ReviewResponseDto} from '../../shared/models/review.models';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-event-detail',
@@ -23,6 +28,9 @@ import {MatTooltip, MatTooltipModule} from "@angular/material/tooltip";
     MatTooltipModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    MatInputModule,
+    MatFormFieldModule,
+    FormsModule,
     RouterLink,
     DatePipe],
   templateUrl: './event-detail.html',
@@ -32,6 +40,7 @@ export class EventDetail implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly eventService = inject(EventService);
   private readonly signInService = inject(SignInService);
+  private readonly reviewService = inject(ReviewService);
   private readonly snackBar = inject(MatSnackBar);
   readonly authService = inject(AuthService);
 
@@ -39,6 +48,11 @@ export class EventDetail implements OnInit {
   isLoading = signal<boolean>(true);
   errorMessage = signal<string | null>(null);
   signIns = signal<SignInResponseDto[]>([])
+  reviews = signal<ReviewResponseDto[]>([])
+
+  newReviewNote = signal<number>(0);
+  newReviewComment = signal<string>('');
+  userReview = signal<ReviewResponseDto | null>(null);
 
   readonly EventStatus = EventStatus
 
@@ -55,11 +69,82 @@ export class EventDetail implements OnInit {
         if (this.authService.isAdmin()) {
           this.loadSignIns(event.id);
         }
+        if (event.status === EventStatus.Termine) {
+          this.loadReviews(event.id);
+        }
         this.isLoading.set(false);
       },
       error: () => {
         this.errorMessage.set('Événement introuvable');
         this.isLoading.set(false);
+      }
+    });
+  }
+
+  loadReviews(eventId: string): void {
+    this.reviewService.getByEvent(eventId).subscribe({
+      next: (reviews: ReviewResponseDto[]) => {
+        this.reviews.set(reviews);
+        // Cherche si l'utilisateur a déjà un avis
+        const userId = this.authService.user()?.userId;
+        if (userId) {
+          const existing = reviews.find(r => r.userId === userId);
+          this.userReview.set(existing ?? null);
+          if (existing) {
+            this.newReviewNote.set(existing.note);
+            this.newReviewComment.set(existing.comment ?? '');
+          }
+        }
+      }
+    });
+  }
+
+  submitReview(): void {
+    const eventId = this.event()?.id;
+    if (!eventId || this.newReviewNote() === 0) return;
+
+    const existing = this.userReview();
+    if (existing) {
+      this.reviewService.update(existing.id, {
+        note: this.newReviewNote(),
+        comment: this.newReviewComment()
+      }).subscribe({
+        next: () => {
+          this.snackBar.open('Avis modifié !', 'Fermer', {duration: 3000});
+          this.loadReviews(eventId);
+        },
+        error: (err) => {
+          this.snackBar.open(err.error?.message ?? 'Erreur.', 'Fermer', {duration: 4000});
+        }
+      });
+    } else {
+      this.reviewService.create({
+        eventId,
+        note: this.newReviewNote(),
+        comment: this.newReviewComment()
+      }).subscribe({
+        next: () => {
+          this.snackBar.open('Avis publié !', 'Fermer', {duration: 3000});
+          this.loadReviews(eventId);
+        },
+        error: (err) => {
+          this.snackBar.open(err.error?.message ?? 'Erreur.', 'Fermer', {duration: 4000});
+        }
+      });
+    }
+  }
+
+  deleteReview(): void {
+    const eventId = this.event()?.id;
+    const existing = this.userReview();
+    if (!existing || !eventId) return;
+    this.reviewService.delete(existing.id).subscribe({
+      next: () => {
+        this.snackBar.open('Avis supprimé !', 'Fermer', {duration: 3000});
+        this.userReview.set(null);
+        this.newReviewNote.set(0);
+        this.newReviewComment.set('');
+        this.loadReviews(eventId);
       }
     });
   }
@@ -141,14 +226,15 @@ export class EventDetail implements OnInit {
     if (!eventId) return;
     this.signInService.unregister(signInId).subscribe({
       next: () => {
-        this.snackBar.open('Membre désinscrit !', 'Fermer', { duration: 3000 });
+        this.snackBar.open('Membre désinscrit !', 'Fermer', {duration: 3000});
         this.loadSignIns(eventId);
       },
       error: (err) => {
-        this.snackBar.open(err.error?.message ?? 'Erreur.', 'Fermer', { duration: 4000 });
+        this.snackBar.open(err.error?.message ?? 'Erreur.', 'Fermer', {duration: 4000});
       }
     });
   }
+
   loadSignIns(eventId: string): void {
     this.signInService.getByEvent(eventId).subscribe({
       next: (signIns: SignInResponseDto[]) => {
@@ -156,18 +242,23 @@ export class EventDetail implements OnInit {
       }
     });
   }
+
   validatePayment(signInId: string): void {
     const eventId = this.event()?.id;
     if (!eventId) return;
     this.signInService.validatePayment(signInId).subscribe({
       next: () => {
-        this.snackBar.open('Paiement validé !', 'Fermer', { duration: 3000 });
+        this.snackBar.open('Paiement validé !', 'Fermer', {duration: 3000});
         this.loadSignIns(eventId);
       },
       error: (err) => {
-        this.snackBar.open(err.error?.message ?? 'Erreur lors de la validation.', 'Fermer', { duration: 4000 });
+        this.snackBar.open(err.error?.message ?? 'Erreur lors de la validation.', 'Fermer', {duration: 4000});
       }
     });
+  }
+
+  getStars(note: number): string {
+    return '⭐'.repeat(note);
   }
 }
 
