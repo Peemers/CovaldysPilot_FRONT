@@ -1,6 +1,6 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
 import {EventService} from '../../../shared/services/event';
-import {EventResponseDto, EventStatus} from '../../../shared/models/event.models';
+import {CategoryResponseDto, EventResponseDto, EventStatus} from '../../../shared/models/event.models';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
@@ -12,11 +12,16 @@ import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatSlideToggle, MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {FormsModule} from '@angular/forms';
 import {SiteConfigurationService} from '../../../shared/services/site-configuration';
+import {CategoryService} from '../../../shared/services/category';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatTooltip} from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-dashboard',
   imports: [
     MatCardModule,
+    MatChipsModule,
+    MatTooltip,
     MatButtonModule,
     MatIconModule,
     MatFormFieldModule,
@@ -31,6 +36,7 @@ import {SiteConfigurationService} from '../../../shared/services/site-configurat
 })
 export class Dashboard implements OnInit {
   private readonly eventService = inject(EventService);
+  private readonly categoryService = inject(CategoryService);
   readonly siteConfigService = inject(SiteConfigurationService)
   private readonly snackBar = inject(MatSnackBar);
 
@@ -39,9 +45,12 @@ export class Dashboard implements OnInit {
   ongoingEvents = signal(0)
   nextEvent = signal<EventResponseDto | null>(null);
   alertMessage = signal<string>('')
+  categories = signal<CategoryResponseDto[]>([]);
+  newCategoryName = signal<string>('')
 
   ngOnInit(): void {
     this.loadStats()
+    this.loadCategories()
   }
 
   loadStats(): void {
@@ -60,6 +69,35 @@ export class Dashboard implements OnInit {
           .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())[0];
         this.nextEvent.set(next ?? null);
       }
+    });
+  }
+
+  loadCategories(): void {
+    this.categoryService.getAll().subscribe({
+      next: (categories) => this.categories.set(categories)
+    });
+  }
+
+  createCategory(): void {
+    if (!this.newCategoryName().trim()) return;
+    this.categoryService.create(this.newCategoryName()).subscribe({
+      next: () => {
+        this.snackBar.open('Catégorie créée !', 'Fermer', {duration: 3000});
+        this.newCategoryName.set('');
+        this.loadCategories();
+      },
+      error: (err) => this.snackBar.open(err.error?.message ?? 'Erreur.', 'Fermer', {duration: 4000})
+    });
+  }
+
+  deleteCategory(id: string): void {
+    if (!window.confirm('Supprimer cette catégorie ?')) return;
+    this.categoryService.delete(id).subscribe({
+      next: () => {
+        this.snackBar.open('Catégorie supprimée !', 'Fermer', {duration: 3000});
+        this.loadCategories();
+      },
+      error: (err) => this.snackBar.open(err.error?.message ?? 'Erreur.', 'Fermer', {duration: 4000})
     });
   }
 

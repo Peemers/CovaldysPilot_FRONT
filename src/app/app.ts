@@ -18,7 +18,7 @@ import {toSignal} from '@angular/core/rxjs-interop';
     MatSidenavModule,
     Header,
     SidenavContent,
-    MatIcon, MatIconModule, RouterLink, MatButton, MatButtonModule,
+    MatIcon, MatIconModule, MatButton, MatButtonModule,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'
