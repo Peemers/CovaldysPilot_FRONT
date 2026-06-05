@@ -1,7 +1,7 @@
 .management-container {
   padding: 24px;
   max-width: 1400px;
-  margin-top: 25px;
+  margin: 30px auto;
 }
 
 .management-header {
@@ -51,6 +51,7 @@
   overflow: hidden;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
   overflow-x: auto;
+  align-items: center;
 }
 
 .articles-table {

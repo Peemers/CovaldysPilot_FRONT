@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Nunito:wght@400;600;700&display=swap');
+
 .events-container {
   padding: 24px;
-  max-width: 1400px;
-  margin: 0 auto;
+  max-width: 100%;
+  margin-top: 20px;
 }
 
 .page-title {
@@ -46,19 +48,45 @@
 }
 
 .events-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 320fr));
+  display: flex;
+  flex-wrap: nowrap;
   gap: 24px;
+  padding: 12px 4px;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  scrollbar-width: none;
 }
 
 .event-card {
   border-radius: 12px !important;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border: 3px solid black;
+  border: 1px solid black;
   min-height: 420px;
   background-size: cover !important;
   background-position: center !important;
+  display: flex;
+  flex-direction: column !important;
+  flex: 0 0 calc(20% - 20px);
+  scroll-snap-align: start;
+  box-sizing: border-box;
+
+  mat-card-content {
+    flex: 1;
+  }
+
+  mat-card-actions {
+    margin-top: auto;
+  }
 
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(20, 20, 20, 0.5)),
   url('/bg_card.png') center/cover no-repeat;
@@ -71,14 +99,14 @@
 
   .description {
     color: white;
-    font-size: 1.2rem;
-    line-height: 1.6;
+    font-size: 1.0rem;
+    line-height: 1.5;
     margin: 12px 0;
-    border: solid 1px white;
+    border: solid 1px #979797;
     padding: 0.4rem;
     border-radius: 16px;
-    text-align: center;
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(20, 20, 20, 0.5));
+    font-family: 'Nunito', sans-serif;
   }
 
   .event-details {
@@ -87,7 +115,7 @@
     flex-direction: column;
     gap: 8px;
     margin: 12px 0;
-    border: solid 1px white;
+    border: solid 1px #979797;
     padding: 0.4rem;
     border-radius: 16px;
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(20, 20, 20, 0.5));
@@ -110,13 +138,15 @@
   mat-card-title {
     color: white;
     text-decoration: underline;
-    border: 2px solid white;
+    //border: 2px solid white;
     border-radius: 24px;
     font-size: 1.8rem;
-    margin-bottom: 1rem;
-    padding: 0.7rem;
+    margin-bottom: 0.7rem;
+    padding: 0.6rem;
     text-align: center;
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(20, 20, 20, 0.5));
+    background-size: 10px;
+    margin-top: 0.1rem;
   }
 
   mat-card-header {
@@ -144,14 +174,16 @@
 #details {
   background-color: white;
   margin-left: 1rem;
-  margin-bottom: 15px;
 }
 
 mat-card-actions {
   display: flex;
   justify-content: center;
+  align-items: center;
   padding: 20px !important;
   flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
 }
 
 .invite-message {
@@ -169,11 +201,75 @@ mat-card-actions {
 
 .cover-image {
   width: 100%;
-  height: 200px; // ← hauteur fixe
-  object-fit: cover; // ← coupe l'image pour qu'elle remplisse sans déformer
+  height: 200px;
+  object-fit: cover;
   object-position: center;
 }
 
 #imgContainer {
-  border: solid 5px white;
+  border-radius: 10px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  width: 100%;
+  padding: 16px;
+  margin-top: auto;
+}
+
+::ng-deep .mat-mdc-button-touch-target {
+  display: none !important;
+}
+
+::ng-deep .event-card {
+  .mat-mdc-card-actions {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .events-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 24px;
+    padding: 12px 4px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    scrollbar-width: none;
+  }
+  .event-card {
+    border-radius: 12px !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 20px solid black;
+    min-height: 420px;
+    background-size: cover !important;
+    background-position: center !important;
+    display: flex;
+    flex-direction: column !important;
+    flex: 0 0 300px;
+    scroll-snap-align: start;
+    box-sizing: border-box;
+  }
+  #details {
+    margin-top: -1rem;
+  }
 }
