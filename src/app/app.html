@@ -1,21 +1,42 @@
-<app-header></app-header>
+@if (siteConfigService.config()?.isMaintenanceMode && !authService.isAdmin() && !isLoginPage()) {
+  <div class="maintenance-page">
+    <mat-icon>construction</mat-icon>
+    <h2>Site en maintenance</h2>
+    <p>Nous effectuons des travaux. Revenez bientôt !</p>
+    @if (!authService.isLoggedIn()) {
+      <a mat-stroked-button href="/login">
+        <mat-icon>login</mat-icon>
+        Connexion admin
+      </a>
+    }
+  </div>
+} @else {
+  <app-header></app-header>
 
-<mat-sidenav-container class="sidenav-container">
-
-  @if (authService.isLoggedIn()) {
-    <mat-sidenav mode="side" [opened]="true"
-                 [style.width]="sidenavExpanded() ? '280px' : '70px'">
-      <app-sidenav-content
-        [expanded]="sidenavExpanded"
-        (toggleEvent)="toggleSidenav()">
-      </app-sidenav-content>
-    </mat-sidenav>
+  <!-- Bannière alerte globale -->
+  @if (siteConfigService.config()?.globalAlertMessage) {
+    <div class="global-alert-banner">
+      <mat-icon>warning</mat-icon>
+      <span>{{ siteConfigService.config()?.globalAlertMessage }}</span>
+    </div>
   }
 
-  <mat-sidenav-content>
-    <main class="main-content">
-      <router-outlet></router-outlet>
-    </main>
-  </mat-sidenav-content>
-
-</mat-sidenav-container>
+  <div class="app-content">
+    <mat-sidenav-container class="sidenav-container">
+      @if (authService.isLoggedIn()) {
+        <mat-sidenav mode="side" [opened]="true"
+                     [style.width]="sidenavExpanded() ? '280px' : '70px'">
+          <app-sidenav-content
+            [expanded]="sidenavExpanded"
+            (toggleEvent)="toggleSidenav()">
+          </app-sidenav-content>
+        </mat-sidenav>
+      }
+      <mat-sidenav-content>
+        <main class="main-content">
+          <router-outlet></router-outlet>
+        </main>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+}
