@@ -40,12 +40,12 @@ export const routes: Routes = [
     canActivate: [adminGuard, authGuard],
     loadComponent: () => import('./features/admin/article-form/article-form').then(m => m.ArticleForm)
   },
-  // {
-  //   path: 'admin/articles',
-  //   canActivate: [authGuard, adminGuard],
-  //   loadComponent: () => import('./features/admin/articles-management/articles-management')
-  //    .then(m => m.ArticlesManagement)
-  // },
+  {
+    path: 'admin/articles',
+    canActivate: [authGuard, adminGuard],
+    loadComponent: () => import('./features/admin/articles-management/articles-management/articles-management')
+      .then(m => m.ArticlesManagement)
+  },
   {
     path: 'events/:id',
     loadComponent: () => import('./features/event-detail/event-detail').then(m => m.EventDetail)
@@ -59,25 +59,25 @@ export const routes: Routes = [
     path: 'admin/events',
     canActivate: [authGuard, adminGuard],
     loadComponent: () => import('./features/admin/events-management/events-management')
-     .then(m => m.EventsManagement)
+      .then(m => m.EventsManagement)
   },
   {
     path: 'admin/events/create',
     canActivate: [authGuard, adminGuard],
     loadComponent: () => import('./features/admin/event-form/event-form')
-     .then(m => m.EventForm)
+      .then(m => m.EventForm)
   },
   {
     path: 'admin/events/:id/edit',
     canActivate: [authGuard, adminGuard],
     loadComponent: () => import('./features/admin/event-form/event-form')
-     .then(m => m.EventForm)
+      .then(m => m.EventForm)
   },
   {
     path: 'admin/membres',
     canActivate: [authGuard, adminGuard],
     loadComponent: () => import('./features/admin/members-management/members-management')
-     .then(m => m.MembersManagement)
+      .then(m => m.MembersManagement)
   },
   {
     path: '**',

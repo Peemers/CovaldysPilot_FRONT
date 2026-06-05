@@ -1,8 +1,8 @@
-import { HttpInterceptorFn, HttpRequest, HttpHandlerFn, HttpEvent, HttpErrorResponse } from '@angular/common/http';
-import { inject } from '@angular/core';
-import { Observable, throwError, catchError } from 'rxjs';
-import { AuthService } from '../services/auth';
-import { Router } from '@angular/router';
+import {HttpInterceptorFn, HttpRequest, HttpHandlerFn, HttpEvent, HttpErrorResponse} from '@angular/common/http';
+import {inject} from '@angular/core';
+import {Observable, throwError, catchError, switchMap} from 'rxjs';
+import {AuthService} from '../services/auth';
+import {Router} from '@angular/router';
 
 export const authInterceptor: HttpInterceptorFn = (
   req: HttpRequest<unknown>,
@@ -14,26 +14,32 @@ export const authInterceptor: HttpInterceptorFn = (
 
   const token: string | null = authService.getAccessToken();
 
-  // Si on a un token, on l'ajoute au header
-  if (token) {
-    const authReq = req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${token}`
+  const authReq = token ? req.clone({
+    setHeaders: {Authorization: `Bearer ${token}`}
+  }) : req;
+
+  return next(authReq).pipe(
+    catchError((error: HttpErrorResponse) => {
+      // Si 401 → tente un refresh avant de déconnecter
+      if (error.status === 401) {
+        return authService.refreshToken().pipe(
+          switchMap(() => {
+            // Refresh réussi → relance la requête avec le nouveau token
+            const newToken = authService.getAccessToken();
+            const retryReq = req.clone({
+              setHeaders: {Authorization: `Bearer ${newToken}`}
+            });
+            return next(retryReq);
+          }),
+          catchError(() => {
+            // Refresh échoué → déconnexion
+            authService.logout();
+            void router.navigate(['/login']);
+            return throwError(() => error);
+          })
+        );
       }
-    });
-    return next(authReq).pipe(
-      catchError((error: HttpErrorResponse) => {
-        // Si 401 → session expirée → on déconnecte
-        if (error.status === 401) {
-          authService.logout();
-          router.navigate(['/login']);
-        }
-        return throwError(() => error);
-      })
-    );
-  }
-
-  return next(req);
+      return throwError(() => error);
+    })
+  );
 };
-
-//TODO : Refresh Token automatique dans auth-interceptor.ts
