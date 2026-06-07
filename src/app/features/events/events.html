@@ -74,53 +74,44 @@
                 </div>
               }
             </div>
-
-            <!-- Catégories -->
-            <div class="categories">
-              @for (category of event.categories; track category.id) {
-                <mat-chip id="matship">{{ category.name }}</mat-chip>
-              }
-            </div>
           </mat-card-content>
-
-<!--          <mat-card-actions>-->
-            <!-- Bouton contextuel selon statut -->
-            <div class="action-buttons">
-              @if (event.isRegistered) {
-                <button mat-raised-button
-                        (click)="unregister(event.signInId!)">
-                  <mat-icon>cancel</mat-icon>
-                  Se désinscrire
-                </button>
-              } @else if (event.canRegister && !authService.isAdmin()) {
-                <button mat-raised-button color="primary"
-                        (click)="register(event.id)">
-                  <mat-icon>how_to_reg</mat-icon>
-                  S'inscrire
-                </button>
-              } @else if (!event.canRegister &&
-              event.isWaitingListActive &&
-              event.status === EventStatus.EnAttente &&
-              !authService.isAdmin() &&
-              event.currentParticipants >= event.maxParticipants) {
-                <button mat-stroked-button color="accent"
-                        (click)="register(event.id)">
-                  <mat-icon>queue</mat-icon>
-                  Liste d'attente
-                </button>
-              }
-              <a mat-raised-button id="details" [routerLink]="['/events', event.id]">
-                <mat-icon id="maticon">info</mat-icon>
-                Détails
-              </a>
-            </div>
-            @if (!authService.isLoggedIn()) {
-              <p class="invite-message">
-                <a routerLink="/register">Créez un compte</a> ou
-                <a routerLink="/login">connectez-vous</a> pour vous inscrire !
-              </p>
+          <!-- Bouton contextuel selon statut -->
+          <div class="action-buttons">
+            @if (event.isRegistered) {
+              <button mat-raised-button
+                      (click)="unregister(event.signInId!)">
+                <mat-icon>cancel</mat-icon>
+                Se désinscrire
+              </button>
+            } @else if (event.canRegister && !authService.isAdmin()) {
+              <button mat-raised-button color="primary"
+                      (click)="register(event.id)">
+                <mat-icon>how_to_reg</mat-icon>
+                S'inscrire
+              </button>
+            } @else if (!event.canRegister &&
+            event.isWaitingListActive &&
+            event.status === EventStatus.EnAttente &&
+            !authService.isAdmin() &&
+            event.currentParticipants >= event.maxParticipants) {
+              <button mat-stroked-button color="accent"
+                      (click)="register(event.id)">
+                <mat-icon>queue</mat-icon>
+                Liste d'attente
+              </button>
             }
-<!--          </mat-card-actions>-->
+            <a mat-raised-button id="details" [routerLink]="['/events', event.id]">
+              <mat-icon id="maticon">info</mat-icon>
+              Détails
+            </a>
+          </div>
+          @if (!authService.isLoggedIn()) {
+            <p class="invite-message">
+              <a routerLink="/register">Créez un compte</a> ou
+              <a routerLink="/login">connectez-vous</a> pour vous inscrire !
+            </p>
+          }
+
 
         </mat-card>
       }

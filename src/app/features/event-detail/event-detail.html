@@ -27,9 +27,9 @@
             <h1>{{ event()!.name }}</h1>
           </div>
 
-          <mat-card-header>
-            <mat-card-title>Informations :</mat-card-title>
-          </mat-card-header>
+<!--          <mat-card-header>-->
+<!--            <mat-card-title>Informations :</mat-card-title>-->
+<!--          </mat-card-header>-->
 
           <mat-card-content>
             <div class="info-item">
@@ -83,12 +83,12 @@
             </div>
           </mat-card-content>
 
-          <mat-card-actions>
+          <mat-card-actions class="register-button">
             <!-- Boutons inscription seulement pour les membres -->
             @if (!authService.isAdmin()) {
               @if (event()!.isRegistered) {
                 <button mat-stroked-button color="warn"
-                        (click)="unregister(event()!.id)">
+                        (click)="unregister(event()!.signInId)">
                   <mat-icon>cancel</mat-icon>
                   Se désinscrire
                 </button>

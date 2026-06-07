@@ -62,12 +62,6 @@
                 <span>{{ event.currentParticipants }} / {{ event.maxParticipants }} places</span>
               </div>
             </div>
-
-            <div class="categories">
-              @for (category of event.categories; track category.id) {
-                <mat-chip id="matship">{{ category.name }}</mat-chip>
-              }
-            </div>
           </mat-card-content>
 
           <mat-card-actions>
