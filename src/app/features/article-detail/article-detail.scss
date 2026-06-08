@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Nunito:wght@400;600;700&display=swap');
+
 .detail-container {
   padding: 24px;
   max-width: 900px;
   margin: 0 auto;
+  font-family: 'Playfair Display', serif;
 }
 
 .back-button {
@@ -50,6 +53,7 @@
     border-radius: 12px;
     padding: 0.7rem;
     background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(20, 20, 20, 0.2));
+    font-family: 'Playfair Display', serif;
   }
 
   .meta {
