@@ -1,0 +1,70 @@
+:host {
+  display: block;
+  height: auto;
+  background-color: #f0f4f0;
+  border-right: 1px solid black;
+  overflow: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.sidenav-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 8px;
+  background: linear-gradient(180deg, #1B4332 10%, #2D6A4F 100%);
+  color: white;
+  min-height: 80px;
+
+  .toggle-btn {
+    color: white !important;
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    mat-icon {
+      font-size: 2rem;
+      width: 2rem;
+      height: 2rem;
+    }
+
+    .user-name {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+  }
+}
+
+.active-link {
+  background-color: rgba(0, 0, 0, 0.30) !important;
+  color: white !important;
+  width: 85%;
+
+  mat-icon {
+    color: #2D6A4F !important;
+  }
+}
+
+.logout-item {
+  color: #c0392b !important;
+
+  mat-icon {
+    color: #c0392b !important;
+  }
+}
+
+h3[mat-subheader] {
+  color: #2D6A4F;
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}

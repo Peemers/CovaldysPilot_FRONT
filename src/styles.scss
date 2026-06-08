@@ -1,0 +1,39 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$covaldys-theme: mat.define-theme((
+  color: (
+    theme-type: light,
+    primary: mat.$green-palette,
+  ),
+  typography: (
+    brand-family: 'Roboto',
+  ),
+  density: (
+    scale: 0,
+  )
+));
+
+html {
+  height: 100%;
+  @include mat.all-component-themes($covaldys-theme);
+}
+
+body {
+  margin: 0;
+  height: 100%;
+  font-family: Roboto, sans-serif;
+  background-color: #f5f7f5;
+}
+
+:root {
+  --covaldys-green: #2D6A4F;
+  --covaldys-green-dark: #2d5a3d;
+  --covaldys-green-light: #7aab89;
+  --covaldys-bg: #f5f7f5;
+}
+
+* {
+  box-sizing: border-box;
+}

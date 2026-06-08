@@ -1,0 +1,92 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 100px);
+  //background-color: var(--covaldys-bg);
+  padding: 20px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12) !important;
+  border-radius: 12px !important;
+
+  mat-card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+
+    .login-logo {
+      height: 120px;
+      width: auto;
+      border-radius: 50%;
+      margin-bottom: 12px;
+      margin-top: 15px;
+      align-items: center;
+      align-content: center;
+    }
+
+    mat-card-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--covaldys-green-dark);
+    }
+
+    mat-card-subtitle {
+      color: #666;
+    }
+  }
+
+  .full-width {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .error-message {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #c0392b;
+    background-color: #fdecea;
+    padding: 10px 14px;
+    border-radius: 6px;
+    margin-bottom: 16px;
+    font-size: 0.9rem;
+
+    mat-icon {
+      font-size: 1.2rem;
+      width: 1.2rem;
+      height: 1.2rem;
+    }
+  }
+
+  .submit-btn {
+    height: 48px;
+    font-size: 1rem;
+    margin-top: 8px;
+    background-color: var(--covaldys-green) !important;
+    color: white;
+  }
+
+  mat-card-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding-top: 8px;
+    color: #666;
+  }
+  .connection {
+    margin-left: 23px;
+  }
+}
+::ng-deep {
+  .mat-mdc-progress-spinner circle {
+    stroke: white !important;
+  }
+}

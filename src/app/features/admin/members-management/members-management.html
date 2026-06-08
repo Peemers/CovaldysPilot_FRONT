@@ -1,0 +1,142 @@
+<div class="management-container">
+
+  <div class="management-header">
+    <h1>
+      <mat-icon>people</mat-icon>
+      Gestion des membres
+    </h1>
+    <div class="header-actions">
+      <button mat-raised-button [matMenuTriggerFor]="exportMenu">
+        <mat-icon>download</mat-icon>
+        Exporter
+      </button>
+      <mat-menu #exportMenu="matMenu">
+        <button mat-menu-item (click)="exportMembers()">
+          <mat-icon>people</mat-icon>
+          Tous les membres
+        </button>
+        <button mat-menu-item (click)="exportMembers('effectif')">
+          <mat-icon>verified</mat-icon>
+          Membres effectifs
+        </button>
+        <button mat-menu-item (click)="exportMembers('normal')">
+          <mat-icon>person</mat-icon>
+          Membres normaux
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="60"></mat-spinner>
+    </div>
+  }
+
+  @if (!isLoading()) {
+    <div class="table-container">
+      <table mat-table [dataSource]="members()" class="members-table">
+
+        <!-- Pseudo -->
+        <ng-container matColumnDef="pseudo">
+          <th mat-header-cell *matHeaderCellDef>Pseudo</th>
+          <td mat-cell *matCellDef="let member">
+            <strong>{{ member.pseudo }}</strong>
+          </td>
+        </ng-container>
+
+        <!-- Prénom -->
+        <ng-container matColumnDef="firstName">
+          <th mat-header-cell *matHeaderCellDef>Prénom / Nom</th>
+          <td mat-cell *matCellDef="let member">
+            {{ member.firstName }} {{ member.lastName }}
+          </td>
+        </ng-container>
+
+        <!-- Email -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let member">{{ member.email }}</td>
+        </ng-container>
+
+        <!-- Statut -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Statut</th>
+          <td mat-cell *matCellDef="let member">
+            @if (member.isMembershipUpToDate) {
+              <mat-chip color="primary" highlighted>Effectif</mat-chip>
+            } @else {
+              <mat-chip>Normal</mat-chip>
+            }
+          </td>
+        </ng-container>
+
+        <!-- Membre depuis -->
+        <ng-container matColumnDef="createdAt">
+          <th mat-header-cell *matHeaderCellDef>Membre depuis</th>
+          <td mat-cell *matCellDef="let member">
+            {{ member.createdAt | date:'dd/MM/yyyy' }}
+          </td>
+        </ng-container>
+
+        <!-- Actions -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let member">
+            <button mat-icon-button color="warn"
+                    (click)="$event.stopPropagation(); delete(member.id)"
+                    matTooltip="Supprimer le membre">
+              <!-- stop propagation pour ne pas déclencher les 2 methodes par propagation parent/enfant -->
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+            (click)="openDetail(row)"
+            style="cursor: pointer">
+        </tr>
+      </table>
+    </div>
+  }
+</div>
+
+<!-- Dialog detail membreaa -->
+<ng-template #memberDetailDialog>
+  <h2 mat-dialog-title>
+    <mat-icon>person</mat-icon>
+    {{ selectedMember()?.firstName }} {{ selectedMember()?.lastName }}
+  </h2>
+  <mat-dialog-content>
+    <div class="member-detail">
+      <div class="detail-row">
+        <mat-icon>alternate_email</mat-icon>
+        <span>{{ selectedMember()?.pseudo }}</span>
+      </div>
+      <div class="detail-row">
+        <mat-icon>email</mat-icon>
+        <span>{{ selectedMember()?.email }}</span>
+      </div>
+      <div class="detail-row">
+        <mat-icon>phone</mat-icon>
+        <span>{{ selectedMember()?.phoneNumber ?? 'Non renseigné' }}</span>
+      </div>
+      <div class="detail-row">
+        <mat-icon>cake</mat-icon>
+        <span>{{ selectedMember()?.birthday | date:'dd/MM/yyyy' }}</span>
+      </div>
+      <div class="detail-row">
+        <mat-icon>calendar_today</mat-icon>
+        <span>Membre depuis {{ selectedMember()?.createdAt | date:'dd/MM/yyyy' }}</span>
+      </div>
+      <div class="detail-row">
+        <mat-icon>verified</mat-icon>
+        <span>{{ selectedMember()?.isMembershipUpToDate ? 'Membre effectif' : 'Membre normal' }}</span>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Fermer</button>
+  </mat-dialog-actions>
+</ng-template>

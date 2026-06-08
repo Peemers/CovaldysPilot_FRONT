@@ -1,0 +1,62 @@
+<div class="detail-container">
+
+  <!-- Retour -->
+  <div class="back-button">
+    <a mat-stroked-button routerLink="/articles">
+      <mat-icon>arrow_back</mat-icon>
+      Retour aux articles
+    </a>
+  </div>
+
+  <!-- Loading -->
+  @if (isLoading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="60"></mat-spinner>
+    </div>
+  }
+
+  <!-- Erreur -->
+  @if (errorMessage()) {
+    <div class="error-container">
+      <mat-icon>error</mat-icon>
+      <p>{{ errorMessage() }}</p>
+    </div>
+  }
+
+  <!-- Article -->
+  @if (!isLoading() && article()) {
+    <mat-card class="article-card">
+
+      <!-- Image principale -->
+      @if (article()!.images.length > 0) {
+        <img mat-card-image [src]="article()!.images[0].url"
+             [alt]="article()!.title" class="cover-image">
+      }
+
+      <mat-card-header>
+        <mat-card-title>{{ article()!.title }}</mat-card-title>
+        <mat-card-subtitle>
+          <div class="meta">
+            <span><mat-icon>person</mat-icon> {{ article()!.author }}</span>
+            <span><mat-icon>calendar_today</mat-icon> {{ article()!.publicationDate | date:'dd/MM/yyyy' }}</span>
+            <span><mat-icon>visibility</mat-icon> {{ article()!.viewCount }} vues</span>
+          </div>
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="content">
+          <p>{{ article()!.content }}</p>
+        </div>
+
+        <!-- Image secondaire -->
+        @if (article()!.images.length > 1) {
+          <img [src]="article()!.images[1].url"
+               [alt]="article()!.title" class="second-image">
+        }
+      </mat-card-content>
+
+    </mat-card>
+  }
+
+</div>

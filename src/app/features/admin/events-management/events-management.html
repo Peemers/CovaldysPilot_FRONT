@@ -1,0 +1,136 @@
+<div class="management-container">
+
+  <div class="management-header">
+    <h1>
+      <mat-icon>event</mat-icon>
+      Gestion des événements
+    </h1>
+    <a mat-raised-button color="primary" routerLink="/admin/events/create">
+      <mat-icon>add</mat-icon>
+      Créer un événement
+    </a>
+  </div>
+
+  <!-- Loading -->
+  @if (isLoading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="60"></mat-spinner>
+    </div>
+  }
+
+  <!-- Table -->
+  @if (!isLoading()) {
+    <div class="table-container">
+      <table mat-table [dataSource]="events()" class="events-table">
+
+        <!-- Nom -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Nom</th>
+          <td mat-cell *matCellDef="let event">
+            <strong>{{ event.name }}</strong>
+          </td>
+        </ng-container>
+
+        <!-- Statut -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Statut</th>
+          <td mat-cell *matCellDef="let event">
+            <mat-chip [color]="getStatusColor(event.status)" highlighted>
+              {{ getStatusLabel(event.status) }}
+            </mat-chip>
+          </td>
+        </ng-container>
+
+        <!-- Date -->
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>Date début</th>
+          <td mat-cell *matCellDef="let event">
+            {{ event.startDate | date:'dd/MM/yyyy HH:mm' }}
+          </td>
+        </ng-container>
+
+        <!-- Participants -->
+        <ng-container matColumnDef="participants">
+          <th mat-header-cell *matHeaderCellDef>Participants</th>
+          <td mat-cell *matCellDef="let event">
+            {{ event.currentParticipants }} / {{ event.maxParticipants }}
+          </td>
+        </ng-container>
+
+        <!-- Prix -->
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef>Prix</th>
+          <td mat-cell *matCellDef="let event">
+            {{ event.price ? event.price + ' €' : 'Gratuit' }}
+          </td>
+        </ng-container>
+
+        <!-- Actions -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let event">
+            <div class="action-buttons">
+
+              <!-- Voir détails -->
+              <a mat-icon-button [routerLink]="['/events', event.id]"
+                 matTooltip="Voir détails">
+                <mat-icon>visibility</mat-icon>
+              </a>
+
+              <!-- Modifier -->
+              @if (event.status === EventStatus.EnAttente) {
+                <a mat-icon-button
+                   [routerLink]="['/admin/events', event.id, 'edit']"
+                   matTooltip="Modifier">
+                  <mat-icon>edit</mat-icon>
+                </a>
+              }
+
+              <!-- Démarrer -->
+              @if (event.status === EventStatus.EnAttente) {
+                <button mat-icon-button color="primary"
+                        (click)="start(event.id)"
+                        matTooltip="Démarrer">
+                  <mat-icon>play_arrow</mat-icon>
+                </button>
+              }
+
+              <!-- Clôturer -->
+              @if (event.status === EventStatus.EnCours) {
+                <button mat-icon-button
+                        (click)="close(event.id)"
+                        matTooltip="Clôturer">
+                  <mat-icon>stop</mat-icon>
+                </button>
+              }
+
+              <!-- Annuler -->
+              @if (event.status === EventStatus.EnAttente || event.status === EventStatus.EnCours) {
+                <button mat-icon-button color="warn"
+                        (click)="cancel(event.id)"
+                        matTooltip="Annuler">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              }
+
+              <!-- Supprimer -->
+              @if (event.status === EventStatus.EnAttente) {
+                <button mat-icon-button color="warn"
+                        (click)="delete(event.id)"
+                        matTooltip="Supprimer">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              }
+
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let _; columns: displayedColumns;"></tr>
+
+      </table>
+    </div>
+  }
+
+</div>
