@@ -1,7 +1,7 @@
 .events-container {
   padding: 24px;
   max-width: 1400px;
-  margin: 0 auto;
+  margin: 15px;
 }
 
 .page-title {
@@ -106,7 +106,8 @@
     }
 
   }
-  mat-card-title{
+
+  mat-card-title {
     color: white;
     text-decoration: underline;
     border: 2px solid white;
@@ -117,6 +118,7 @@
     text-align: center;
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(20, 20, 20, 0.5));
   }
+
   mat-card-header {
     justify-content: center !important;
     text-align: center !important;
@@ -129,22 +131,40 @@
     margin-top: 12px;
   }
 }
-#matship{
+
+#matship {
   background-color: #cdc7c7;
   margin-left: 1.5rem;
 }
-#maticon{
+
+#maticon {
   font-size: 1.2rem;
 }
-#details{
+
+#details {
   background-color: white;
   margin-left: 1rem;
+  margin-bottom: 15px;
 }
 
 mat-card-actions {
   display: flex;
   justify-content: center;
-  padding: 16px !important;
+  padding: 20px !important;
+  flex-wrap: wrap;
+}
+
+.invite-message {
+  color: white;
+  font-size: 0.9rem;
+  text-align: center;
+  margin: 0;
+
+  a {
+    color: #a8d5b5;
+    font-weight: 600;
+    text-decoration: underline;
+  }
 }
 
 .cover-image {
@@ -154,6 +174,6 @@ mat-card-actions {
   object-position: center;
 }
 
-#imgContainer{
+#imgContainer {
   border: solid 5px white;
 }

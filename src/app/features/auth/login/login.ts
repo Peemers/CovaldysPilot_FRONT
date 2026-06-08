@@ -56,7 +56,7 @@ export class Login {
     const request: LoginRequest = this.loginForm.value as LoginRequest;
 
     this.authService.login(request).subscribe({
-      next: () => {
+      next: (): void => {
         this.isLoading.set(false);
         void this.router.navigate(['/']);
       },

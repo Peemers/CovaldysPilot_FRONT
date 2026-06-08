@@ -2,12 +2,13 @@ import {inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {CreateEventRequestDto, EventResponseDto, UpdateEventRequestDto} from "../models/event.models";
 import {Observable} from "rxjs";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root',
 })
 export class EventService {
-  private readonly apiUrl = 'https://localhost:7124/api/event';
+  private readonly apiUrl = `${environment.apiUrl}/api/event`;
   private readonly http = inject(HttpClient);
 
   getAll(): Observable<EventResponseDto[]> {
@@ -30,8 +31,8 @@ export class EventService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  cancel(id: string): Observable<void> {
-    return this.http.patch<void>(`${this.apiUrl}/${id}/cancel`, {});
+  cancel(id: string, reason?: string): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/${id}/cancel`, {cancellationReason: reason ?? null});
   }
 
   start(id: string): Observable<void> {

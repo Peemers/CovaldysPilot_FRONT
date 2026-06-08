@@ -20,12 +20,38 @@ export const routes: Routes = [
   },
   {
     path: 'events',
-    canActivate: [authGuard],
-    loadComponent: () => import('./features/Events/events').then(m => m.Events)
+    loadComponent: () => import('./features/events/events').then(m => m.Events)
+  },
+  {
+    path: 'events/passes',
+    loadComponent: () => import('./features/events-past/events-past').then(m => m.EventsPast)
+  },
+  {
+    path: 'articles',
+    loadComponent: () => import('./features/articles/articles').then(m => m.Articles)
+  },
+  {
+    path: 'articles/:id',
+    loadComponent: () => import('./features/article-detail/article-detail').then(m => m.ArticleDetail)
+  },
+  {
+    path: 'admin/articles/create',
+    canActivate: [adminGuard, authGuard],
+    loadComponent: () => import('./features/admin/article-form/article-form').then(m => m.ArticleForm)
+  },
+  {
+    path: 'admin/article/:id/edit',
+    canActivate: [adminGuard, authGuard],
+    loadComponent: () => import('./features/admin/article-form/article-form').then(m => m.ArticleForm)
+  },
+  {
+    path: 'admin/articles',
+    canActivate: [authGuard, adminGuard],
+    loadComponent: () => import('./features/admin/articles-management/articles-management/articles-management')
+      .then(m => m.ArticlesManagement)
   },
   {
     path: 'events/:id',
-    canActivate: [authGuard],
     loadComponent: () => import('./features/event-detail/event-detail').then(m => m.EventDetail)
   },
   {
@@ -37,25 +63,30 @@ export const routes: Routes = [
     path: 'admin/events',
     canActivate: [authGuard, adminGuard],
     loadComponent: () => import('./features/admin/events-management/events-management')
-     .then(m => m.EventsManagement)
+      .then(m => m.EventsManagement)
   },
   {
     path: 'admin/events/create',
     canActivate: [authGuard, adminGuard],
     loadComponent: () => import('./features/admin/event-form/event-form')
-     .then(m => m.EventForm)
+      .then(m => m.EventForm)
   },
   {
     path: 'admin/events/:id/edit',
     canActivate: [authGuard, adminGuard],
     loadComponent: () => import('./features/admin/event-form/event-form')
-     .then(m => m.EventForm)
+      .then(m => m.EventForm)
   },
   {
     path: 'admin/membres',
     canActivate: [authGuard, adminGuard],
     loadComponent: () => import('./features/admin/members-management/members-management')
-     .then(m => m.MembersManagement)
+      .then(m => m.MembersManagement)
+  },
+  {
+    path: 'contact',
+    loadComponent: () => import('./features/contact-page/contact-page')
+      .then(m => m.ContactPage)
   },
   {
     path: '**',

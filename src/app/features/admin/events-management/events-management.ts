@@ -67,7 +67,9 @@ export class EventsManagement implements OnInit {
   }
 
   cancel(id: string): void {
-    this.eventService.cancel(id).subscribe({
+    const reason = window.prompt("Raison de l'annulation (optionnel) :") ?? undefined;
+    if(!window.confirm("Confirmez l'annulation de cet événement ?")) return;
+    this.eventService.cancel(id, reason).subscribe({
       next: () => {
         this.snackBar.open('Événement annulé !', 'Fermer', { duration: 3000 });
         this.loadEvents();
@@ -91,6 +93,8 @@ export class EventsManagement implements OnInit {
   }
 
   delete(id: string): void {
+    if (!window.confirm('Supprimer cet événement définitivement ? ' +
+      'Toutes les inscriptions seront supprimées et les statistiques ne seront pas comptabilisées pour cet événement')) return;
     this.eventService.delete(id).subscribe({
       next: () => {
         this.snackBar.open('Événement supprimé !', 'Fermer', { duration: 3000 });

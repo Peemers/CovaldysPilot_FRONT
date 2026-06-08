@@ -4,8 +4,8 @@
   <div class="logo" routerLink="/">
     <img src="/logo2.jpg" alt="Logo Covaldys" class="logo-img" width="128" height="128">
     <div class="logo-text">
-      <strong>Covaldys</strong>
-      <small>COnservation de la VAlée D'Yves</small>
+<!--      <strong>Covaldys</strong>-->
+<!--      <small>COnservation de la VAlée D'Yves</small>-->
     </div>
   </div>
 
@@ -14,12 +14,12 @@
     <nav>
       <a mat-button routerLink="/">Home</a>
       <a mat-button routerLink="/articles">Articles</a>
-      <a mat-button routerLink="/evenements">Évènements à venir</a>
+      <a mat-button routerLink="/events">Évènements à venir</a>
       <a mat-button routerLink="/contact">Contact</a>
     </nav>
   }
 
-  <!-- Titre de page centré quand connecté -->
+  <!-- Titre de page quand connecté -->
   @if (authService.isLoggedIn()) {
     <span class="spacer"></span>
     <h1 class="page-title">{{ pageTitle() }}</h1>
@@ -34,7 +34,7 @@
       @else if (authService.isAdmin()){Admin}
       @else { Membre }
     </span>
-      <span class="user-name">👤 {{ authService.user()?.pseudo }}</span>
+      <span class="user-name">Bonjour {{ authService.user()?.pseudo }}</span>
     </div>
   }
 

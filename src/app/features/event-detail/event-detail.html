@@ -1,12 +1,12 @@
 <div class="detail-container">
-  
+
   <!-- Loading -->
   @if (isLoading()) {
     <div class="loading-container">
       <mat-spinner diameter="60"></mat-spinner>
     </div>
   }
-  
+
   <!-- Erreur -->
   @if (errorMessage()) {
     <div class="error-container">
@@ -14,56 +14,56 @@
       <p>{{ errorMessage() }}</p>
     </div>
   }
-  
+
   <!-- Détail événement -->
   @if (!isLoading() && event()) {
     <div class="detail-content">
       <div class="detail-grid">
-        
+
         <mat-card class="info-card">
-          
+
           <!-- Titre dans la card -->
           <div class="card-title-overlay">
             <h1>{{ event()!.name }}</h1>
           </div>
-          
-          <mat-card-header>
-            <mat-card-title>Informations :</mat-card-title>
-          </mat-card-header>
-          
+
+<!--          <mat-card-header>-->
+<!--            <mat-card-title>Informations :</mat-card-title>-->
+<!--          </mat-card-header>-->
+
           <mat-card-content>
             <div class="info-item">
               <mat-icon>description</mat-icon>
               <p>{{ event()!.description }}</p>
             </div>
-            
+
             @if (event()!.location) {
               <div class="info-item">
                 <mat-icon>location_on</mat-icon>
                 <span>{{ event()!.location }}</span>
               </div>
             }
-            
+
             <div class="info-item">
               <mat-icon>calendar_today</mat-icon>
               <span>Début : {{ event()!.startDate | date:'dd/MM/yyyy HH:mm' }}</span>
             </div>
-            
+
             <div class="info-item">
               <mat-icon>event</mat-icon>
               <span>Fin : {{ event()!.endDate | date:'dd/MM/yyyy HH:mm' }}</span>
             </div>
-            
+
             <div class="info-item">
               <mat-icon>schedule</mat-icon>
               <span>Inscription avant : {{ event()!.registrationDeadline | date:'dd/MM/yyyy' }}</span>
             </div>
-            
+
             <div class="info-item">
               <mat-icon>people</mat-icon>
               <span>{{ event()!.currentParticipants }} / {{ event()!.maxParticipants }} participants</span>
             </div>
-            
+
             @if (event()!.price) {
               <div class="info-item">
                 <mat-icon>euro</mat-icon>
@@ -75,20 +75,20 @@
                 <span>Gratuit</span>
               </div>
             }
-            
+
             <div class="categories">
               @for (category of event()!.categories; track category.id) {
                 <mat-chip>{{ category.name }}</mat-chip>
               }
             </div>
           </mat-card-content>
-          
-          <mat-card-actions>
+
+          <mat-card-actions class="register-button">
             <!-- Boutons inscription seulement pour les membres -->
             @if (!authService.isAdmin()) {
               @if (event()!.isRegistered) {
                 <button mat-stroked-button color="warn"
-                        (click)="unregister(event()!.id)">
+                        (click)="unregister(event()!.signInId)">
                   <mat-icon>cancel</mat-icon>
                   Se désinscrire
                 </button>
@@ -106,12 +106,12 @@
                 </button>
               }
             }
-            
+
             <a mat-button routerLink="/events">
               <mat-icon>arrow_back</mat-icon>
               Retour
             </a>
-            
+
             <!-- Boutons admin -->
             @if (authService.isAdmin()) {
               @if (event()!.status === EventStatus.EnAttente) {
@@ -136,13 +136,13 @@
               }
             }
           </mat-card-actions>
-          
+
           <div class="card-logo">
             <img src="/logo2.jpg" alt="Covaldys">
           </div>
-        
+
         </mat-card>
-        
+
         <!-- Section inscrits (admin seulement) -->
         @if (authService.isAdmin() && signIns().length > 0) {
           <mat-card class="signins-card">
@@ -184,7 +184,7 @@
             </mat-card-content>
           </mat-card>
         }
-        
+
         <!-- Position liste d'attente -->
         @if (event()!.waitingListPosition) {
           <mat-card class="waiting-card">
@@ -194,7 +194,73 @@
             </mat-card-content>
           </mat-card>
         }
-      
+        <!-- Section Avis -->
+        @if (event()!.status === EventStatus.Termine) {
+          <mat-card class="reviews-card">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon>star</mat-icon>
+                Avis des participants
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+
+              <!-- Formulaire avis (membres connectés seulement) -->
+              @if (authService.isLoggedIn() && !authService.isAdmin()) {
+                <div class="review-form">
+                  <h4>{{ userReview() ? 'Modifier votre avis' : 'Laisser un avis' }}</h4>
+                  <div class="stars-input">
+                    @for (star of [1, 2, 3, 4, 5]; track star) {
+                      <button mat-icon-button (click)="newReviewNote.set(star)">
+                        <mat-icon>{{ star <= newReviewNote() ? 'star' : 'star_border' }}</mat-icon>
+                      </button>
+                    }
+                  </div>
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Commentaire (optionnel)</mat-label>
+                    <textarea matInput
+                              [ngModel]="newReviewComment()"
+                              (ngModelChange)="newReviewComment.set($event)"
+                              rows="3">
+                        </textarea>
+                  </mat-form-field>
+                  <div class="review-form-actions">
+                    <button mat-raised-button
+                            (click)="submitReview()"
+                            [disabled]="newReviewNote() === 0">
+                      <mat-icon>send</mat-icon>
+                      {{ userReview() ? 'Modifier' : 'Publier' }}
+                    </button>
+                    @if (userReview()) {
+                      <button mat-stroked-button color="warn" (click)="deleteReview()">
+                        <mat-icon>delete</mat-icon>
+                        Supprimer
+                      </button>
+                    }
+                  </div>
+                </div>
+              }
+
+              <!-- Liste des avis -->
+              @if (reviews().length === 0) {
+                <p class="no-reviews">Aucun avis pour le moment.</p>
+              }
+              @for (review of reviews(); track review.id) {
+                <div class="review-item">
+                  <div class="review-header">
+                    <span class="review-pseudo">{{ review.userPseudo }}</span>
+                    <span class="review-stars">{{ getStars(review.note) }}</span>
+                    <span class="review-date">{{ review.createdAt | date:'dd/MM/yyyy' }}</span>
+                  </div>
+                  @if (review.comment) {
+                    <p class="review-comment">{{ review.comment }}</p>
+                  }
+                </div>
+              }
+            </mat-card-content>
+          </mat-card>
+        }
+
       </div>
     </div>
   }

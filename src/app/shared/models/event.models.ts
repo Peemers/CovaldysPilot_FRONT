@@ -66,5 +66,6 @@ export interface EventResponseDto {
   updatedAt?: string;
   canRegister: boolean;
   isRegistered: boolean;
+  signInId: string;
 }
 

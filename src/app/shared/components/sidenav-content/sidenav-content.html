@@ -19,7 +19,7 @@
     @if (expanded()) {
       <h3 mat-subheader>Administration</h3>
     }
-    <a mat-list-item routerLink="/admin" routerLinkActive="active-link">
+    <a mat-list-item routerLink="/admin" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
       <mat-icon matListItemIcon>dashboard</mat-icon>
       @if (expanded()) {
         <span matListItemTitle>Home Admin</span>
@@ -58,7 +58,7 @@
       <span matListItemTitle>Home</span>
     }
   </a>
-  <a mat-list-item routerLink="/events" routerLinkActive="active-link">
+  <a mat-list-item routerLink="/events" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
     <mat-icon matListItemIcon>event</mat-icon>
     @if (expanded()) {
       <span matListItemTitle>Événements à venir</span>

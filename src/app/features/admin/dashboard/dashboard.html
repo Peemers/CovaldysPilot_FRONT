@@ -62,6 +62,98 @@
     </div>
   </div>
 
+  <!-- Configuration du site -->
+  <div class="site-config">
+    <h2>Configuration du site</h2>
+    <div class="config-grid">
+
+      <!-- Mode maintenance -->
+      <mat-card class="config-card">
+        <mat-card-content>
+          <mat-icon class="config-icon">construction</mat-icon>
+          <div class="config-info">
+            <span class="config-label">Mode maintenance</span>
+            <mat-slide-toggle
+              [checked]="siteConfigService.config()?.isMaintenanceMode ?? false"
+              (change)="toggleMaintenance()">
+              {{ siteConfigService.config()?.isMaintenanceMode ? 'Actif' : 'Inactif' }}
+            </mat-slide-toggle>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Message d'alerte -->
+      <mat-card class="config-card">
+        <mat-card-content>
+          <mat-icon class="config-icon warning">warning</mat-icon>
+          <div class="config-info">
+            <span class="config-label">Message d'alerte global</span>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Message</mat-label>
+              <input matInput
+                     [ngModel]="alertMessage()"
+                     (ngModelChange)="alertMessage.set($event)"
+                     [placeholder]="siteConfigService.config()?.globalAlertMessage ?? 'Aucun message actif'">
+            </mat-form-field>
+            <div class="config-actions">
+              <button mat-raised-button (click)="saveAlertMessage()">
+                <mat-icon>save</mat-icon>
+                Sauvegarder
+              </button>
+              @if (siteConfigService.config()?.globalAlertMessage) {
+                <button mat-stroked-button color="warn" (click)="clearAlertMessage()">
+                  <mat-icon>clear</mat-icon>
+                  Supprimer
+                </button>
+              }
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Gestion des catégories -->
+  <div class="categories-section">
+    <h2>Catégories d'événements</h2>
+    <mat-card class="config-card">
+      <mat-card-content>
+        <mat-icon class="config-icon">category</mat-icon>
+        <div class="config-info">
+          <span class="config-label">Catégories existantes</span>
+          <div class="categories-list">
+            @for (category of categories(); track category.id) {
+              <mat-chip>
+                {{ category.name }}
+                <button matChipRemove
+                        (click)="deleteCategory(category.id)"
+                        matTooltip="Supprimer">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip>
+            }
+            @if (categories().length === 0) {
+              <p style="color: rgba(255,255,255,0.6)">Aucune catégorie</p>
+            }
+          </div>
+          <div class="create-category">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Nouvelle catégorie</mat-label>
+              <input matInput
+                     [ngModel]="newCategoryName()"
+                     (ngModelChange)="newCategoryName.set($event)"
+                     placeholder="Ex: Concert, Conférence...">
+            </mat-form-field>
+            <button mat-raised-button (click)="createCategory()">
+              <mat-icon>add</mat-icon>
+              Créer
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
   <!-- Prochain événement -->
   @if (nextEvent()) {
     <div class="next-event">
@@ -94,7 +186,7 @@
           </div>
         </mat-card-content>
         <mat-card-actions>
-          <a mat-raised-button color="primary"
+          <a mat-raised-button
              [routerLink]="['/events', nextEvent()!.id]">
             <mat-icon>visibility</mat-icon>
             Voir les détails

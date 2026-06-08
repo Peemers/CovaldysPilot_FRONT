@@ -82,7 +82,7 @@ export class Events implements OnInit {
 
   getStatusLabel(status: EventStatus): string {
     const labels: Record<EventStatus, string> = {
-      [EventStatus.EnAttente]: 'En attente',
+      [EventStatus.EnAttente]: 'Non débuté',
       [EventStatus.EnCours]: 'En cours',
       [EventStatus.Termine]: 'Terminé',
       [EventStatus.Annule]: 'Annulé'

@@ -1,12 +1,12 @@
 <div class="events-container">
-  
+
   <!-- Loading -->
   @if (isLoading()) {
     <div class="loading-container">
       <mat-spinner diameter="60"></mat-spinner>
     </div>
   }
-  
+
   <!-- Erreur -->
   @if (errorMessage()) {
     <div class="error-container">
@@ -14,7 +14,7 @@
       <p>{{ errorMessage() }}</p>
     </div>
   }
-  
+
   <!-- Liste événements -->
   @if (!isLoading() && !errorMessage()) {
     @if (events().length === 0) {
@@ -23,11 +23,11 @@
         <p>Aucun événement disponible pour le moment.</p>
       </div>
     }
-    
+
     <div class="events-grid">
       @for (event of events(); track event.id) {
         <mat-card class="event-card">
-          
+
           <!-- Image couverture -->
           @if (event.coverImage) {
             <div id="imgContainer">
@@ -42,11 +42,11 @@
               </mat-chip>
             </mat-card-subtitle>
           </mat-card-header>
-          
+
           <mat-card-content>
-            
+
             <p class="description">{{ event.description | slice:0:150 }}...</p>
-            
+
             <div class="event-details">
               @if (event.location) {
                 <div class="detail-item">
@@ -74,20 +74,12 @@
                 </div>
               }
             </div>
-            
-            <!-- Catégories -->
-            <div class="categories">
-              @for (category of event.categories; track category.id) {
-                <mat-chip id="matship">{{ category.name }}</mat-chip>
-              }
-            </div>
           </mat-card-content>
-          
-          <mat-card-actions>
-            <!-- Bouton contextuel selon statut -->
+          <!-- Bouton contextuel selon statut -->
+          <div class="action-buttons">
             @if (event.isRegistered) {
-              <button mat-stroked-button color="warn"
-                      (click)="unregister(event.id)">
+              <button mat-raised-button
+                      (click)="unregister(event.signInId!)">
                 <mat-icon>cancel</mat-icon>
                 Se désinscrire
               </button>
@@ -108,14 +100,19 @@
                 Liste d'attente
               </button>
             }
-            <a mat-stroked-button id="details" [routerLink]="['/events', event.id]">
+            <a mat-raised-button id="details" [routerLink]="['/events', event.id]">
               <mat-icon id="maticon">info</mat-icon>
               Détails
             </a>
-          
-          
-          </mat-card-actions>
-        
+          </div>
+          @if (!authService.isLoggedIn()) {
+            <p class="invite-message">
+              <a routerLink="/register">Créez un compte</a> ou
+              <a routerLink="/login">connectez-vous</a> pour vous inscrire !
+            </p>
+          }
+
+
         </mat-card>
       }
     </div>
