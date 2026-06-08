@@ -1,15 +1,14 @@
 :host {
   display: block;
-  height: 150%;
+  height: auto;
   background-color: #f0f4f0;
   border-right: 1px solid black;
-
-  overflow-y: auto;
+  overflow: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
 
   &::-webkit-scrollbar {
-    display: flex;
+    display: none;
   }
 }
 

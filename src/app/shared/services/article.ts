@@ -2,12 +2,13 @@ import {inject, Injectable} from '@angular/core';
 import {Observable} from "rxjs";
 import {ArticleResponseDto, CreateArticleRequestDto, UpdateArticleRequestDto} from "../models/article.models";
 import {HttpClient} from "@angular/common/http";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root',
 })
 export class ArticleService {
-  private readonly apiUrl = 'https://localhost:7124/api/article'
+  private readonly apiUrl = `${environment.apiUrl}/api/article`
   private readonly http = inject(HttpClient);
 
   getAll(): Observable<ArticleResponseDto[]> {

@@ -2,13 +2,14 @@ import {inject, Injectable} from '@angular/core';
 import {CreateReviewRequestDto, ReviewResponseDto, UpdateReviewRequestDto} from '../models/review.models';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root',
 })
 
 export class ReviewService {
-  private readonly apiUrl = 'https://localhost:7124/api/review';
+  private readonly apiUrl = `${environment.apiUrl}/api/review`;
   private readonly http = inject(HttpClient);
 
   getByEvent(eventId: string): Observable<ReviewResponseDto[]> {

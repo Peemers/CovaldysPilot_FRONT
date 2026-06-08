@@ -9,16 +9,6 @@
   overflow: hidden;
 }
 
-mat-sidenav {
-  width: 65px;
-  transition: width 0.3s ease;
-  overflow: hidden;
-
-  &.expanded {
-    width: 280px;
-  }
-}
-
 .main-content {
   position: relative;
   min-height: 100%;
@@ -94,5 +84,14 @@ mat-sidenav {
     mat-icon {
       color: white !important;
     }
+  }
+}
+::ng-deep .mat-drawer-inner-container {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  scrollbar-width: none !important;
+
+  &::-webkit-scrollbar {
+    display: none !important;
   }
 }

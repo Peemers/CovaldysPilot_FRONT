@@ -2,12 +2,13 @@ import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {UserResponseDto} from '../models/user.models';
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserService {
-  private readonly apiUrl = 'https://localhost:7124/api/admin/users';
+  private readonly apiUrl = `${environment.apiUrl}/api/admin/users`;
   private readonly http = inject(HttpClient)
 
   getAll(): Observable<UserResponseDto[]> {

@@ -25,7 +25,7 @@
     <mat-sidenav-container class="sidenav-container" autosize>
       @if (authService.isLoggedIn()) {
         <mat-sidenav mode="side" [opened]="true"
-                     [style.width]="sidenavExpanded() ? '280px' : '70px'">
+                     [style.width]="sidenavExpanded() ? '300px' : '70px'">
           <app-sidenav-content
             [expanded]="sidenavExpanded"
             (toggleEvent)="toggleSidenav()">
