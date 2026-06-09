@@ -11,7 +11,6 @@ import {MatChipsModule} from "@angular/material/chips";
 import {RouterLink} from "@angular/router";
 import {DatePipe, SlicePipe} from "@angular/common";
 import {AuthService} from '../../shared/services/auth';
-import {MatTooltip} from "@angular/material/tooltip";
 
 @Component({
   selector: 'app-events',
@@ -46,7 +45,8 @@ export class Events implements OnInit {
     this.isLoading.set(true)
     this.eventService.getAll().subscribe({
       next: (events: EventResponseDto[]) => {
-        this.events.set(events);
+        this.events.set(events.filter(e =>
+        e.status !== EventStatus.Annule && e.status !== EventStatus.Termine));
         this.isLoading.set(false)
       },
       error: () => {

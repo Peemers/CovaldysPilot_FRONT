@@ -131,7 +131,7 @@ export class Dashboard implements OnInit {
           labels: ['Membres Effectifs', 'Membres Normaux'],
           datasets: [{
             data: [effective, users.length - effective],
-            backgroundColor: ['#2D6A4F', '#95c4a1']
+            backgroundColor: ['#7dda5a', '#ffdb2e']
           }]
         });
 
@@ -145,7 +145,7 @@ export class Dashboard implements OnInit {
               events.filter(e => e.status === EventStatus.Termine).length,
               events.filter(e => e.status === EventStatus.Annule).length
             ],
-            backgroundColor: ['#f39c12', '#27ae60', '#95a5a6', '#c0392b']
+            backgroundColor: ['#f39c12', '#27ae60', '#ffffff', '#c0392b']
           }]
         });
       },

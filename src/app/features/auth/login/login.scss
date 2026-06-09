@@ -34,6 +34,7 @@
       align-items: center;
       align-content: center;
       border: 3px solid #7B3F00;
+      box-shadow: 0 6px 10px rgba(123, 63, 0, 0.6);
     }
 
     mat-card-title {
@@ -44,13 +45,13 @@
 
     mat-card-subtitle {
       color: var(--covaldys-green-dark);
+      text-shadow: 0 3px 6px rgba(123, 63, 0, 0.3);
     }
   }
 
   .full-width {
     width: 100%;
     margin-bottom: 8px;
-    font-family: "Playfair Display", serif;
   }
 
   .error-message {
@@ -111,6 +112,7 @@
   text-align: center;
   font-size: 1.7rem;
   line-height: 1.8;
+
 }
 #connection2 {
   font-family: "Playfair Display", serif;
@@ -119,6 +121,7 @@
   line-height: 1.8;
   color: var(--covaldys-green-dark);
   margin-bottom: 1.8rem;
+  box-shadow: 0 4px 8px rgba(123, 63, 0, 0.6);
 }
 
 mat-label{

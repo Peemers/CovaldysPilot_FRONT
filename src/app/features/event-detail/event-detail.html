@@ -29,7 +29,6 @@
 
           <mat-card-content>
             <div class="description-item">
-              <mat-icon>description</mat-icon>
               <p>{{ event()!.description }}</p>
             </div>
 
@@ -52,7 +51,7 @@
             @if (weatherError()) {
               <div class="info-item">
                 <mat-icon>cloud_off</mat-icon>
-                <span>Météo indisponible</span>
+                <span>Météo disponible 14j avant le début, mise à jour en temps réel.</span>
               </div>
             }
 
