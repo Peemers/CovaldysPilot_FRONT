@@ -20,6 +20,8 @@ import {ArticleResponseDto} from '../../../shared/models/article.models';
 import {forkJoin} from 'rxjs';
 import {UserService} from '../../../shared/services/user';
 import {UserResponseDto} from '../../../shared/models/user.models';
+import {Chart, ChartData, ChartOptions, registerables} from "chart.js";
+import {BaseChartDirective} from "ng2-charts";
 
 @Component({
   selector: 'app-dashboard',
@@ -35,7 +37,9 @@ import {UserResponseDto} from '../../../shared/models/user.models';
     MatSnackBarModule,
     FormsModule,
     RouterLink,
-    DatePipe],
+    DatePipe,
+    BaseChartDirective,
+  ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })
@@ -57,12 +61,33 @@ export class Dashboard implements OnInit {
   articles = signal<ArticleResponseDto[]>([]);
   articleOnSite = signal(0)
   users = signal<UserResponseDto[]>([]);
-  usersOnSite = signal (0)
+  usersOnSite = signal(0)
   effectivesUsersOnSite = signal(0)
+  memberChartData = signal<ChartData<'pie'>>({
+    labels: ['Membres Effectifs', 'Membres Normaux'],
+    datasets: [{
+      data: [0, 0],
+      backgroundColor: ['#2D6A4F', '#95c4a1']
+    }]
+  });
+  eventChartData = signal<ChartData<'bar'>>({
+    labels: ['En attente', 'En cours', 'Terminé', 'Annulé'],
+    datasets: [{
+      label: 'Événements',
+      data: [0, 0, 0, 0],
+      backgroundColor: ['#f39c12', '#27ae60', '#95a5a6', '#c0392b']
+    }]
+  });
+  chartOptions: ChartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {position: 'bottom'}
+    }
+  };
 
-
-
-
+  constructor() {
+    Chart.register(...registerables);
+  }
 
   ngOnInit(): void {
     this.loadStats()
@@ -75,22 +100,19 @@ export class Dashboard implements OnInit {
       events: this.eventService.getAll(),
       articles: this.article.getAll(),
       users: this.user.getAll()
-
-
-
     }).subscribe({
-      next: ({ events, articles, users }) => {
+      next: ({events, articles, users}) => {
         //event
         this.totalEvents.set(events.length);
         this.upcomingEvents.set(
-          events.filter(e => e.status === EventStatus.EnAttente).length
+         events.filter(e => e.status === EventStatus.EnAttente).length
         );
         this.ongoingEvents.set(
-          events.filter(e => e.status === EventStatus.EnCours).length
+         events.filter(e => e.status === EventStatus.EnCours).length
         );
         const next = events
-          .filter(e => e.status === EventStatus.EnAttente)
-          .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())[0];
+         .filter(e => e.status === EventStatus.EnAttente)
+         .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())[0];
         this.nextEvent.set(next ?? null);
 
         //articles
@@ -101,12 +123,34 @@ export class Dashboard implements OnInit {
         this.users.set(users)
         this.usersOnSite.set(users.length);
         const effective = users
-          .filter(u => u.isMembershipUpToDate).length;
+         .filter(u => u.isMembershipUpToDate).length;
         this.effectivesUsersOnSite.set(effective ?? null)
 
+        //charts
+        this.memberChartData.set({
+          labels: ['Membres Effectifs', 'Membres Normaux'],
+          datasets: [{
+            data: [effective, users.length - effective],
+            backgroundColor: ['#2D6A4F', '#95c4a1']
+          }]
+        });
+
+        this.eventChartData.set({
+          labels: ['En attente', 'En cours', 'Terminé', 'Annulé'],
+          datasets: [{
+            label: 'Événements',
+            data: [
+              events.filter(e => e.status === EventStatus.EnAttente).length,
+              events.filter(e => e.status === EventStatus.EnCours).length,
+              events.filter(e => e.status === EventStatus.Termine).length,
+              events.filter(e => e.status === EventStatus.Annule).length
+            ],
+            backgroundColor: ['#f39c12', '#27ae60', '#95a5a6', '#c0392b']
+          }]
+        });
       },
       error: (err) => {
-        this.snackBar.open('Erreur lors du chargement des statistiques.', 'Fermer', { duration: 4000 });
+        this.snackBar.open('Erreur lors du chargement des statistiques.', 'Fermer', {duration: 4000});
       }
     });
   }
@@ -146,8 +190,8 @@ export class Dashboard implements OnInit {
       next: (config) => {
         this.siteConfigService.config.set(config);
         this.snackBar.open(
-          config.isMaintenanceMode ? 'Site en maintenance !' : 'Site en ligne !',
-          'Fermer', {duration: 3000}
+         config.isMaintenanceMode ? 'Site en maintenance !' : 'Site en ligne !',
+         'Fermer', {duration: 3000}
         );
       },
       error: (err) => this.snackBar.open(err.error?.message ?? 'Erreur.', 'Fermer', {duration: 4000})

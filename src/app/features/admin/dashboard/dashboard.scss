@@ -330,3 +330,27 @@
   }
 }
 
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 32px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.chart-card {
+  border-radius: 12px !important;
+  background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%) !important;
+
+  mat-card-title {
+    color: white !important;
+  }
+
+  canvas {
+    max-height: 300px;
+  }
+}
+

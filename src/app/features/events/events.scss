@@ -10,6 +10,7 @@
   font-size: 1.8rem;
   font-weight: 600;
   margin-bottom: 24px;
+  font-family: 'Playfair Display', serif;
 }
 
 .loading-container {
@@ -79,6 +80,7 @@
   flex: 0 0 calc(20% - 20px);
   scroll-snap-align: start;
   box-sizing: border-box;
+  font-family: 'Playfair Display', serif;
 
   mat-card-content {
     flex: 1;
@@ -106,7 +108,7 @@
     padding: 0.4rem;
     border-radius: 16px;
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(20, 20, 20, 0.5));
-    font-family: 'Nunito', sans-serif;
+    font-family: 'Playfair Display', serif ;
   }
 
   .event-details {
@@ -119,6 +121,7 @@
     padding: 0.4rem;
     border-radius: 16px;
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(20, 20, 20, 0.5));
+    font-family: "Playfair Display", serif ;
   }
 
   .detail-item {
@@ -147,6 +150,7 @@
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(20, 20, 20, 0.5));
     background-size: 10px;
     margin-top: 0.1rem;
+    font-family: 'Playfair Display', serif ;
   }
 
   mat-card-header {
