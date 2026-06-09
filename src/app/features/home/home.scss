@@ -1,11 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Nunito:wght@400;600;700&display=swap');
 
 .home-container {
-  max-height: 700px;
+  height: calc(100vh - 100px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-  margin: 100px auto;
+  margin: 0 auto;
   font-family: 'Playfair Display', serif;
   font-size: 1.4rem;
 }
@@ -16,7 +20,7 @@
   align-items: center;
   min-height: auto;
   background: rgba(0, 0, 0, 0.3);
-  margin-left: 8px;
+  margin-left: 0px;
   border-radius: 16px;
   padding: 20px;
   width: 100%;
