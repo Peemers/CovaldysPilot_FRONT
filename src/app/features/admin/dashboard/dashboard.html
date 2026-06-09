@@ -41,6 +41,16 @@
       </mat-card-content>
     </mat-card>
 
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <mat-icon class="stat-icon ongoing">text_rotation_none</mat-icon>
+        <div class="stat-info">
+          <span class="stat-number">{{ articleOnSite() }}</span>
+          <span class="stat-label">Articles sur le site</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
   </div>
 
   <!-- Actions rapides -->
@@ -60,6 +70,47 @@
         Gérer les articles
       </a>
     </div>
+  </div>
+
+  <!-- Gestion des catégories -->
+  <div class="categories-section">
+    <h2>Catégories d'événements</h2>
+    <mat-card class="config-card">
+      <mat-card-content>
+        <mat-icon class="config-icon">category</mat-icon>
+        <div class="config-info">
+          <span class="config-label">Catégories existantes</span>
+          <div class="categories-list">
+            @for (category of categories(); track category.id) {
+              <mat-chip>
+                {{ category.name }}
+                <button matChipRemove
+                        (click)="deleteCategory(category.id)"
+                        matTooltip="Supprimer">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip>
+            }
+            @if (categories().length === 0) {
+              <p style="color: rgba(255,255,255,0.6)">Aucune catégorie</p>
+            }
+          </div>
+          <div class="create-category">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Nouvelle catégorie</mat-label>
+              <input matInput
+                     [ngModel]="newCategoryName()"
+                     (ngModelChange)="newCategoryName.set($event)"
+                     placeholder="Ex: Concert, Conférence...">
+            </mat-form-field>
+            <button mat-raised-button (click)="createCategory()">
+              <mat-icon>add</mat-icon>
+              Créer
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
 
   <!-- Configuration du site -->
@@ -111,47 +162,6 @@
         </mat-card-content>
       </mat-card>
     </div>
-  </div>
-
-  <!-- Gestion des catégories -->
-  <div class="categories-section">
-    <h2>Catégories d'événements</h2>
-    <mat-card class="config-card">
-      <mat-card-content>
-        <mat-icon class="config-icon">category</mat-icon>
-        <div class="config-info">
-          <span class="config-label">Catégories existantes</span>
-          <div class="categories-list">
-            @for (category of categories(); track category.id) {
-              <mat-chip>
-                {{ category.name }}
-                <button matChipRemove
-                        (click)="deleteCategory(category.id)"
-                        matTooltip="Supprimer">
-                  <mat-icon>cancel</mat-icon>
-                </button>
-              </mat-chip>
-            }
-            @if (categories().length === 0) {
-              <p style="color: rgba(255,255,255,0.6)">Aucune catégorie</p>
-            }
-          </div>
-          <div class="create-category">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Nouvelle catégorie</mat-label>
-              <input matInput
-                     [ngModel]="newCategoryName()"
-                     (ngModelChange)="newCategoryName.set($event)"
-                     placeholder="Ex: Concert, Conférence...">
-            </mat-form-field>
-            <button mat-raised-button (click)="createCategory()">
-              <mat-icon>add</mat-icon>
-              Créer
-            </button>
-          </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
   </div>
 
   <!-- Prochain événement -->

@@ -18,6 +18,8 @@ import {ReviewResponseDto} from '../../shared/models/review.models';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
+import {WeatherService} from "../../shared/services/weather";
+import {WeatherData} from "../../shared/models/weather.models";
 
 @Component({
   selector: 'app-event-detail',
@@ -43,6 +45,7 @@ export class EventDetail implements OnInit {
   private readonly reviewService = inject(ReviewService);
   private readonly snackBar = inject(MatSnackBar);
   readonly authService = inject(AuthService);
+  private readonly weatherService = inject(WeatherService);
 
   event = signal<EventResponseDto | null>(null);
   isLoading = signal<boolean>(true);
@@ -53,6 +56,9 @@ export class EventDetail implements OnInit {
   newReviewNote = signal<number>(0);
   newReviewComment = signal<string>('');
   userReview = signal<ReviewResponseDto | null>(null);
+
+  weather = signal<WeatherData | null>(null);
+  weatherError = signal<boolean>(false);
 
   readonly EventStatus = EventStatus
 
@@ -71,6 +77,9 @@ export class EventDetail implements OnInit {
         }
         if (event.status === EventStatus.Termine) {
           this.loadReviews(event.id);
+        }
+        if (event.location){
+          this.loadWeather(event.location, event.startDate)
         }
         this.isLoading.set(false);
       },
@@ -255,6 +264,13 @@ export class EventDetail implements OnInit {
         this.snackBar.open(err.error?.message ?? 'Erreur lors de la validation.', 'Fermer', {duration: 4000});
       }
     });
+  }
+
+  loadWeather(location: string, date: string): void{
+    this.weatherService.getWeatherForEvent(location, date).subscribe({
+      next: (data) => this.weather.set(data),
+      error: (err) => {this.weatherError.set(true)}
+    })
   }
 
   getStars(note: number): string {

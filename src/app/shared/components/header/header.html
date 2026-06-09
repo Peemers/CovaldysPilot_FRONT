@@ -4,18 +4,18 @@
   <div class="logo" routerLink="/">
     <img src="/logo2.jpg" alt="Logo Covaldys" class="logo-img" width="128" height="128">
     <div class="logo-text">
-<!--      <strong>Covaldys</strong>-->
-<!--      <small>COnservation de la VAlée D'Yves</small>-->
+      <strong>Covaldys</strong>
+      <small>COnservation de la VAlée D'Yves</small>
     </div>
   </div>
 
   <!-- Navigation visiteur -->
   @if (!authService.isLoggedIn()) {
     <nav>
-      <a mat-button routerLink="/">Home</a>
-      <a mat-button routerLink="/articles">Articles</a>
-      <a mat-button routerLink="/events">Évènements à venir</a>
-      <a mat-button routerLink="/contact">Contact</a>
+      <a mat-button routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Home</a>
+      <a mat-button routerLink="/articles" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Articles</a>
+      <a mat-button routerLink="/events" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Évènements à venir</a>
+      <a mat-button routerLink="/contact" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Contact</a>
     </nav>
   }
 
@@ -30,7 +30,7 @@
   @if (authService.isLoggedIn()) {
     <div class="user-info-header">
     <span class="membership-badge">
-      @if (authService.isMembershipUpToDate()) { ✅ Effectif }
+      @if (authService.isMembershipUpToDate()) { ❤️ Membre effectif ❤️ }
       @else if (authService.isAdmin()){Admin}
       @else { Membre }
     </span>
@@ -42,6 +42,13 @@
   <div class="social-icons">
     <a href="https://www.facebook.com/covaldys" target="_blank">
       <mat-icon>facebook</mat-icon>
+    </a>
+    <a href="https://www.instagram.com/covaldys" target="_blank">
+      <mat-icon>
+        <svg viewBox="0 0 24 24" fill="currentColor" style="width: 24px; height: 24px;">
+          <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8A3.6 3.6 0 0 0 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6A3.6 3.6 0 0 0 16.4 4H7.6m4.4 3a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m4.75-.75a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5Z"/>
+        </svg>
+      </mat-icon>
     </a>
   </div>
 

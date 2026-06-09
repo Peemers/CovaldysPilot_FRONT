@@ -3,7 +3,7 @@ import {MatSidenav} from '@angular/material/sidenav';
 import {MatToolbar} from '@angular/material/toolbar';
 import {MatIcon} from '@angular/material/icon';
 import {MatButton} from '@angular/material/button';
-import {RouterLink, Router, NavigationEnd} from '@angular/router';
+import {RouterLink, Router, NavigationEnd, RouterLinkActive} from '@angular/router';
 import {filter} from 'rxjs/operators';
 import {AuthService} from '../../services/auth';
 
@@ -14,6 +14,7 @@ import {AuthService} from '../../services/auth';
     MatIcon,
     MatButton,
     RouterLink,
+    RouterLinkActive,
   ],
   templateUrl: './header.html',
   styleUrl: './header.scss',

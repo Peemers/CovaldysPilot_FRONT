@@ -3,16 +3,17 @@
   justify-content: center;
   align-items: center;
   min-height: calc(100vh - 100px);
-  //background-color: var(--covaldys-bg);
   padding: 20px;
+  margin: 25px auto;
 }
 
 .login-card {
   width: 100%;
   max-width: 420px;
   padding: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12) !important;
+  box-shadow: 18px 18px 32px rgba(0, 0, 0, 0.4) !important;
   border-radius: 12px !important;
+  border: solid 3px #7B3F00;
 
   mat-card-header {
     display: flex;
@@ -38,7 +39,7 @@
     }
 
     mat-card-subtitle {
-      color: #666;
+      color: var(--covaldys-green-dark);
     }
   }
 
@@ -79,7 +80,7 @@
     justify-content: center;
     gap: 8px;
     padding-top: 8px;
-    color: #666;
+    color: var(--covaldys-green-dark);
   }
   .connection {
     margin-left: 23px;

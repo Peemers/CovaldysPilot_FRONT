@@ -1,5 +1,5 @@
 <div class="home-container">
-  @if (!authService.isLoggedIn()){
+  @if (!authService.isLoggedIn()) {
     <div class="hero-section">
       <div class="hero-content">
         <h1>Protégeons ensemble le coeur sauvage de notre région</h1>
@@ -15,11 +15,11 @@
           de notre réussite.
         </p>
         <div class="hero-action">
-          <a mat-raised-button routerLink="/register">
+          <a mat-raised-button routerLink="/register" class="btn-three">
             <mat-icon>person_add</mat-icon>
             Vous inscrire
           </a>
-          <a mat-stroked-button routerLink="/login">
+          <a mat-raised-button routerLink="/login">
             <mat-icon>login</mat-icon>
             Déjà inscrit ? Connectez-vous
           </a>
@@ -28,14 +28,14 @@
     </div>
   }
 
-  @if(authService.isLoggedIn()){
+  @if (authService.isLoggedIn()) {
     <div class="member-section">
       <div class="welcome-card">
         <mat-icon class="welcome-icon">eco</mat-icon>
-        <h2>Bienvenue, {{authService.user()?.firstName}} !</h2>
+        <h2>Bienvenue, {{ authService.user()?.firstName }} !</h2>
         <p>Heureux de vous revoir sur la plateforme Covaldys.</p>
 
-        @if (!authService.isMembershipUpToDate() && !authService.isAdmin()){
+        @if (!authService.isMembershipUpToDate() && !authService.isAdmin()) {
           <div class="membership-alert">
             <mat-icon>info</mat-icon>
             <span>Rejoignez l'aventure et soutenez Covaldys !</span>

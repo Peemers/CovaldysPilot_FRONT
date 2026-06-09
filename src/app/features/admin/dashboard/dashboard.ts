@@ -15,6 +15,11 @@ import {SiteConfigurationService} from '../../../shared/services/site-configurat
 import {CategoryService} from '../../../shared/services/category';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatTooltip} from '@angular/material/tooltip';
+import {ArticleService} from '../../../shared/services/article';
+import {ArticleResponseDto} from '../../../shared/models/article.models';
+import {forkJoin} from 'rxjs';
+import {UserService} from '../../../shared/services/user';
+import {UserResponseDto} from '../../../shared/models/user.models';
 
 @Component({
   selector: 'app-dashboard',
@@ -37,6 +42,8 @@ import {MatTooltip} from '@angular/material/tooltip';
 export class Dashboard implements OnInit {
   private readonly eventService = inject(EventService);
   private readonly categoryService = inject(CategoryService);
+  private readonly article = inject(ArticleService);
+  private readonly user = inject(UserService);
   readonly siteConfigService = inject(SiteConfigurationService)
   private readonly snackBar = inject(MatSnackBar);
 
@@ -47,6 +54,15 @@ export class Dashboard implements OnInit {
   alertMessage = signal<string>('')
   categories = signal<CategoryResponseDto[]>([]);
   newCategoryName = signal<string>('')
+  articles = signal<ArticleResponseDto[]>([]);
+  articleOnSite = signal(0)
+  users = signal<UserResponseDto[]>([]);
+  usersOnSite = signal (0)
+  effectivesUsersOnSite = signal(0)
+
+
+
+
 
   ngOnInit(): void {
     this.loadStats()
@@ -54,8 +70,17 @@ export class Dashboard implements OnInit {
   }
 
   loadStats(): void {
-    this.eventService.getAll().subscribe({
-      next: (events: EventResponseDto[]) => {
+    // forkJoin exécute les requêtes en parallèle et combine les résultats dans un tableau
+    forkJoin({
+      events: this.eventService.getAll(),
+      articles: this.article.getAll(),
+      users: this.user.getAll()
+
+
+
+    }).subscribe({
+      next: ({ events, articles, users }) => {
+        //event
         this.totalEvents.set(events.length);
         this.upcomingEvents.set(
           events.filter(e => e.status === EventStatus.EnAttente).length
@@ -63,11 +88,25 @@ export class Dashboard implements OnInit {
         this.ongoingEvents.set(
           events.filter(e => e.status === EventStatus.EnCours).length
         );
-
         const next = events
           .filter(e => e.status === EventStatus.EnAttente)
           .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())[0];
         this.nextEvent.set(next ?? null);
+
+        //articles
+        this.articles.set(articles);
+        this.articleOnSite.set(articles.length);
+
+        //users
+        this.users.set(users)
+        this.usersOnSite.set(users.length);
+        const effective = users
+          .filter(u => u.isMembershipUpToDate).length;
+        this.effectivesUsersOnSite.set(effective ?? null)
+
+      },
+      error: (err) => {
+        this.snackBar.open('Erreur lors du chargement des statistiques.', 'Fermer', { duration: 4000 });
       }
     });
   }
