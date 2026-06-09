@@ -49,14 +49,14 @@
 
 .card-logo {
   position: absolute;
-  bottom: 10px;
-  right: 18px;
+  bottom: 5px;
+  right: 10px;
   z-index: 2;
   opacity: 0.8;
 
   img {
-    width: 60px;
-    height: 60px;
+    width: 100px;
+    height: auto;
     border-radius: 50%;
   }
 }
@@ -77,6 +77,18 @@
     text-align: center;
     font-family: 'Playfair Display', serif
   }
+}
+
+.description-item{
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  font-family: "Playfair Display", serif;
+  font-size: 1.4rem;
+  text-align: center;
 }
 
 .info-item {

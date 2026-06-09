@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Nunito:wght@400;600;700&display=swap');
+
 .login-container {
   display: flex;
   justify-content: center;
@@ -5,6 +7,7 @@
   min-height: calc(100vh - 100px);
   padding: 20px;
   margin: 25px auto;
+
 }
 
 .login-card {
@@ -47,6 +50,7 @@
   .full-width {
     width: 100%;
     margin-bottom: 8px;
+    font-family: "Playfair Display", serif;
   }
 
   .error-message {
@@ -83,12 +87,42 @@
     padding-top: 8px;
     color: var(--covaldys-green-dark);
   }
-  .connection {
-    margin-left: 23px;
-  }
 }
 ::ng-deep {
   .mat-mdc-progress-spinner circle {
     stroke: white !important;
   }
 }
+
+.no-member{
+  font-family: "Playfair Display", serif;
+  color: #7B3F00;
+  font-size: 1.2rem;
+  margin-top: 20px;
+  a{
+    font-family: "Playfair Display", serif;
+    color: #7B3F00;
+    font-size: 1.2rem;
+  }
+}
+
+.connection {
+  font-family: "Playfair Display", serif;
+  text-align: center;
+  font-size: 1.7rem;
+  line-height: 1.8;
+}
+#connection2 {
+  font-family: "Playfair Display", serif;
+  text-align: center;
+  font-size: 1.7rem;
+  line-height: 1.8;
+  color: var(--covaldys-green-dark);
+  margin-bottom: 1.8rem;
+}
+
+mat-label{
+  font-family: "Playfair Display", serif;
+}
+
+
