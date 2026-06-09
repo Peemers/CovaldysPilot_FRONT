@@ -62,7 +62,7 @@ mat-toolbar {
     height: 100px;
     width: auto;
     border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    border: 3px solid #7B3F00;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
   }
 
@@ -125,7 +125,7 @@ nav {
 
     &.active-link {
       background-color: rgba(255, 255, 255, 0.25) !important;
-      border: 1px solid rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(123, 63, 0, 1);
     }
   }
 }
@@ -141,14 +141,14 @@ nav {
     padding: 5px 12px;
     border-radius: 20px;
     font-size: 0.82rem;
-    border: 1px solid rgba(255, 255, 255, 0.35);
     font-family: nunito, sans-serif;
     font-weight: 600;
     letter-spacing: 0.3px;
     transition: background-color 0.2s;
+    border: #7B3F00 solid 1px;
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.25);
+      background-color: rgba(123, 63, 0, 0.4);
     }
   }
 
@@ -178,9 +178,10 @@ nav {
     background-color: rgba(255, 255, 255, 0.1);
     transition: all 0.2s ease;
     padding: 0;
+    border: 1px solid rgba(123, 63, 0, 1);
 
     &:hover {
-      background-color: rgba(255, 255, 255, 0.25) !important;
+      background-color: rgba(123, 63, 0, 0.4) !important;
       transform: translateY(-2px);
     }
   }
@@ -264,4 +265,9 @@ button[mat-icon-button] {
     margin-right: 40px;
     display: none;
   }
+}
+
+.active-link{
+  background-color: rgba(0, 0, 0, 0.30) !important;
+  color: white !important;
 }

@@ -1,12 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Nunito:wght@400;600;700&display=swap');
 
 .home-container {
-  min-height: calc(100vh - 100px);
+  max-height: 400px;
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
-  margin: 50px auto;
+  margin: 175px auto;
   font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
 }
 
 .hero-section {
@@ -26,13 +27,13 @@
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 
   h1 {
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 20px;
   }
 
   p {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     line-height: 1.8;
     margin-bottom: 16px;
   }
@@ -63,12 +64,13 @@
   padding: 48px;
   text-align: center;
   box-shadow: 0 8px 32px 32px rgba(0, 0, 0, 0.30);
+  border: solid 3px #7B3F00;
 
   .welcome-icon {
     font-size: 4rem;
     width: 4rem;
     height: 4rem;
-    color: var(--covaldys-green);
+    color: #7B3F00;
     margin-bottom: 16px;
   }
 
@@ -98,3 +100,9 @@
     }
   }
 }
+
+.btn-three{
+  color: #7B3F00;
+}
+
+

@@ -7,6 +7,7 @@
   expiresAt: string;
   firstName: string;
   lastName?: string;
+  isMembershipUpToDate: boolean;
 }
 
 export interface LoginRequest {

@@ -13,8 +13,7 @@
   padding: 20px;
   box-shadow: 18px 18px 32px rgba(0, 0, 0, 0.4) !important;
   border-radius: 12px !important;
-  //background-image: url("/cardSplash.svg");
-  opacity: 0.8;
+  border: solid 3px #7B3F00;
 
   mat-card-header {
     display: flex;
@@ -40,7 +39,7 @@
     }
 
     mat-card-subtitle {
-      color: white;
+      color: var(--covaldys-green-dark);
     }
   }
 
@@ -81,7 +80,7 @@
     justify-content: center;
     gap: 8px;
     padding-top: 8px;
-    color: white;
+    color: var(--covaldys-green-dark);
   }
   .connection {
     margin-left: 23px;

@@ -85,7 +85,7 @@ export class AuthService {
         userId: payload.sub,
         pseudo: payload.pseudo,
         role: payload.role,
-        isMembershipUpToDate: payload.isMembershipUpToDate ?? false, //todo regarder la reponse token ?
+        isMembershipUpToDate: payload.isMembershipUpToDate === 'true',
         firstName: payload.firstname,
         lastName: payload.lastname,
       });
@@ -103,7 +103,7 @@ export class AuthService {
       userId: response.userId,
       pseudo: response.pseudo,
       role: response.role,
-      isMembershipUpToDate: false,
+      isMembershipUpToDate: response.isMembershipUpToDate,
       firstName: response.firstName,
       lastName: response.lastName,
     });

@@ -21,6 +21,7 @@
   padding: 20px;
   box-shadow: 0 25px 32px rgba(0, 0, 0, 0.5) !important;
   border-radius: 12px;
+  border: 3px solid #7B3F00;
 
   mat-card-header {
     display: flex;
@@ -82,8 +83,10 @@
 
 .map-card{
   margin-top: 36px;
+  border: solid 3px #7B3F00;
 }
 .info-card{
+  border: solid 3px #7B3F00;
   mat-card-title{
     color: black;
     text-decoration: underline 2px var(--covaldys-green-dark);
@@ -95,12 +98,23 @@
   }
 }
 
+.info-item2{
+  display: flex;
+  padding: 8px;
+  line-height: 1.5rem;
+  font-size: 1.2rem;
+  color: #7B3F00;
+  span{
+    color: var(--covaldys-green-dark)
+  };
+}
+
 .info-item{
   display: flex;
   padding: 8px;
   line-height: 1.5rem;
   font-size: 1.2rem;
-  color: var(--covaldys-green-dark);
+  color: #7B3F00;
   a{
     text-decoration: none;
     color: var(--covaldys-green-dark);

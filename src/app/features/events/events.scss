@@ -70,7 +70,7 @@
   border-radius: 12px !important;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  border: 1px solid black;
+  border: 2px solid #7B3F00;
   min-height: 420px;
   background-size: cover !important;
   background-position: center !important;
@@ -102,7 +102,7 @@
     font-size: 1.0rem;
     line-height: 1.5;
     margin: 12px 0;
-    border: solid 1px #979797;
+    border: solid 1px #7B3F00;
     padding: 0.4rem;
     border-radius: 16px;
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(20, 20, 20, 0.5));
@@ -115,7 +115,7 @@
     flex-direction: column;
     gap: 8px;
     margin: 12px 0;
-    border: solid 1px #979797;
+    border: solid 1px #7B3F00;
     padding: 0.4rem;
     border-radius: 16px;
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(20, 20, 20, 0.5));
@@ -169,11 +169,13 @@
 
 #maticon {
   font-size: 1.2rem;
+  color: #7B3F00;
 }
 
 #details {
   background-color: white;
   margin-left: 1rem;
+  color: #7B3F00;
 }
 
 mat-card-actions {
@@ -272,4 +274,7 @@ mat-card-actions {
   #details {
     margin-top: -1rem;
   }
+}
+
+mat-raised-button{
 }
