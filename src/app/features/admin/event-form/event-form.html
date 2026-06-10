@@ -114,6 +114,33 @@
             </mat-checkbox>
           </div>
 
+          <!-- Image de couverture -->
+          <div class="image-upload-container">
+            <h3>Image de couverture (optionnel)</h3>
+
+            <!-- Prévisualisation -->
+            @if (previewUrl()) {
+              <div class="image-preview">
+                <img [src]="previewUrl()" alt="Prévisualisation">
+              </div>
+            }
+
+            <!-- Bouton upload -->
+            <button mat-stroked-button type="button" (click)="fileInput.click()">
+              <mat-icon>upload</mat-icon>
+              {{ selectedFile() ? 'Changer l\'image' : 'Choisir une image' }}
+            </button>
+
+            @if (selectedFile()) {
+              <span class="file-name">{{ selectedFile()!.name }}</span>
+            }
+
+            <!-- Input caché -->
+            <input #fileInput type="file" accept="image/jpeg,image/png,image/webp"
+                   style="display:none"
+                   (change)="onFileSelected($event)">
+          </div>
+
           <!-- Submit -->
           <div class="submit-container">
             <button mat-raised-button type="submit"

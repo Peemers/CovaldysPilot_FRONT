@@ -5,7 +5,7 @@ import {EventService} from "../../../shared/services/event";
 import {MatSnackBar, MatSnackBarModule} from "@angular/material/snack-bar";
 import {CategoryResponseDto, CreateEventRequestDto, UpdateEventRequestDto} from "../../../shared/models/event.models";
 import {CategoryService} from "../../../shared/services/category";
-import { MatFormFieldModule } from "@angular/material/form-field";
+import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
@@ -45,6 +45,9 @@ export class EventForm implements OnInit {
   isEditMode = signal(false)
   eventId = signal<string | null>(null)
   categories = signal<CategoryResponseDto[]>([])
+  selectedFile = signal<File | null>(null);
+  previewUrl = signal<string | null>(null);
+  isUploadingImage = signal(false);
 
   ngOnInit(): void {
     this.buildForm();
@@ -109,6 +112,7 @@ export class EventForm implements OnInit {
   }
 
   onSubmit(): void {
+
     if (this.eventForm.invalid) return;
 
     this.isLoading.set(true);
@@ -118,6 +122,9 @@ export class EventForm implements OnInit {
       const dto: UpdateEventRequestDto = formValue as UpdateEventRequestDto;
       this.eventService.update(this.eventId()!, dto).subscribe({
         next: () => {
+          if (this.selectedFile()) {
+            this.uploadImage(this.eventId()!);
+          }
           this.snackBar.open('Événement modifié !', 'Fermer', {duration: 3000});
           void this.router.navigate(['/admin/events']);
         },
@@ -129,7 +136,10 @@ export class EventForm implements OnInit {
     } else {
       const dto: CreateEventRequestDto = formValue as CreateEventRequestDto;
       this.eventService.create(dto).subscribe({
-        next: () => {
+        next: (event) => {
+          if (this.selectedFile()) {
+            this.uploadImage(event.id); // 👈 upload image si sélectionnée
+          }
           this.snackBar.open('Événement créé !', 'Fermer', {duration: 3000});
           void this.router.navigate(['/admin/events']);
         },
@@ -139,5 +149,49 @@ export class EventForm implements OnInit {
         }
       });
     }
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
+
+    const file = input.files[0];
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+
+    if (!allowedTypes.includes(file.type)) {
+      this.snackBar.open('Format non supporté. JPG, PNG ou WebP uniquement.', 'Fermer', {duration: 3000});
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      this.snackBar.open('Image trop lourde. Maximum 10MB.', 'Fermer', {duration: 3000});
+      return;
+    }
+
+    this.selectedFile.set(file);
+
+    const reader = new FileReader();
+    reader.onload = (e) => this.previewUrl.set(e.target?.result as string);
+    reader.readAsDataURL(file);
+  }
+
+  uploadImage(eventId: string): void {
+    const file = this.selectedFile();
+    if (!file) return;
+
+    this.isUploadingImage.set(true);
+    const formData = new FormData();
+    formData.append('file', file);
+
+    this.eventService.uploadCoverImage(eventId, formData).subscribe({
+      next: () => {
+        this.snackBar.open('Image uploadée !', 'Fermer', {duration: 3000});
+        this.isUploadingImage.set(false);
+      },
+      error: () => {
+        this.snackBar.open('Erreur lors de l\'upload.', 'Fermer', {duration: 3000});
+        this.isUploadingImage.set(false);
+      }
+    });
   }
 }
