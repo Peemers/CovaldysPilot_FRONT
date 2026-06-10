@@ -332,10 +332,13 @@
 
 .charts-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 18px;
   margin-bottom: 32px;
 
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
   }
@@ -344,6 +347,15 @@
 .chart-card {
   border-radius: 12px !important;
   background: linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%) !important;
+  mat-card-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+
+    canvas {
+      width: 100% !important;
+    }
+  }
 
   mat-card-title {
     color: white !important;
@@ -351,6 +363,19 @@
 
   canvas {
     max-height: 300px;
+  }
+}
+
+.article-stat-card {
+  mat-card-content {
+    flex-direction: column !important;
+  }
+
+  .stat-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 8px;
   }
 }
 

@@ -9,7 +9,7 @@ import {DatePipe} from '@angular/common';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
-import {MatSlideToggle, MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {FormsModule} from '@angular/forms';
 import {SiteConfigurationService} from '../../../shared/services/site-configuration';
 import {CategoryService} from '../../../shared/services/category';
@@ -54,6 +54,7 @@ export class Dashboard implements OnInit {
   totalEvents = signal(0)
   upcomingEvents = signal(0)
   ongoingEvents = signal(0)
+  fishesEvents = signal(0)
   nextEvent = signal<EventResponseDto | null>(null);
   alertMessage = signal<string>('')
   categories = signal<CategoryResponseDto[]>([]);
@@ -63,6 +64,7 @@ export class Dashboard implements OnInit {
   users = signal<UserResponseDto[]>([]);
   usersOnSite = signal(0)
   effectivesUsersOnSite = signal(0)
+  totalArticleViews = signal(0)
   memberChartData = signal<ChartData<'pie'>>({
     labels: ['Membres Effectifs', 'Membres Normaux'],
     datasets: [{
@@ -78,11 +80,67 @@ export class Dashboard implements OnInit {
       backgroundColor: ['#f39c12', '#27ae60', '#95a5a6', '#c0392b']
     }]
   });
+  memberGrowthChartData = signal<ChartData<'line'>>({
+    labels: [],
+    datasets: [{
+      label: 'Membres cumulés',
+      data: [],
+      borderColor: '#7dda5a',
+      backgroundColor: 'rgba(125, 218, 90, 0.2)',
+      fill: true,
+      tension: 0.4
+    }]
+  });
+  topArticlesChartData = signal<ChartData<'bar'>>({
+    labels: [],
+    datasets: [{
+      data: [],
+      backgroundColor: '#7dda5a'
+    }]
+  });
+
   chartOptions: ChartOptions = {
     responsive: true,
+    indexAxis: 'y',
     plugins: {
       legend: {position: 'bottom'}
+    },
+    scales: {
+      x: {display: false},
+      y: {ticks: {color: 'white', font: {size: 10}}}
+    },
+  };
+  articleChartOptions: ChartOptions = {
+    responsive: true,
+    indexAxis: 'y',
+    plugins: {
+      legend: {display: false}
+    },
+    scales: {
+      x: {display: false},
+      y: {ticks: {color: 'white', font: {size: 10}}}
+    },
+    datasets: {
+      bar: {
+        barThickness: 60,
+        maxBarThickness: 25
+      }
     }
+  };
+  eventChartOptions: ChartOptions = {
+    responsive: true,
+    indexAxis: 'y',
+    plugins: {
+      legend: {display: false}
+    },
+    scales: {
+      x: {display: false},
+      y: {
+        ticks: {
+          color: 'white',
+        }
+      }
+    },
   };
 
   constructor() {
@@ -105,25 +163,30 @@ export class Dashboard implements OnInit {
         //event
         this.totalEvents.set(events.length);
         this.upcomingEvents.set(
-         events.filter(e => e.status === EventStatus.EnAttente).length
+          events.filter(e => e.status === EventStatus.EnAttente).length
         );
         this.ongoingEvents.set(
-         events.filter(e => e.status === EventStatus.EnCours).length
+          events.filter(e => e.status === EventStatus.EnCours).length
+        );
+        this.fishesEvents.set(
+          events.filter(e => e.status === EventStatus.Termine).length
         );
         const next = events
-         .filter(e => e.status === EventStatus.EnAttente)
-         .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())[0];
+          .filter(e => e.status === EventStatus.EnAttente)
+          .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())[0];
         this.nextEvent.set(next ?? null);
 
         //articles
+        const totalViews = articles.reduce((sum, a) => sum + a.viewCount, 0);
         this.articles.set(articles);
         this.articleOnSite.set(articles.length);
+        this.totalArticleViews.set(totalViews);
 
         //users
         this.users.set(users)
         this.usersOnSite.set(users.length);
         const effective = users
-         .filter(u => u.isMembershipUpToDate).length;
+          .filter(u => u.isMembershipUpToDate).length;
         this.effectivesUsersOnSite.set(effective ?? null)
 
         //charts
@@ -135,21 +198,68 @@ export class Dashboard implements OnInit {
           }]
         });
 
-        this.eventChartData.set({
-          labels: ['En attente', 'En cours', 'Terminé', 'Annulé'],
+        const membersByMonth: Record<string, number> = {};
+        users
+          .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
+          .forEach(u => {
+            const month = new Date(u.createdAt).toLocaleDateString('fr-FR', {
+              month: 'short',
+              year: 'numeric'
+            });
+            membersByMonth[month] = (membersByMonth[month] || 0) + 1;
+          });
+
+        let cumul = 0;
+        const labels = Object.keys(membersByMonth);
+        const data = labels.map(label => {
+          cumul += membersByMonth[label];
+          return cumul;
+        });
+
+        this.memberGrowthChartData.set({
+          labels,
           datasets: [{
-            label: 'Événements',
-            data: [
-              events.filter(e => e.status === EventStatus.EnAttente).length,
-              events.filter(e => e.status === EventStatus.EnCours).length,
-              events.filter(e => e.status === EventStatus.Termine).length,
-              events.filter(e => e.status === EventStatus.Annule).length
-            ],
-            backgroundColor: ['#f39c12', '#27ae60', '#ffffff', '#c0392b']
+            label: 'Membres cumulés',
+            data,
+            borderColor: '#7dda5a',
+            backgroundColor: 'rgba(125, 218, 90, 0.2)',
+            fill: true,
+            tension: 0.4
+          }]
+        });
+
+        const top5 = [...articles]
+          .sort((a, b) => b.viewCount - a.viewCount)
+          .slice(0, 5);
+
+        this.topArticlesChartData.set({
+          labels: top5.map(a => a.title.slice(0, 20) + '...'),
+          datasets: [{
+            data: top5.map(a => a.viewCount),
+            backgroundColor: '#7dda5a'
+          }]
+        });
+        const eventsByCategory: Record<string, number> = {};
+        events.forEach(e => {
+          e.categories.forEach(c => {
+            eventsByCategory[c.name] = (eventsByCategory[c.name] || 0) + 1;
+          });
+        });
+
+        const sortedCategories = Object.entries(eventsByCategory)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 5);
+
+        this.eventChartData.set({
+          labels: sortedCategories.map(([name]) => name),
+          datasets: [{
+            data: sortedCategories.map(([, count]) => count),
+            backgroundColor: ['#f39c12', '#27ae60', '#95a5a6', '#c0392b', '#3498db', '#9b59b6'],
+            barThickness: 15
           }]
         });
       },
-      error: (err) => {
+      error: (_) => {
         this.snackBar.open('Erreur lors du chargement des statistiques.', 'Fermer', {duration: 4000});
       }
     });
@@ -190,8 +300,8 @@ export class Dashboard implements OnInit {
       next: (config) => {
         this.siteConfigService.config.set(config);
         this.snackBar.open(
-         config.isMaintenanceMode ? 'Site en maintenance !' : 'Site en ligne !',
-         'Fermer', {duration: 3000}
+          config.isMaintenanceMode ? 'Site en maintenance !' : 'Site en ligne !',
+          'Fermer', {duration: 3000}
         );
       },
       error: (err) => this.snackBar.open(err.error?.message ?? 'Erreur.', 'Fermer', {duration: 4000})
