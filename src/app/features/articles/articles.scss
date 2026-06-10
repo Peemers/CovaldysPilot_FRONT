@@ -1,6 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Nunito:wght@400;600;700&display=swap');
+
 .articles-container {
   padding: 24px;
-  max-width: 1400px;
+  max-width: 100%;
   margin: 45px auto;
 }
 
@@ -43,9 +45,20 @@
 }
 
 .articles-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  display: flex;
+  flex-wrap: nowrap;
   gap: 24px;
+  padding: 12px 4px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  scrollbar-width: none;
 }
 
 .article-card {
@@ -55,23 +68,38 @@
   border: 3px solid #7B3F00;
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(20, 20, 20, 0.5)),
   url('/bg_card.png') center/cover no-repeat;
-
   &:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
   }
+  display: flex;
+  flex-direction: column !important;
+  flex: 0 0 calc(20% - 20px);
+  scroll-snap-align: start;
+  box-sizing: border-box;
+  min-height: 420px;
+  font-family: "Playfair Display", serif;
+
+  mat-card-content {
+    flex: 1;
+  }
+
+  mat-card-actions {
+    margin-top: auto;
+  }
 
   mat-card-title {
     color: white;
-    text-decoration: underline;
     border: 2px solid #7B3F00;
     border-radius: 24px;
     font-size: 1.4rem;
     margin-bottom: 1rem;
-    padding: 0.7rem;
+    padding: 1.2rem;
     text-align: center;
     justify-content: center;
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(20, 20, 20, 0.5));
+    font-family: "Playfair Display", serif;
+    text-shadow: 0 3px 6px rgba(123, 63, 0, 0.4);
   }
 
   mat-card-subtitle {
@@ -81,6 +109,12 @@
     gap: 4px;
     flex-wrap: wrap;
     font-size: 0.85rem;
+    font-family: "Playfair Display", serif;
+    text-shadow: 0 3px 6px rgba(123, 63, 0, 0.4);
+    border: #7B3F00 2px solid;
+    padding: 8px;
+    border-radius: 15px;
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(20, 20, 20, 0.5));
 
     mat-icon {
       font-size: 1rem;
@@ -95,10 +129,11 @@
     line-height: 1.6;
     margin: 12px 0;
     border: solid 1px #7B3F00;
-    padding: 0.4rem;
+    padding: 1rem;
     border-radius: 16px;
     text-align: center;
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(20, 20, 20, 0.5));
+    text-shadow: 0 3px 6px rgba(123, 63, 0, 0.5 );
   }
 }
 
@@ -115,11 +150,11 @@ mat-card-actions {
   padding: 16px !important;
 
   a {
-    background-color: rgba(27, 67, 50, 0.8) !important;
-    color: white !important;
+    background-color: white !important;
+    color: #7B3F00 !important;
 
     mat-icon {
-      color: white !important;
+      color: #7B3F00 !important;
     }
   }
 }
@@ -131,5 +166,34 @@ mat-card-header {
 
 .read-more{
   color: #7B3F00;
-  background-color: #7B3F00;
+  background-color: white;
+  font-family: "Playfair Display", serif;
 }
+
+@media (max-width: 768px) {
+  .articles-grid {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 24px;
+    padding: 12px 4px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    scrollbar-width: none;
+  }
+
+  .article-card {
+    flex: 0 0 300px;
+    scroll-snap-align: start;
+    box-sizing: border-box;
+    min-height: 420px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
+  }
+}
+

@@ -5,6 +5,7 @@
   overflow: hidden;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  text-shadow: 0 3px 6px rgba(123, 63, 0, 0.5);
 
   &::-webkit-scrollbar {
     display: none;
@@ -20,6 +21,7 @@
   color: white;
   min-height: 80px;
   opacity: 0.85;
+  text-shadow: 0 3px 6px rgba(123, 63, 0, 0.5);
 
   .toggle-btn {
     color: white !important;

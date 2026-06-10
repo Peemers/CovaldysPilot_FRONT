@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../../shared/services/auth';
 import { LoginRequest } from '../../../shared/models/auth.models';
-import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} from '@angular/material/card';
+import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardSubtitle} from '@angular/material/card';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +22,6 @@ import {MatCard, MatCardActions, MatCardContent, MatCardHeader, MatCardSubtitle,
     RouterLink,
     MatCard,
     MatCardHeader,
-    MatCardTitle,
     MatCardSubtitle,
     MatCardContent,
     MatCardActions

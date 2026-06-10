@@ -33,7 +33,7 @@ export class Header {
     '/evenements/passes': 'Événements passés',
     '/articles': 'Articles',
     '/contact': 'Contact',
-    '/admin': 'Dashboard Admin',
+    '/admin': 'Dashboard Administrateur',
     '/admin/evenements': 'Gestion des événements',
     '/admin/membres': 'Gestion des membres',
     '/admin/articles': 'Gestion des articles',

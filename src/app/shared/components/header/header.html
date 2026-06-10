@@ -11,7 +11,8 @@
 
   <!-- Navigation visiteur -->
   @if (!authService.isLoggedIn()) {
-    <nav>
+
+    <nav class="navigation">
       <a mat-button routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Home</a>
       <a mat-button routerLink="/articles" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Articles</a>
       <a mat-button routerLink="/events" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">Évènements à venir</a>
@@ -34,7 +35,7 @@
       @else if (authService.isAdmin()){Admin}
       @else { Membre }
     </span>
-      <span class="user-name">Bonjour {{ authService.user()?.pseudo }}</span>
+      <span id="user-name">Bonjour {{ authService.user()?.pseudo }}</span>
     </div>
   }
 

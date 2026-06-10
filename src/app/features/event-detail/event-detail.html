@@ -1,12 +1,12 @@
 <div class="detail-container">
-  
+
   <!-- Loading -->
   @if (isLoading()) {
     <div class="loading-container">
       <mat-spinner diameter="60"></mat-spinner>
     </div>
   }
-  
+
   <!-- Erreur -->
   @if (errorMessage()) {
     <div class="error-container">
@@ -14,32 +14,31 @@
       <p>{{ errorMessage() }}</p>
     </div>
   }
-  
+
   <!-- Détail événement -->
   @if (!isLoading() && event()) {
     <div class="detail-content">
       <div class="detail-grid">
-        
+
         <mat-card class="info-card">
-          
+
           <!-- Titre dans la card -->
           <div class="card-title-overlay">
             <h1>{{ event()!.name }}</h1>
           </div>
-          
+
           <mat-card-content>
-            <div class="info-item">
-              <mat-icon>description</mat-icon>
+            <div class="description-item">
               <p>{{ event()!.description }}</p>
             </div>
-            
+
             @if (event()!.location) {
               <div class="info-item">
                 <mat-icon>location_on</mat-icon>
                 <span>{{ event()!.location }}</span>
               </div>
             }
-            
+
             <!-- Météo prévue -->
             @if (weather()) {
               <div class="info-item weather-item">
@@ -52,30 +51,30 @@
             @if (weatherError()) {
               <div class="info-item">
                 <mat-icon>cloud_off</mat-icon>
-                <span>Météo indisponible</span>
+                <span>Météo disponible 14j avant le début, mise à jour en temps réel.</span>
               </div>
             }
-            
+
             <div class="info-item">
               <mat-icon>calendar_today</mat-icon>
               <span>Début : {{ event()!.startDate | date:'dd/MM/yyyy HH:mm' }}</span>
             </div>
-            
+
             <div class="info-item">
               <mat-icon>event</mat-icon>
               <span>Fin : {{ event()!.endDate | date:'dd/MM/yyyy HH:mm' }}</span>
             </div>
-            
+
             <div class="info-item">
               <mat-icon>schedule</mat-icon>
               <span>Inscription avant : {{ event()!.registrationDeadline | date:'dd/MM/yyyy' }}</span>
             </div>
-            
+
             <div class="info-item">
               <mat-icon>people</mat-icon>
               <span>{{ event()!.currentParticipants }} / {{ event()!.maxParticipants }} participants</span>
             </div>
-            
+
             @if (event()!.price) {
               <div class="info-item">
                 <mat-icon>euro</mat-icon>
@@ -87,14 +86,14 @@
                 <span>Gratuit</span>
               </div>
             }
-            
+
             <div class="categories">
               @for (category of event()!.categories; track category.id) {
                 <mat-chip>{{ category.name }}</mat-chip>
               }
             </div>
           </mat-card-content>
-          
+
           <mat-card-actions class="register-button">
             <!-- Boutons inscription seulement pour les membres -->
             @if (!authService.isAdmin()) {
@@ -118,12 +117,12 @@
                 </button>
               }
             }
-            
+
             <a mat-button routerLink="/events">
               <mat-icon>arrow_back</mat-icon>
               Retour
             </a>
-            
+
             <!-- Boutons admin -->
             @if (authService.isAdmin()) {
               @if (event()!.status === EventStatus.EnAttente) {
@@ -148,13 +147,13 @@
               }
             }
           </mat-card-actions>
-          
+
           <div class="card-logo">
             <img src="/logo2.jpg" alt="Covaldys">
           </div>
-        
+
         </mat-card>
-        
+
         <!-- Section inscrits (admin seulement) -->
         @if (authService.isAdmin() && signIns().length > 0) {
           <mat-card class="signins-card">
@@ -196,7 +195,7 @@
             </mat-card-content>
           </mat-card>
         }
-        
+
         <!-- Position liste d'attente -->
         @if (event()!.waitingListPosition) {
           <mat-card class="waiting-card">
@@ -216,7 +215,7 @@
               </mat-card-title>
             </mat-card-header>
             <mat-card-content>
-              
+
               <!-- Formulaire avis (membres connectés seulement) -->
               @if (authService.isLoggedIn() && !authService.isAdmin()) {
                 <div class="review-form">
@@ -252,7 +251,7 @@
                   </div>
                 </div>
               }
-              
+
               <!-- Liste des avis -->
               @if (reviews().length === 0) {
                 <p class="no-reviews">Aucun avis pour le moment.</p>
@@ -272,7 +271,7 @@
             </mat-card-content>
           </mat-card>
         }
-      
+
       </div>
     </div>
   }
