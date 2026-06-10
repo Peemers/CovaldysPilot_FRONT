@@ -64,7 +64,7 @@ mat-toolbar {
     width: auto;
     border-radius: 50%;
     border: 3px solid #7B3F00;
-    box-shadow: 0 4px 25px rgba(123, 63, 0, 0.7);
+    box-shadow: 10px 4px 25px rgba(123, 63, 0, 0.7);
   }
 
   .logo-text {
@@ -78,7 +78,7 @@ mat-toolbar {
       font-family: 'Playfair Display', serif;
       font-weight: 700;
       letter-spacing: 1px;
-      text-shadow: 0 6px 8px rgba(123, 63, 0, 0.6);
+      text-shadow: 10px 6px 8px rgba(123, 63, 0, 0.6);
 
     }
 
@@ -188,7 +188,7 @@ nav {
     transition: all 0.2s ease;
     padding: 0;
     border: 1px solid rgba(123, 63, 0, 1);
-    box-shadow: 0 4px 8px rgba(123, 63, 0, 0.6);
+    box-shadow: 4px 4px 8px rgba(123, 63, 0, 0.6);
 
     &:hover {
       background-color: rgba(123, 63, 0, 0.4) !important;

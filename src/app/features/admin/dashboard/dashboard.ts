@@ -5,7 +5,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {RouterLink} from '@angular/router';
-import {DatePipe} from '@angular/common';
+import {DatePipe, DecimalPipe} from '@angular/common';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
@@ -22,6 +22,7 @@ import {UserService} from '../../../shared/services/user';
 import {UserResponseDto} from '../../../shared/models/user.models';
 import {Chart, ChartData, ChartOptions, registerables} from "chart.js";
 import {BaseChartDirective} from "ng2-charts";
+import {MatProgressBar} from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-dashboard',
@@ -39,6 +40,8 @@ import {BaseChartDirective} from "ng2-charts";
     RouterLink,
     DatePipe,
     BaseChartDirective,
+    MatProgressBar,
+    DecimalPipe,
   ],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
@@ -69,7 +72,7 @@ export class Dashboard implements OnInit {
     labels: ['Membres Effectifs', 'Membres Normaux'],
     datasets: [{
       data: [0, 0],
-      backgroundColor: ['#2D6A4F', '#95c4a1']
+      backgroundColor: ['#2D6A4F', '#ff0000']
     }]
   });
   eventChartData = signal<ChartData<'bar'>>({
@@ -86,7 +89,7 @@ export class Dashboard implements OnInit {
       label: 'Membres cumulés',
       data: [],
       borderColor: '#7dda5a',
-      backgroundColor: 'rgba(125, 218, 90, 0.2)',
+      backgroundColor: '#1b5504',
       fill: true,
       tension: 0.4
     }]
@@ -95,7 +98,7 @@ export class Dashboard implements OnInit {
     labels: [],
     datasets: [{
       data: [],
-      backgroundColor: '#7dda5a'
+      backgroundColor: '#ff0000',
     }]
   });
 
@@ -103,7 +106,11 @@ export class Dashboard implements OnInit {
     responsive: true,
     indexAxis: 'y',
     plugins: {
-      legend: {position: 'bottom'}
+      legend: {position: 'bottom',
+      labels: {
+        color: 'white',
+        font: {size: 14},
+      }}
     },
     scales: {
       x: {display: false},
@@ -118,7 +125,7 @@ export class Dashboard implements OnInit {
     },
     scales: {
       x: {display: false},
-      y: {ticks: {color: 'white', font: {size: 10}}}
+      y: {ticks: {color: 'white', font: {size: 17}}}
     },
     datasets: {
       bar: {
@@ -141,6 +148,27 @@ export class Dashboard implements OnInit {
         }
       }
     },
+  };
+  lineChartOptions: ChartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: {
+          color: 'white',
+          font: {size: 14}
+        }
+      }
+    },
+    scales: {
+      x: {
+        ticks: { color: 'white' }
+      },
+      y: {
+        ticks: { color: 'white' },
+        beginAtZero: true
+      }
+    }
   };
 
   constructor() {
@@ -194,7 +222,9 @@ export class Dashboard implements OnInit {
           labels: ['Membres Effectifs', 'Membres Normaux'],
           datasets: [{
             data: [effective, users.length - effective],
-            backgroundColor: ['#7dda5a', '#ffdb2e']
+            backgroundColor: ['#1b5504', '#7B3F00'],
+            borderWidth: 2,
+            hoverOffset: 8
           }]
         });
 
@@ -222,7 +252,7 @@ export class Dashboard implements OnInit {
             label: 'Membres cumulés',
             data,
             borderColor: '#7dda5a',
-            backgroundColor: 'rgba(125, 218, 90, 0.2)',
+            backgroundColor: 'rgba(255,0,0,0.35)',
             fill: true,
             tension: 0.4
           }]
@@ -230,13 +260,14 @@ export class Dashboard implements OnInit {
 
         const top5 = [...articles]
           .sort((a, b) => b.viewCount - a.viewCount)
-          .slice(0, 5);
+          .slice(0, 3);
 
         this.topArticlesChartData.set({
           labels: top5.map(a => a.title.slice(0, 20) + '...'),
           datasets: [{
             data: top5.map(a => a.viewCount),
-            backgroundColor: '#7dda5a'
+            backgroundColor: '#7833bc',
+            borderWidth: 2,
           }]
         });
         const eventsByCategory: Record<string, number> = {};

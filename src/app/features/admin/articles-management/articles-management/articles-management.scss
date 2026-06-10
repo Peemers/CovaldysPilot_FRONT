@@ -1,6 +1,6 @@
 .management-container {
   padding: 24px;
-  max-width: 1400px;
+  max-width: 1800px;
   margin: 35px auto;
 }
 
@@ -82,7 +82,6 @@
     }
   }
 }
-
 .action-buttons {
   display: flex;
   gap: 4px;
@@ -105,6 +104,12 @@
   .mat-column-participants,
   .mat-column-price {
     display: none;
+  }
+}
+::ng-deep .articles-table {
+  td.mat-mdc-cell {
+    font-size: 1.1rem !important;
+    color: black !important;
   }
 }
 

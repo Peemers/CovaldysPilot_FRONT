@@ -4,6 +4,7 @@
   padding: 24px;
   max-width: 100%;
   margin: 20px auto;
+  overflow-x: clip;
 }
 
 .page-title {
@@ -53,7 +54,7 @@
   flex-wrap: wrap;
   gap: 24px;
   padding: 12px 4px;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  //grid-template-columns: repeat(3, 1fr) 1.5fr;
 }
 
 .event-card {
@@ -69,8 +70,8 @@
   scroll-snap-align: start;
   box-sizing: border-box;
   font-family: 'Playfair Display', serif;
-  max-width: 300px;
-  min-width: 300px;
+  max-width: 400px;
+  min-width: 400px;
 
   mat-card-content {
     flex: 1;
@@ -273,6 +274,8 @@ mat-card-actions {
     flex: 0 0 300px;
     scroll-snap-align: start;
     box-sizing: border-box;
+    min-width: 300px;
+    max-width: 300px;
   }
   #details {
     margin-top: -1rem;
