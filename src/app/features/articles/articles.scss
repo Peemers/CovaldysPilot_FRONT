@@ -46,19 +46,9 @@
 
 .articles-grid {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 24px;
   padding: 12px 4px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-
-  scrollbar-width: none;
 }
 
 .article-card {
@@ -68,10 +58,12 @@
   border: 3px solid #7B3F00;
   background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(20, 20, 20, 0.5)),
   url('/bg_card.png') center/cover no-repeat;
+
   &:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
   }
+
   display: flex;
   flex-direction: column !important;
   flex: 0 0 calc(20% - 20px);
@@ -79,8 +71,8 @@
   box-sizing: border-box;
   min-height: 420px;
   font-family: "Playfair Display", serif;
-  min-width: 300px;
-  max-width: 300px;
+  min-width: 400px;
+  max-width: 400px;
 
   mat-card-content {
     flex: 1;
@@ -135,7 +127,9 @@
     border-radius: 16px;
     text-align: center;
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(20, 20, 20, 0.5));
-    text-shadow: 0 3px 6px rgba(123, 63, 0, 0.5 );
+    text-shadow: 0 3px 6px rgba(123, 63, 0, 0.5);
+    overflow: hidden;
+    max-height: 150px;
   }
 }
 
@@ -166,7 +160,7 @@ mat-card-header {
   text-align: center !important;
 }
 
-.read-more{
+.read-more {
   color: #7B3F00;
   background-color: white;
   font-family: "Playfair Display", serif;
@@ -174,10 +168,7 @@ mat-card-header {
 
 @media (max-width: 768px) {
   .articles-grid {
-    display: flex;
     flex-wrap: nowrap;
-    gap: 24px;
-    padding: 12px 4px;
     overflow-x: auto;
     overflow-y: hidden;
     scroll-snap-type: x mandatory;
@@ -189,13 +180,13 @@ mat-card-header {
 
     scrollbar-width: none;
   }
+}
 
-  .article-card {
-    flex: 0 0 300px;
-    scroll-snap-align: start;
-    box-sizing: border-box;
-    min-height: 420px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
-  }
+.article-card {
+  flex: 0 0 300px;
+  scroll-snap-align: start;
+  box-sizing: border-box;
+  min-height: 420px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
 }
 

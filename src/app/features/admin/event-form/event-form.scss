@@ -48,8 +48,9 @@
 .form-card {
   border-radius: 12px !important;
   box-shadow: 0 4px 16px rgba(0,0,0,0.3) !important;
-  background: rgba(0, 0, 0, 0.3) !important;
+  background: rgba(0, 0, 0, 0.4) !important;
   backdrop-filter: blur(8px);
+  border: 1px solid rgba(123, 63, 0, 1);
   ;
 
   mat-card-content {

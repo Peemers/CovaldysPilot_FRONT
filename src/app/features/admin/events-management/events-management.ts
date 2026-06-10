@@ -1,14 +1,14 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { MatTableModule } from '@angular/material/table';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { DatePipe } from '@angular/common';
-import { EventService } from '../../../shared/services/event';
-import { EventResponseDto, EventStatus } from '../../../shared/models/event.models';
+import {Component, inject, OnInit, signal} from '@angular/core';
+import {RouterLink} from '@angular/router';
+import {MatTableModule} from '@angular/material/table';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
+import {DatePipe} from '@angular/common';
+import {EventService} from '../../../shared/services/event';
+import {EventResponseDto, EventStatus} from '../../../shared/models/event.models';
 import {MatTooltip} from "@angular/material/tooltip";
 
 @Component({
@@ -40,6 +40,7 @@ export class EventsManagement implements OnInit {
   ngOnInit(): void {
     this.loadEvents();
   }
+
   loadEvents(): void {
     this.isLoading.set(true);
     this.eventService.getAll().subscribe({
@@ -48,7 +49,7 @@ export class EventsManagement implements OnInit {
         this.isLoading.set(false);
       },
       error: () => {
-        this.snackBar.open('Erreur lors du chargement des événements.', 'Fermer', { duration: 3000 });
+        this.snackBar.open('Erreur lors du chargement des événements.', 'Fermer', {duration: 3000});
         this.isLoading.set(false);
       }
     });
@@ -57,25 +58,25 @@ export class EventsManagement implements OnInit {
   start(id: string): void {
     this.eventService.start(id).subscribe({
       next: () => {
-        this.snackBar.open('Événement démarré !', 'Fermer', { duration: 3000 });
+        this.snackBar.open('Événement démarré !', 'Fermer', {duration: 3000});
         this.loadEvents();
       },
       error: (err) => {
-        this.snackBar.open(err.error?.message ?? 'Erreur.', 'Fermer', { duration: 4000 });
+        this.snackBar.open(err.error?.message ?? 'Erreur.', 'Fermer', {duration: 4000});
       }
     });
   }
 
   cancel(id: string): void {
     const reason = window.prompt("Raison de l'annulation (optionnel) :") ?? undefined;
-    if(!window.confirm("Confirmez l'annulation de cet événement ?")) return;
+    if (!window.confirm("Confirmez l'annulation de cet événement ?")) return;
     this.eventService.cancel(id, reason).subscribe({
       next: () => {
-        this.snackBar.open('Événement annulé !', 'Fermer', { duration: 3000 });
+        this.snackBar.open('Événement annulé !', 'Fermer', {duration: 3000});
         this.loadEvents();
       },
       error: (err) => {
-        this.snackBar.open(err.error?.message ?? 'Erreur.', 'Fermer', { duration: 4000 });
+        this.snackBar.open(err.error?.message ?? 'Erreur.', 'Fermer', {duration: 4000});
       }
     });
   }
@@ -83,11 +84,11 @@ export class EventsManagement implements OnInit {
   close(id: string): void {
     this.eventService.close(id).subscribe({
       next: () => {
-        this.snackBar.open('Événement clôturé !', 'Fermer', { duration: 3000 });
+        this.snackBar.open('Événement clôturé !', 'Fermer', {duration: 3000});
         this.loadEvents();
       },
       error: (err) => {
-        this.snackBar.open(err.error?.message ?? 'Erreur.', 'Fermer', { duration: 4000 });
+        this.snackBar.open(err.error?.message ?? 'Erreur.', 'Fermer', {duration: 4000});
       }
     });
   }
@@ -97,11 +98,11 @@ export class EventsManagement implements OnInit {
       'Toutes les inscriptions seront supprimées et les statistiques ne seront pas comptabilisées pour cet événement')) return;
     this.eventService.delete(id).subscribe({
       next: () => {
-        this.snackBar.open('Événement supprimé !', 'Fermer', { duration: 3000 });
+        this.snackBar.open('Événement supprimé !', 'Fermer', {duration: 3000});
         this.loadEvents();
       },
       error: (err) => {
-        this.snackBar.open(err.error?.message ?? 'Erreur.', 'Fermer', { duration: 4000 });
+        this.snackBar.open(err.error?.message ?? 'Erreur.', 'Fermer', {duration: 4000});
       }
     });
   }
@@ -124,5 +125,13 @@ export class EventsManagement implements OnInit {
       [EventStatus.Annule]: 'warn'
     };
     return colors[status];
+  }
+
+  sendReminder(id: string): void {
+    if (!window.confirm('Envoyer un rappel à tous les inscrits ?')) return;
+    this.eventService.sendReminder(id).subscribe({
+      next: () => this.snackBar.open('Rappel envoyé !', 'Fermer', {duration: 3000}),
+      error: (err) => this.snackBar.open(err.error?.message ?? 'Erreur.', 'Fermer', {duration: 4000})
+    });
   }
 }

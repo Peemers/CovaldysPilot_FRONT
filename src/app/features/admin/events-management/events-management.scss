@@ -1,6 +1,6 @@
 .management-container {
   padding: 24px;
-  max-width: 1400px;
+  max-width: 1800px;
   margin: 30px auto;
 }
 
@@ -117,5 +117,12 @@
       font-size: 1.3rem;
       margin-bottom: 15px;
     }
+  }
+}
+
+::ng-deep .events-table {
+  td.mat-mdc-cell {
+    font-size: 1.1rem !important;
+    color: black !important;
   }
 }

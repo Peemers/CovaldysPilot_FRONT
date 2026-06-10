@@ -8,38 +8,40 @@
   <!-- Compteurs -->
   <div class="stats-grid">
 
-    <mat-card class="stat-card">
-      <mat-card-content>
-        <mat-icon class="stat-icon">event</mat-icon>
-        <div class="stat-info">
-          <span class="stat-number">{{ totalEvents() }}</span>
-          <span class="stat-label">Événements total</span>
-        </div>
-      </mat-card-content>
-      <mat-card-actions>
-        <a mat-button routerLink="/admin/events">Consulter la liste</a>
-      </mat-card-actions>
-    </mat-card>
+    <div class="events-stats-column">
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <mat-icon class="stat-icon">event</mat-icon>
+          <div class="stat-info">
+            <span class="stat-number">{{ totalEvents() }}</span>
+            <span class="stat-label">Événements total</span>
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <a mat-button routerLink="/admin/events">Consulter la liste</a>
+        </mat-card-actions>
+      </mat-card>
 
-    <mat-card class="stat-card">
-      <mat-card-content>
-        <mat-icon class="stat-icon pending">schedule</mat-icon>
-        <div class="stat-info">
-          <span class="stat-number">{{ upcomingEvents() }}</span>
-          <span class="stat-label">Événements en attente</span>
-        </div>
-      </mat-card-content>
-    </mat-card>
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <mat-icon class="stat-icon pending">schedule</mat-icon>
+          <div class="stat-info">
+            <span class="stat-number">{{ upcomingEvents() }}</span>
+            <span class="stat-label">Événements en attente</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
 
-    <mat-card class="stat-card">
-      <mat-card-content>
-        <mat-icon class="stat-icon ongoing">play_circle</mat-icon>
-        <div class="stat-info">
-          <span class="stat-number">{{ fishesEvents() }}</span>
-          <span class="stat-label">Événements terminés</span>
-        </div>
-      </mat-card-content>
-    </mat-card>
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <mat-icon class="stat-icon ongoing">play_circle</mat-icon>
+          <div class="stat-info">
+            <span class="stat-number">{{ fishesEvents() }}</span>
+            <span class="stat-label">Événements terminés</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
 
     <mat-card class="stat-card article-stat-card">
       <mat-card-content>
@@ -59,8 +61,58 @@
         </canvas>
       </mat-card-content>
     </mat-card>
+
+    <mat-card class="next-event-card"
+              [style.display]="nextEvent() ? 'block' : 'none'">
+      @if (nextEvent()) {
+        <mat-card-header>
+          <mat-card-title>{{ nextEvent()!.name }}</mat-card-title>
+          <mat-card-subtitle>
+            {{ nextEvent()!.startDate | date:'dd/MM/yyyy HH:mm' }}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="next-event-info">
+            @if (nextEvent()!.location) {
+              <div class="info-item">
+                <mat-icon>location_on</mat-icon>
+                <span>{{ nextEvent()!.location }}</span>
+              </div>
+            }
+            <div class="info-item">
+              <mat-icon>people</mat-icon>
+              <span>{{ nextEvent()!.currentParticipants }} / {{ nextEvent()!.maxParticipants }} participants</span>
+            </div>
+
+            <!-- Barre de progression 👈 -->
+            <div class="fill-rate">
+              <span>Taux de remplissage</span>
+              <mat-progress-bar
+                mode="determinate"
+                [value]="(nextEvent()!.currentParticipants / nextEvent()!.maxParticipants) * 100">
+              </mat-progress-bar>
+              <span>{{ (nextEvent()!.currentParticipants / nextEvent()!.maxParticipants * 100) | number:'1.0-0' }}%</span>
+            </div>
+
+            @if (nextEvent()!.price) {
+              <div class="info-item">
+                <mat-icon>euro</mat-icon>
+                <span>{{ nextEvent()!.price }} €</span>
+              </div>
+            }
+          </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <a mat-raised-button [routerLink]="['/events', nextEvent()!.id]">
+            <mat-icon>visibility</mat-icon>
+            Voir les détails
+          </a>
+        </mat-card-actions>
+      }
+    </mat-card>
   </div>
 
+  <!-- Charts -->
   <div class="charts-grid">
     <mat-card class="chart-card">
       <mat-card-header>
@@ -96,7 +148,7 @@
       <mat-card-content>
         <canvas baseChart
                 [data]="memberGrowthChartData()"
-                [options]="chartOptions"
+                [options]="lineChartOptions"
                 type="line">
         </canvas>
       </mat-card-content>
@@ -214,47 +266,4 @@
       </mat-card>
     </div>
   </div>
-
-  <!-- Prochain événement -->
-  @if (nextEvent()) {
-    <div class="next-event">
-      <h2>Prochain événement</h2>
-      <mat-card class="next-event-card">
-        <mat-card-header>
-          <mat-card-title>{{ nextEvent()!.name }}</mat-card-title>
-          <mat-card-subtitle>
-            {{ nextEvent()!.startDate | date:'dd/MM/yyyy HH:mm' }}
-          </mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <div class="next-event-info">
-            @if (nextEvent()!.location) {
-              <div class="info-item">
-                <mat-icon>location_on</mat-icon>
-                <span>{{ nextEvent()!.location }}</span>
-              </div>
-            }
-            <div class="info-item">
-              <mat-icon>people</mat-icon>
-              <span>{{ nextEvent()!.currentParticipants }} / {{ nextEvent()!.maxParticipants }} participants</span>
-            </div>
-            @if (nextEvent()!.price) {
-              <div class="info-item">
-                <mat-icon>euro</mat-icon>
-                <span>{{ nextEvent()!.price }} €</span>
-              </div>
-            }
-          </div>
-        </mat-card-content>
-        <mat-card-actions>
-          <a mat-raised-button
-             [routerLink]="['/events', nextEvent()!.id]">
-            <mat-icon>visibility</mat-icon>
-            Voir les détails
-          </a>
-        </mat-card-actions>
-      </mat-card>
-    </div>
-  }
-
 </div>

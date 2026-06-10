@@ -26,6 +26,9 @@
       height: 2rem;
       color: white;
     }
+    mat-stroked-button{
+
+    }
   }
 
   a {
@@ -47,9 +50,10 @@
 
 .form-card {
   border-radius: 12px !important;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.3) !important;
-  background: rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4) !important;
+  background: rgba(0, 0, 0, 0.4) !important;
   backdrop-filter: blur(8px);
+  border: 1px solid rgba(123, 63, 0, 1);
 ;
 
   mat-card-content {
@@ -102,7 +106,6 @@
 }
 .submit-container {
   display: flex;
-  justify-content: flex-end;
   padding-top: 16px;
   border-top: 1px solid rgba(255,255,255,0.2);
   align-items: center;
@@ -160,6 +163,57 @@
 
     mat-icon {
       color: rgba(255,255,255,0.7) !important;
+    }
+  }
+}
+.image-upload-container {
+  margin-bottom: 24px;
+  padding: 16px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  h3 {
+    color: white;
+    margin: 0;
+    font-size: 1rem;
+  }
+
+  .previews {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .preview-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+
+    img {
+      width: 150px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    button {
+      color: #c0392b !important;
+    }
+  }
+
+  button[mat-stroked-button] {
+    width: fit-content;
+    color: white !important;
+    border-color: rgba(255,255,255,0.5) !important;
+
+    mat-icon {
+      color: white !important;
     }
   }
 }
