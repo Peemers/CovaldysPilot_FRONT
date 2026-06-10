@@ -42,7 +42,10 @@ export class EventService {
   close(id: string): Observable<void> {
     return this.http.patch<void>(`${this.apiUrl}/${id}/close`, {});
   }
-
-
-
+  uploadCoverImage(id: string, formData: FormData): Observable<{ url: string }> {
+    return this.http.post<{ url: string }>(`${this.apiUrl}/${id}/upload-image`, formData);
+  }
+  sendReminder(id: string): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/${id}/reminder`, {});
+  }
 }

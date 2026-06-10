@@ -20,12 +20,10 @@ export interface CreateArticleRequestDto{
   title: string;
   content: string;
   author: string;
-  imageUrls: string[];
 }
 
 export interface UpdateArticleRequestDto{
   title: string;
   content: string;
   author: string;
-  imageUrls: string[];
 }

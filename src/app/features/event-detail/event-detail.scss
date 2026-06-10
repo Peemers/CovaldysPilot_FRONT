@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Nunito:wght@400;600;700&display=swap');
+
 .detail-container {
   padding: 24px;
   max-width: 1100px;
   margin: 30px auto;
+
 }
 
 .loading-container {
@@ -28,6 +31,7 @@
   url('/bg_card.png') center/cover no-repeat;
   overflow: hidden;
   position: relative; // ← pour le logo
+  border: #808080 solid 1px;
 
   mat-card-title {
     color: white !important;
@@ -45,14 +49,14 @@
 
 .card-logo {
   position: absolute;
-  bottom: 10px;
-  right: 18px;
+  bottom: 5px;
+  right: 10px;
   z-index: 2;
   opacity: 0.8;
 
   img {
-    width: 60px;
-    height: 60px;
+    width: 100px;
+    height: auto;
     border-radius: 50%;
   }
 }
@@ -69,9 +73,24 @@
     font-size: 2rem;
     font-weight: 700;
     margin: 0;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 4px 5px rgba(123, 63, 0, 0.5);
     text-align: center;
+    font-family: 'Playfair Display', serif;
+
   }
+}
+
+.description-item{
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  font-family: "Playfair Display", serif;
+  font-size: 1.4rem;
+  text-align: center;
+  text-shadow: 0 4px 5px rgba(123, 63, 0, 0.5);
 }
 
 .info-item {
@@ -91,6 +110,7 @@
     color: white !important;
     line-height: 1.6;
     margin: 0;
+    font-family: 'Playfair Display', serif
   }
 }
 
@@ -257,12 +277,15 @@ mat-card-actions {
   background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(20, 20, 20, 0.85)),
   url('/bg_card.png') center/cover no-repeat !important;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+  font-family: "Playfair Display", serif;
 
   mat-card-title {
     color: white !important;
     display: flex;
     align-items: center;
     gap: 8px;
+    font-family: "Playfair Display", serif;
+
 
     mat-icon {
       color: gold !important;
@@ -296,6 +319,7 @@ mat-card-actions {
   padding: 16px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   margin-bottom: 16px;
+  font-family: "Playfair Display", serif;
 
   h4 {
     color: white;
@@ -319,6 +343,10 @@ mat-card-actions {
   display: flex;
   gap: 12px;
   margin-top: 12px;
+
+  button {
+    font-family: "Playfair Display", serif;
+  }
 }
 
 .no-reviews {
@@ -362,10 +390,12 @@ mat-card-actions {
   color: rgba(255, 255, 255, 0.8);
   margin: 0;
   font-style: italic;
+  font-family: "Playfair Display", serif;
 }
 
 .full-width {
   width: 100%;
+  font-family: "Playfair Display", serif;
 }
 
 .register-button{
@@ -373,4 +403,8 @@ mat-card-actions {
   mat-icon{
     color: green !important;
   }
+}
+
+a{
+  font-family: "Playfair Display", serif;
 }

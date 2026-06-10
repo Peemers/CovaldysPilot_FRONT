@@ -37,7 +37,7 @@
           <mat-card-header>
             <mat-card-title>{{ event.name }}</mat-card-title>
             <mat-card-subtitle>
-              <mat-chip [color]="getStatusColor(event.status)" highlighted>
+              <mat-chip highlighted class="mat-chip-status">
                 {{ getStatusLabel(event.status) }}
               </mat-chip>
             </mat-card-subtitle>
@@ -65,7 +65,7 @@
           </mat-card-content>
 
           <mat-card-actions>
-            <a mat-stroked-button id="details" [routerLink]="['/events', event.id]">
+            <a mat-raised-button [routerLink]="['/events', event.id]" id="read-more">
               <mat-icon id="maticon">info</mat-icon>
               Détails & Avis
             </a>

@@ -121,7 +121,14 @@
                   <mat-icon>delete</mat-icon>
                 </button>
               }
-
+              <!-- Rappel -->
+              @if (event.status === EventStatus.EnAttente || event.status === EventStatus.EnCours) {
+                <button mat-icon-button
+                        (click)="sendReminder(event.id)"
+                        matTooltip="Envoyer un rappel aux inscrits">
+                  <mat-icon>notifications</mat-icon>
+                </button>
+              }
             </div>
           </td>
         </ng-container>

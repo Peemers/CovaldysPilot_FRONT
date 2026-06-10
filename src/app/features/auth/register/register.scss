@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Nunito:wght@400;600;700&display=swap');
+
 .register-container {
   display: flex;
   justify-content: center;
@@ -8,12 +10,21 @@
   margin-top: 50px;
 }
 
+.registering{
+  font-family: "Playfair Display", serif;
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 2.5rem;
+  color: var(--covaldys-green-dark);
+}
+
 .register-card {
   width: 100%;
   max-width: 650px;
   padding: 20px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12) !important;
   border-radius: 12px !important;
+  border: 2px #7B3F00 solid;
 
   mat-card-header {
     display: flex;
@@ -22,10 +33,12 @@
     margin-bottom: 20px;
 
     .register-logo {
-      height: 80px;
+      height: 140px;
       width: auto;
       border-radius: 50%;
       margin-bottom: 12px;
+      border: 3px solid #7B3F00;
+      box-shadow: 0 5px 9px rgba(123, 63, 0, 0.6);
     }
 
     mat-card-title {
@@ -42,6 +55,10 @@
   .full-width {
     width: 100%;
     margin-bottom: 8px;
+    font-family: "Playfair Display", serif;
+    input{
+      font-family: "Playfair Display", serif;
+    }
   }
 
   .error-message {
@@ -78,4 +95,32 @@
     padding-top: 8px;
     color: #666;
   }
+}
+
+.submit-btn{
+  font-family: "Playfair Display", serif;
+  font-size: 1rem;
+}
+
+.action{
+  font-family: "Playfair Display", serif;
+  font-size: 1.4rem;
+  a{
+    font-family: "Playfair Display", serif;
+    font-size: 1.4rem;
+    color: #7B3F00;
+  }
+
+mat-label{
+  font-family: "Playfair Display", serif;}
+}
+
+.mat-mdc-select-value {
+  font-family: "Playfair Display", serif;
+}
+.mat-mdc-option {
+  font-family: 'playfair Display', serif;
+}
+:host ::ng-deep .mat-mdc-form-field mat-label {
+  font-family: "Playfair Display", serif;
 }

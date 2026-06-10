@@ -27,13 +27,8 @@
             <h1>{{ event()!.name }}</h1>
           </div>
 
-<!--          <mat-card-header>-->
-<!--            <mat-card-title>Informations :</mat-card-title>-->
-<!--          </mat-card-header>-->
-
           <mat-card-content>
-            <div class="info-item">
-              <mat-icon>description</mat-icon>
+            <div class="description-item">
               <p>{{ event()!.description }}</p>
             </div>
 
@@ -41,6 +36,22 @@
               <div class="info-item">
                 <mat-icon>location_on</mat-icon>
                 <span>{{ event()!.location }}</span>
+              </div>
+            }
+
+            <!-- Météo prévue -->
+            @if (weather()) {
+              <div class="info-item weather-item">
+                <mat-icon>wb_sunny</mat-icon>
+                <span>
+            {{ weather()!.weatherIcon }} {{ weather()!.weatherDescription }} — {{ weather()!.temperature }}°C
+        </span>
+              </div>
+            }
+            @if (weatherError()) {
+              <div class="info-item">
+                <mat-icon>cloud_off</mat-icon>
+                <span>Météo disponible 14j avant le début, mise à jour en temps réel.</span>
               </div>
             }
 

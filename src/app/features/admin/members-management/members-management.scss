@@ -1,6 +1,6 @@
 .management-container {
   padding: 24px;
-  max-width: 1400px;
+  max-width: 1800px;
   margin: 0 auto;
 }
 
@@ -57,6 +57,7 @@
   overflow: hidden;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
   overflow-x: auto;
+  border: 3px solid #7B3F00;
 }
 
 .members-table {
@@ -112,5 +113,12 @@
   .mat-column-email,
   .mat-column-createdAt {
     display: none;
+  }
+}
+
+::ng-deep .members-table {
+  td.mat-mdc-cell {
+    font-size: 1.1rem !important;
+    color: black !important;
   }
 }

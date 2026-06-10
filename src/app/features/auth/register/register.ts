@@ -30,7 +30,6 @@ const passwordMatchValidator = (group: AbstractControl): ValidationErrors | null
     MatCard,
     MatCardHeader,
     MatCardTitle,
-    MatCardSubtitle,
     MatCardContent,
     MatCardActions,
     MatSelect,

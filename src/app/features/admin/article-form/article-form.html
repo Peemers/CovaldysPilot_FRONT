@@ -52,19 +52,35 @@
             }
           </mat-form-field>
 
-          <!-- Image 1 -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>URL Image 1 (optionnel)</mat-label>
-            <input matInput formControlName="imageUrl1">
-            <mat-icon matSuffix>image</mat-icon>
-          </mat-form-field>
+          <!-- Images (max 2) -->
+          <div class="image-upload-container">
+            <h3>Images (max 2 — optionnel)</h3>
 
-          <!-- Image 2 -->
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>URL Image 2 (optionnel)</mat-label>
-            <input matInput formControlName="imageUrl2">
-            <mat-icon matSuffix>image</mat-icon>
-          </mat-form-field>
+            <!-- Prévisualisations -->
+            <div class="previews">
+              @for (url of previewUrls(); track $index) {
+                <div class="preview-item">
+                  <img [src]="url" alt="Prévisualisation">
+                  <button mat-icon-button type="button" color="warn"
+                          (click)="removeFile($index)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </div>
+              }
+            </div>
+
+            <!-- Bouton upload -->
+            @if (selectedFiles().length < 2) {
+              <button mat-stroked-button type="button" (click)="fileInput.click()">
+                <mat-icon>upload</mat-icon>
+                Ajouter une image
+              </button>
+            }
+
+            <input #fileInput type="file" accept="image/jpeg,image/png,image/webp"
+                   style="display:none"
+                   (change)="onFileSelected($event)">
+          </div>
 
           <!-- Submit -->
           <div class="submit-container">
@@ -73,8 +89,8 @@
                 <mat-spinner diameter="20"></mat-spinner>
               } @else {
                 <ng-container>
-                <mat-icon>{{ isEditMode() ? 'save' : 'check' }}</mat-icon>
-                {{ isEditMode() ? 'Enregistrer' : 'Créer l\'article' }}
+                  <mat-icon>{{ isEditMode() ? 'save' : 'check' }}</mat-icon>
+                  {{ isEditMode() ? 'Enregistrer' : 'Créer l\'article' }}
                 </ng-container>
               }
             </button>
