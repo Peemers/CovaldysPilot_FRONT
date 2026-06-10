@@ -26,4 +26,11 @@ export class ArticleService {
   delete(id: string): Observable<void>{
     return this.http.delete<void>(`${this.apiUrl}/${id}`)
   }
+  uploadImage(id: string, formData: FormData): Observable<ArticleResponseDto> {
+    return this.http.post<ArticleResponseDto>(`${this.apiUrl}/${id}/upload-image`, formData);
+  }
+
+  deleteImage(articleId: string, imageId: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${articleId}/images/${imageId}`);
+  }
 }

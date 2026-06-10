@@ -37,13 +37,14 @@ export class ArticleForm implements OnInit {
   isEditMode = signal(false);
   isLoading = signal(false);
   articleId = signal<string | null>(null);
+  selectedFiles = signal<File[]>([]);
+  previewUrls = signal<string[]>([]);
+  isUploadingImage = signal(false);
 
   articleForm: FormGroup = this.fb.group({
     title: ['', [Validators.required, Validators.minLength(3)]],
     content: ['', [Validators.required]],
     author: ['', [Validators.required]],
-    imageUrl1: [''],
-    imageUrl2: [''],
   });
 
   ngOnInit(): void {
@@ -63,8 +64,6 @@ export class ArticleForm implements OnInit {
           title: article.title,
           content: article.content,
           author: article.author,
-          imageUrl1: article.images[0]?.url ?? '',
-          imageUrl2: article.images[1]?.url ?? '',
         });
         this.isLoading.set(false);
       },
@@ -79,16 +78,11 @@ export class ArticleForm implements OnInit {
     if (this.articleForm.invalid) return;
 
     this.isLoading.set(true);
-    const imageUrls = [
-      this.articleForm.value.imageUrl1,
-      this.articleForm.value.imageUrl2
-    ].filter((url: string) => url && url.trim() !== '');
 
     const dto = {
       title: this.articleForm.value.title,
       content: this.articleForm.value.content,
       author: this.articleForm.value.author,
-      imageUrls
     };
 
     const request = this.isEditMode()
@@ -96,7 +90,10 @@ export class ArticleForm implements OnInit {
      : this.articleService.create(dto);
 
     request.subscribe({
-      next: () => {
+      next: (article) => {
+        if (this.selectedFiles().length > 0) {
+          this.uploadImages(article.id);
+        }
         this.snackBar.open(
          this.isEditMode() ? 'Article modifié !' : 'Article créé !',
          'Fermer', {duration: 3000}
@@ -107,6 +104,57 @@ export class ArticleForm implements OnInit {
         this.snackBar.open(err.error?.message ?? 'Erreur.', 'Fermer', {duration: 4000});
         this.isLoading.set(false);
       }
+    });
+  }
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
+
+    const file = input.files[0];
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+
+    if (!allowedTypes.includes(file.type)) {
+      this.snackBar.open('Format non supporté.', 'Fermer', {duration: 3000});
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      this.snackBar.open('Image trop lourde. Maximum 10MB.', 'Fermer', {duration: 3000});
+      return;
+    }
+
+    if (this.selectedFiles().length >= 2) {
+      this.snackBar.open('Maximum 2 images par article.', 'Fermer', {duration: 3000});
+      return;
+    }
+
+    this.selectedFiles.update(files => [...files, file]);
+
+    const reader = new FileReader();
+    reader.onload = (e) => this.previewUrls.update(urls => [...urls, e.target?.result as string]);
+    reader.readAsDataURL(file);
+  }
+
+  removeFile(index: number): void {
+    this.selectedFiles.update(files => files.filter((_, i) => i !== index));
+    this.previewUrls.update(urls => urls.filter((_, i) => i !== index));
+  }
+
+  uploadImages(articleId: string): void {
+    const files = this.selectedFiles();
+    if (files.length === 0) return;
+
+    this.isUploadingImage.set(true);
+    files.forEach(file => {
+      const formData = new FormData();
+      formData.append('file', file);
+      this.articleService.uploadImage(articleId, formData).subscribe({
+        next: () => this.isUploadingImage.set(false),
+        error: () => {
+          this.snackBar.open('Erreur upload image.', 'Fermer', {duration: 3000});
+          this.isUploadingImage.set(false);
+        }
+      });
     });
   }
 }
