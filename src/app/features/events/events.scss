@@ -50,21 +50,10 @@
 
 .events-grid {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 24px;
   padding: 12px 4px;
-
-  overflow-x: auto;
-  overflow-y: hidden;
-
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-
-  scrollbar-width: none;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 }
 
 .event-card {
@@ -77,10 +66,11 @@
   background-position: center !important;
   display: flex;
   flex-direction: column !important;
-  flex: 0 0 calc(20% - 20px);
   scroll-snap-align: start;
   box-sizing: border-box;
   font-family: 'Playfair Display', serif;
+  max-width: 300px;
+  min-width: 300px;
 
   mat-card-content {
     flex: 1;
@@ -101,16 +91,17 @@
 
   .description {
     color: white;
-    font-size: 1.2rem;
+    font-size: 1rem;
     line-height: 1.5;
     margin: 12px 0;
     border: solid 1px #7B3F00;
     padding: 0.4rem;
     border-radius: 16px;
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(20, 20, 20, 0.5));
-    font-family: 'Playfair Display', serif ;
+    font-family: 'Playfair Display', serif;
     text-align: center;
     text-shadow: 0 3px 6px rgba(123, 63, 0, 0.4);
+
   }
 
   .event-details {
@@ -123,21 +114,21 @@
     padding: 0.4rem;
     border-radius: 16px;
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(20, 20, 20, 0.5));
-    font-family: "Playfair Display", serif ;
+    font-family: "Playfair Display", serif;
   }
 
   .detail-item {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 1.1rem;
+    font-size: 0.9rem;
+
 
     mat-icon {
       font-size: 1.0rem;
       width: 1.1rem;
       height: 1.1rem;
     }
-
   }
 
   mat-card-title {
@@ -145,18 +136,20 @@
     align-items: center;
     justify-content: center;
     color: white;
-    //text-decoration: underline;
     border: 1px solid #7B3F00;
     border-radius: 24px;
-    font-size: 1.8rem;
+    font-size: 1.4rem;
+    word-break: break-word;
     margin-bottom: 0.7rem;
     padding: 1.5rem;
     text-align: center;
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(20, 20, 20, 0.5));
     background-size: 10px;
     margin-top: 0.1rem;
-    font-family: 'Playfair Display', serif ;
+    font-family: 'Playfair Display', serif;
     text-shadow: 0 4px 7px rgba(123, 63, 0, 0.6);
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
   }
 
   mat-card-header {
@@ -291,7 +284,7 @@ mat-card-actions {
   padding-right: 2rem !important;
 
   opacity: 0.6;
-  font-family: 'Playfair Display', serif ;
+  font-family: 'Playfair Display', serif;
   color: #7B3F00 !important;
   border: #7B3F00 2px solid;
 }

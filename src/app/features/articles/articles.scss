@@ -79,6 +79,8 @@
   box-sizing: border-box;
   min-height: 420px;
   font-family: "Playfair Display", serif;
+  min-width: 300px;
+  max-width: 300px;
 
   mat-card-content {
     flex: 1;
@@ -92,7 +94,7 @@
     color: white;
     border: 2px solid #7B3F00;
     border-radius: 24px;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     margin-bottom: 1rem;
     padding: 1.2rem;
     text-align: center;
@@ -108,7 +110,7 @@
     align-items: center;
     gap: 4px;
     flex-wrap: wrap;
-    font-size: 0.85rem;
+    font-size: 0.7rem;
     font-family: "Playfair Display", serif;
     text-shadow: 0 3px 6px rgba(123, 63, 0, 0.4);
     border: #7B3F00 2px solid;
