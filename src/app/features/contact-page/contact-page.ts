@@ -52,8 +52,10 @@ export class ContactPage {
     setTimeout(() => {
       this.isLoading.set(false);
       this.contactForm.reset();
-    }, 1500); //todo attention formulaire de contact pas branché à faire !
+    }, 1500);
   }
+
+  //todo brancher le formulaire de contact sur un email service...
 }
 
 
