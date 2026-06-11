@@ -31,4 +31,8 @@ export class SignInService {
   validatePayment(signInId: string): Observable<void> {
     return this.http.patch<void>(`${this.apiUrl}/${signInId}/validate`, {});
   }
+
+  adminUnregister(signInId: string): Observable<void> {
+    return this.http.delete<void>(`${environment.apiUrl}/api/admin/signins/${signInId}`);
+  }
 }

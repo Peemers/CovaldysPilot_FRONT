@@ -233,7 +233,7 @@ export class EventDetail implements OnInit {
   adminUnregister(signInId: string): void {
     const eventId = this.event()?.id;
     if (!eventId) return;
-    this.signInService.unregister(signInId).subscribe({
+    this.signInService.adminUnregister(signInId).subscribe({
       next: () => {
         this.snackBar.open('Membre désinscrit !', 'Fermer', {duration: 3000});
         this.loadSignIns(eventId);

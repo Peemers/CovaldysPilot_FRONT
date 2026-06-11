@@ -30,7 +30,6 @@ export class Header {
     '/': 'Accueil',
     '/login': 'Connexion',
     '/register': 'Inscription',
-    '/evenements/passes': 'Événements passés',
     '/articles': 'Articles',
     '/contact': 'Contact',
     '/admin': 'Dashboard Administrateur',
@@ -40,6 +39,7 @@ export class Header {
     '/events': 'Événements à venir',
     '/admin/events/create' : "Créer un événement",
     '/admin/events' : "Gestion des events",
+    '/events/passes/' : "Événements passés ou annulés",
 
   };
   constructor(private router: Router) {
