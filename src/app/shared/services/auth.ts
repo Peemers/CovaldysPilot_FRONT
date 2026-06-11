@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {tap} from 'rxjs/operators';
 import {Observable} from 'rxjs';
-import {AuthResponse, LoginRequest, RegisterRequest, ConnectedUser} from '../models/auth.models';
+import {AuthResponse, LoginRequest, RegisterRequest, ConnectedUser, ChangePasswordRequestDto} from '../models/auth.models';
 import {environment} from "../../../environments/environment";
 
 @Injectable({
@@ -26,13 +26,13 @@ export class AuthService {
 
   login(request: LoginRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, request).pipe(
-      tap((response: AuthResponse) => this.handleAuthResponse(response))
+     tap((response: AuthResponse) => this.handleAuthResponse(response))
     );
   }
 
   register(request: RegisterRequest): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(`${this.apiUrl}/register`, request).pipe(
-      tap((response: AuthResponse) => this.handleAuthResponse(response))
+     tap((response: AuthResponse) => this.handleAuthResponse(response))
     );
   }
 
@@ -45,6 +45,10 @@ export class AuthService {
     this.router.navigate(['/']);
   }
 
+  changePassword(request: ChangePasswordRequestDto): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/change-password`, request);
+  }
+
   getAccessToken(): string | null {
     return this.accessToken();
   }
@@ -52,7 +56,7 @@ export class AuthService {
   refreshToken(): Observable<AuthResponse> {
     const refreshToken = localStorage.getItem('refreshToken');
     return this.http.post<AuthResponse>(`${this.apiUrl}/refresh`, {refreshToken}).pipe(
-      tap((response: AuthResponse) => this.handleAuthResponse(response))
+     tap((response: AuthResponse) => this.handleAuthResponse(response))
     );
   }
 
@@ -69,7 +73,7 @@ export class AuthService {
         const refreshToken = localStorage.getItem('refreshToken');
         if (refreshToken) {
           this.http.post<AuthResponse>(`${this.apiUrl}/refresh`, {refreshToken}).pipe(
-            tap((response: AuthResponse) => this.handleAuthResponse(response))
+           tap((response: AuthResponse) => this.handleAuthResponse(response))
           ).subscribe({
             error: () => this.clearSession()
           });
