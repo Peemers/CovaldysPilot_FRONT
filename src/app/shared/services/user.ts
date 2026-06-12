@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {UserResponseDto} from '../models/user.models';
+import {CreateUserManuallyRequestDto, CreateUserManuallyResponseDto, UserResponseDto} from '../models/user.models';
 import {environment} from "../../../environments/environment";
 
 @Injectable({
@@ -20,6 +20,10 @@ export class UserService {
 
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  addManually(dto: CreateUserManuallyRequestDto): Observable<CreateUserManuallyResponseDto> {
+    return this.http.post<CreateUserManuallyResponseDto>(this.apiUrl, dto);
   }
 
   exportMembers(filter?: string): Observable<Blob> {
