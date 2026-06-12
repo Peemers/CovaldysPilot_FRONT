@@ -6,6 +6,10 @@
       Gestion des membres
     </h1>
     <div class="header-actions">
+      <button mat-raised-button (click)="openAddMember()">
+        <mat-icon>person_add</mat-icon>
+        Ajouter un membre
+      </button>
       <button mat-raised-button [matMenuTriggerFor]="exportMenu">
         <mat-icon>download</mat-icon>
         Exporter
@@ -138,5 +142,112 @@
   </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Fermer</button>
+  </mat-dialog-actions>
+</ng-template>
+<!-- Dialog ajout membre -->
+<ng-template #addMemberDialog>
+  <h2 mat-dialog-title>
+    <mat-icon>person_add</mat-icon>
+    Ajouter un membre manuellement
+  </h2>
+  <mat-dialog-content>
+    <form [formGroup]="addMemberForm">
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Prénom</mat-label>
+        <input matInput formControlName="firstName">
+        <mat-icon matSuffix>person</mat-icon>
+        @if (addMemberForm.get('firstName')?.hasError('required') && addMemberForm.get('firstName')?.touched) {
+          <mat-error>Champ obligatoire</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nom</mat-label>
+        <input matInput formControlName="lastName">
+        <mat-icon matSuffix>person_outline</mat-icon>
+        @if (addMemberForm.get('lastName')?.hasError('required') && addMemberForm.get('lastName')?.touched) {
+          <mat-error>Champ obligatoire</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email">
+        <mat-icon matSuffix>mail</mat-icon>
+        @if (addMemberForm.get('email')?.hasError('required') && addMemberForm.get('email')?.touched) {
+          <mat-error>Champ obligatoire</mat-error>
+        }
+        @if (addMemberForm.get('email')?.hasError('email') && addMemberForm.get('email')?.touched) {
+          <mat-error>Email invalide</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Pseudo</mat-label>
+        <input matInput formControlName="pseudo">
+        <mat-icon matSuffix>badge</mat-icon>
+        @if (addMemberForm.get('pseudo')?.hasError('required') && addMemberForm.get('pseudo')?.touched) {
+          <mat-error>Champ obligatoire</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Date de naissance</mat-label>
+        <input matInput formControlName="birthday" type="date">
+        <mat-icon matSuffix>cake</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Genre</mat-label>
+        <mat-select formControlName="gender">
+          <mat-option value="Homme">Homme</mat-option>
+          <mat-option value="Femme">Femme</mat-option>
+          <mat-option value="Autre">Autre</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-checkbox formControlName="isMembershipUpToDate">
+        Membre effectif (cotisation payée)
+      </mat-checkbox>
+
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Annuler</button>
+    <button mat-raised-button
+            (click)="submitAddMember()"
+            [disabled]="addMemberForm.invalid || isSubmitting()">
+      @if (isSubmitting()) {
+        <mat-spinner diameter="20"></mat-spinner>
+      } @else {
+        Créer le membre
+      }
+    </button>
+  </mat-dialog-actions>
+</ng-template>
+
+<!-- Dialog mot de passe temporaire -->
+<ng-template #passwordDialog>
+  <h2 mat-dialog-title>
+    <mat-icon>key</mat-icon>
+    Membre créé avec succès !
+  </h2>
+  <mat-dialog-content>
+    <p>Le membre a été créé et un email lui a été envoyé avec ses identifiants.</p>
+    <p>Mot de passe temporaire :</p>
+    <div class="password-display">
+      <strong>{{ temporaryPassword() }}</strong>
+    </div>
+    <p class="password-warning">
+      <mat-icon>warning</mat-icon>
+      Notez ce mot de passe — il ne sera plus affiché !
+    </p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-raised-button mat-dialog-close>
+      <mat-icon>check</mat-icon>
+      J'ai noté le mot de passe
+    </button>
   </mat-dialog-actions>
 </ng-template>

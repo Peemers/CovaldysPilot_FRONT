@@ -1,7 +1,7 @@
 import {Component, inject, OnInit, signal, TemplateRef, ViewChild} from '@angular/core';
 import {UserService} from '../../../shared/services/user';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
-import {UserResponseDto} from '../../../shared/models/user.models';
+import {CreateUserManuallyRequestDto, CreateUserManuallyResponseDto, UserResponseDto} from '../../../shared/models/user.models';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
@@ -11,6 +11,11 @@ import {DatePipe} from '@angular/common';
 import {MatTooltip} from '@angular/material/tooltip';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-members-management',
@@ -25,6 +30,11 @@ import {MatDialog, MatDialogModule} from '@angular/material/dialog';
     MatTooltip,
     MatMenuModule,
     MatDialogModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatCheckboxModule,
   ],
   templateUrl: './members-management.html',
   styleUrl: './members-management.scss',
@@ -32,11 +42,24 @@ import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 export class MembersManagement implements OnInit {
   private readonly userService = inject(UserService);
   private readonly snackBar = inject(MatSnackBar);
+  private readonly fb = inject(FormBuilder)
 
   members = signal<UserResponseDto[]>([]);
   isLoading = signal(true);
+  isSubmitting = signal(false);
+  temporaryPassword = signal<string | null>(null);
 
   readonly displayedColumns = ['pseudo', 'firstName', 'email', 'status', 'createdAt', 'actions'];
+
+  addMemberForm: FormGroup = this.fb.group({
+    firstName: ['', [Validators.required, Validators.minLength(2)]],
+    lastName: ['', [Validators.required]],
+    email: ['', [Validators.required, Validators.email]],
+    pseudo: ['', [Validators.required, Validators.minLength(3)]],
+    birthday: ['', [Validators.required]],
+    gender: ['', [Validators.required]],
+    isMembershipUpToDate: [false]
+  });
 
   ngOnInit(): void {
     this.loadMembers();
@@ -85,6 +108,8 @@ export class MembersManagement implements OnInit {
     });
   }
   @ViewChild('memberDetailDialog') memberDetailDialog!: TemplateRef<unknown>;
+  @ViewChild('addMemberDialog') addMemberDialog!: TemplateRef<unknown>;
+  @ViewChild('passwordDialog') passwordDialog!: TemplateRef<unknown>;
   private readonly dialog = inject(MatDialog);
   selectedMember = signal<UserResponseDto | null>(null);
 
@@ -92,6 +117,30 @@ export class MembersManagement implements OnInit {
     this.selectedMember.set(member);
     this.dialog.open(this.memberDetailDialog, {
       width: '500px'
+    });
+  }
+  openAddMember(): void {
+    this.addMemberForm.reset({isMembershipUpToDate: false});
+    this.dialog.open(this.addMemberDialog, {width: '600px'});
+  }
+  submitAddMember(): void {
+    if (!this.addMemberForm.valid) return;
+
+    this.isSubmitting.set(true);
+    const dto: CreateUserManuallyRequestDto = this.addMemberForm.value as CreateUserManuallyRequestDto;
+
+    this.userService.addManually(dto).subscribe({
+      next: (response: CreateUserManuallyResponseDto) => {
+        this.isSubmitting.set(false);
+        this.dialog.closeAll();
+        this.temporaryPassword.set(response.temporaryPassword);
+        this.dialog.open(this.passwordDialog, {width: '400px', disableClose: true});
+        this.loadMembers();
+      },
+      error: (err) => {
+        this.isSubmitting.set(false);
+        this.snackBar.open(err.error?.message ?? 'Erreur.', 'Fermer', {duration: 4000});
+      }
     });
   }
 }
