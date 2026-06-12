@@ -86,6 +86,10 @@
                 <span>Gratuit</span>
               </div>
             }
+            <div class="info-item">
+              <mat-icon>event_repeat</mat-icon>
+              <span>{{ event()!.status }}</span>
+            </div>
 
             <div class="categories">
               @for (category of event()!.categories; track category.id) {
@@ -102,6 +106,12 @@
                         (click)="unregister(event()!.signInId)">
                   <mat-icon>cancel</mat-icon>
                   Se désinscrire
+                </button>
+              } @else if (event()!.isOnWaitingList) {
+                <button mat-raised-button color="warn"
+                        (click)="unregister(event()!.signInId)">
+                  <mat-icon>queue</mat-icon>
+                  Quitter la liste d'attente
                 </button>
               } @else if (event()!.canRegister) {
                 <button mat-raised-button color="primary"

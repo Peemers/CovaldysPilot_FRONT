@@ -1,0 +1,142 @@
+<div class="profile-container">
+
+  @if (isLoading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="60"></mat-spinner>
+    </div>
+  }
+
+  @if (errorMessage()) {
+    <div class="error-container">
+      <mat-icon>error</mat-icon>
+      <p>{{ errorMessage() }}</p>
+    </div>
+  }
+
+  @if (!isLoading() && user()) {
+    <div class="profile-grid">
+
+      <!-- Carte infos personnelles -->
+      <mat-card class="profile-card">
+        <mat-card-header>
+          <img src="/logo2.jpg" alt="Logo Covaldys" class="profile-logo">
+          <mat-card-title class="profile-title">Mon Profil</mat-card-title>
+          <mat-card-subtitle class="profile-subtitle">
+            @if (user()!.isMembershipUpToDate) {
+              <mat-chip color="primary" highlighted>⭐ Membre Effectif</mat-chip>
+            } @else {
+              <mat-chip>Membre</mat-chip>
+            }
+          </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+
+          <div class="info-item">
+            <mat-icon>badge</mat-icon>
+            <span><strong>Pseudo :</strong> {{ user()!.pseudo }}</span>
+          </div>
+
+          <div class="info-item">
+            <mat-icon>person</mat-icon>
+            <span><strong>Prénom :</strong> {{ user()!.firstName }}</span>
+          </div>
+
+          @if (user()!.lastName) {
+            <div class="info-item">
+              <mat-icon>person_outline</mat-icon>
+              <span><strong>Nom :</strong> {{ user()!.lastName }}</span>
+            </div>
+          }
+
+          <div class="info-item">
+            <mat-icon>mail</mat-icon>
+            <span><strong>Email :</strong> {{ user()!.email }}</span>
+          </div>
+
+          @if (user()!.phoneNumber) {
+            <div class="info-item">
+              <mat-icon>phone</mat-icon>
+              <span><strong>Téléphone :</strong> {{ user()!.phoneNumber }}</span>
+            </div>
+          }
+
+          <div class="info-item">
+            <mat-icon>cake</mat-icon>
+            <span><strong>Date de naissance :</strong> {{ user()!.birthday | date:'dd/MM/yyyy' }}</span>
+          </div>
+
+          <div class="info-item">
+            <mat-icon>wc</mat-icon>
+            <span><strong>Genre :</strong> {{ user()!.gender }}</span>
+          </div>
+
+          <div class="info-item">
+            <mat-icon>calendar_today</mat-icon>
+            <span><strong>Membre depuis :</strong> {{ user()!.createdAt | date:'dd/MM/yyyy' }}</span>
+          </div>
+
+          @if (user()!.isMembershipUpToDate && user()!.lastPayementDate) {
+            <div class="info-item">
+              <mat-icon>euro</mat-icon>
+              <span><strong>Cotisation payée le :</strong> {{ user()!.lastPayementDate | date:'dd/MM/yyyy' }}</span>
+            </div>
+          }
+
+        </mat-card-content>
+
+        <mat-card-actions class="profile-actions">
+          <a mat-raised-button routerLink="/change-password" class="btn-change-pwd">
+            <mat-icon>lock</mat-icon>
+            Changer mon mot de passe
+          </a>
+        </mat-card-actions>
+      </mat-card>
+
+      <!-- Carte inscriptions -->
+      <mat-card class="signins-card">
+        <mat-card-header>
+          <mat-card-title class="profile-title">Mes inscriptions</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          @if (signIns().length === 0) {
+            <div class="empty-state">
+              <mat-icon>event_busy</mat-icon>
+              <p>Vous n'êtes inscrit à aucun événement.</p>
+              <a mat-raised-button routerLink="/events" class="btn-change-pwd">
+                <mat-icon>event</mat-icon>
+                Voir les événements
+              </a>
+            </div>
+          }
+
+          @for (signIn of signIns(); track signIn.id) {
+            <div class="signin-item">
+              <mat-icon>{{ signIn.isOnWaitingList ? 'queue' : 'check_circle' }}</mat-icon>
+              <div class="signin-info">
+                <span class="signin-event">{{ signIn.eventName }}</span>
+                <span class="signin-date">Inscrit le {{ signIn.registrationDate | date:'dd/MM/yyyy' }}</span>
+                <span class="signin-date">Débute le : {{signIn.eventStartDate | date:'dd/MM/yyyy HH:mm'}}</span>
+                <span class="signin-date"> Status de l'événement => {{getEventStatusLabel(signIn.eventStatus)}}</span>
+                @if (signIn.isOnWaitingList) {
+                  <mat-chip>Liste d'attente #{{ signIn.waitingListPosition }}</mat-chip>
+                }
+<!--                @if (signIn.isPaymentValid) {-->
+<!--                  <mat-chip color="primary">✅ Payé</mat-chip>-->
+<!--                } @else {-->
+<!--                  <mat-chip color="warn">⏳ Paiement en attente</mat-chip>-->
+<!--                }--> <!--Todo décommenter quand payement disponible-->
+              </div>
+              <a mat-icon-button [routerLink]="['/events', signIn.eventId]" matTooltip="Voir l'événement">
+                <mat-icon>arrow_forward</mat-icon>
+              </a>
+            </div>
+          }
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+  }
+
+</div>

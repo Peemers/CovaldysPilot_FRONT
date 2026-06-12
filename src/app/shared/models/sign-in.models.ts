@@ -13,4 +13,7 @@ export interface SignInResponseDto {
   userPseudo?: string;
   userFirstName?: string;
   userLastName?: string;
+  eventName?: string;
+  eventStatus?: string;
+  eventStartDate?: string;
 }
