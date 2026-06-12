@@ -68,22 +68,22 @@ export class AuthService {
       const payload = JSON.parse(atob(token.split('.')[1]));
       const isExpired = payload.exp * 1000 < Date.now();
 
+
       if (isExpired) {
-        // JWT expiré → tente un refresh
         const refreshToken = localStorage.getItem('refreshToken');
         if (refreshToken) {
           this.http.post<AuthResponse>(`${this.apiUrl}/refresh`, {refreshToken}).pipe(
-           tap((response: AuthResponse) => this.handleAuthResponse(response))
+            tap((response: AuthResponse) => this.handleAuthResponse(response))
           ).subscribe({
-            error: () => this.clearSession()
+            error: () => {
+              this.clearSession();
+            }
           });
         } else {
           this.clearSession();
         }
         return;
       }
-
-      // JWT valide → restaure la session
       this.accessToken.set(token);
       this.currentUser.set({
         userId: payload.sub,
@@ -93,7 +93,7 @@ export class AuthService {
         firstName: payload.firstname,
         lastName: payload.lastname,
       });
-    } catch {
+    } catch(e) {
       this.clearSession();
     }
   }

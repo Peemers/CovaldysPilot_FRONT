@@ -52,6 +52,14 @@
   @if (expanded()) {
     <h3 mat-subheader>Navigation</h3>
   }
+  @if (authService.isLoggedIn() && !authService.isAdmin()) {
+    <a mat-list-item routerLink="/profile" routerLinkActive="active-link">
+      <mat-icon matListItemIcon>account_circle</mat-icon>
+      @if (expanded()) {
+        <span matListItemTitle>Mon Profil</span>
+      }
+    </a>
+  }
   <a mat-list-item routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
     <mat-icon matListItemIcon>home</mat-icon>
     @if (expanded()) {

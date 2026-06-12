@@ -78,13 +78,19 @@
           <!-- Bouton contextuel selon statut -->
           <div class="action-buttons">
             @if (event.isRegistered) {
-              <button mat-raised-button
+              <button mat-raised-button class="btn-change-pwd"
                       (click)="unregister(event.signInId!)">
                 <mat-icon>cancel</mat-icon>
                 Se désinscrire
               </button>
+            } @else if (event.isOnWaitingList) {
+              <button mat-raised-button color="warn"
+                      (click)="unregister(event.signInId!)">
+                <mat-icon>queue</mat-icon>
+                Quitter la liste d'attente
+              </button>
             } @else if (event.canRegister && !authService.isAdmin()) {
-              <button mat-raised-button color="primary"
+              <button mat-raised-button color="primary" class="btn-change-pwd"
                       (click)="register(event.id)">
                 <mat-icon>how_to_reg</mat-icon>
                 S'inscrire
@@ -94,13 +100,13 @@
             event.status === EventStatus.EnAttente &&
             !authService.isAdmin() &&
             event.currentParticipants >= event.maxParticipants) {
-              <button mat-stroked-button color="accent"
+              <button mat-raised-button color="accent" class="btn-change-pwd"
                       (click)="register(event.id)">
                 <mat-icon>queue</mat-icon>
                 Liste d'attente
               </button>
             }
-            <a mat-raised-button id="details" [routerLink]="['/events', event.id]">
+            <a mat-raised-button class="btn-change-pwd" style="color: #7B3F00" [routerLink]="['/events', event.id]">
               <mat-icon id="maticon">info</mat-icon>
               Détails
             </a>

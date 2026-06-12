@@ -14,6 +14,9 @@ export class UserService {
   getAll(): Observable<UserResponseDto[]> {
     return this.http.get<UserResponseDto[]>(this.apiUrl);
   }
+  getMe(): Observable<UserResponseDto> {
+    return this.http.get<UserResponseDto>(`${environment.apiUrl}/api/users/me`);
+  }
 
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
