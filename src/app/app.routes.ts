@@ -99,6 +99,11 @@ export const routes: Routes = [
     loadComponent: () => import('./features/user-profile/user-profile').then(m => m.UserProfile)
   },
   {
+    path: 'cotisation',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/cotisation/cotisation').then(m => m.Cotisation)
+  },
+  {
     path: '**',
     redirectTo: ''
   }

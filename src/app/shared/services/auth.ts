@@ -97,6 +97,15 @@ export class AuthService {
       this.clearSession();
     }
   }
+  updateMembershipStatus(isMembershipUpToDate: boolean): void {
+    const current = this.currentUser();
+    if (current) {
+      this.currentUser.set({
+        ...current,
+        isMembershipUpToDate
+      });
+    }
+  }
 
   private handleAuthResponse(response: AuthResponse): void {
     this.accessToken.set(response.accessToken);

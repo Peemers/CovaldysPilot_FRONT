@@ -26,6 +26,9 @@ export class UserService {
     return this.http.post<CreateUserManuallyResponseDto>(this.apiUrl, dto);
   }
 
+  payCotisation(): Observable<void> {
+    return this.http.patch<void>(`${environment.apiUrl}/api/users/me/cotisation`, {});
+  }
   exportMembers(filter?: string): Observable<Blob> {
     const url = filter
       ? `${this.apiUrl}/export?filter=${filter}`
