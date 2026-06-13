@@ -37,6 +37,7 @@
   box-shadow: 18px 18px 32px rgba(0, 0, 0, 0.4) !important;
   border-radius: 12px !important;
   border: solid 2px #7B3F00;
+  font-size: 1.2rem;
 
   mat-card-header {
     display: flex;
@@ -89,10 +90,10 @@
 }
 .profile-title {
   font-family: 'Playfair Display', serif;
-  font-size: 1.5rem;
+  font-size: 2.5rem;
   color: var(--covaldys-green-dark);
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 2.5rem;
   text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3) ;
 }
 
@@ -125,6 +126,7 @@
   background-color: var(--covaldys-green) !important;
   color: white !important;
   font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
   box-shadow: 10px 10px 22px rgba(0, 0, 0, 0.6) !important;
 }
 
@@ -134,7 +136,6 @@
   gap: 12px;
   padding: 12px 0;
   border-bottom: 1px solid rgba(123, 63, 0, 0.1);
-
   mat-icon {
     color: var(--covaldys-green);
   }
@@ -149,13 +150,16 @@
 
 .signin-event {
   font-family: 'Playfair Display', serif;
-  font-size: 1rem;
+  font-size: 1.8rem;
   font-weight: 600;
   color: var(--covaldys-green-dark);
+  margin-bottom: 1rem;
+  text-decoration: underline 2px var(--covaldys-green-dark);
+
 }
 
 .signin-date {
-  font-size: 0.85rem;
+  font-size: 1.6rem;
   color: #666;
 }
 
@@ -184,3 +188,12 @@
     max-width: 100%;
   }
 }
+::ng-deep{
+  #wl-position{
+    height: 50px !important;
+    span{
+      font-size: 1.3rem !important;
+    }
+  }
+}
+
