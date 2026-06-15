@@ -35,3 +35,10 @@ export interface ConnectedUser {
   firstName: string;
   lastName?: string;
 }
+
+export interface ChangePasswordRequestDto{
+  currentPassword: string;
+  newPassword: string;
+  confirmNewPassword: string;
+}
+

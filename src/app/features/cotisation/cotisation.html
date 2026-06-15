@@ -1,0 +1,63 @@
+<div class="cotisation-container">
+  <mat-card class="cotisation-card">
+
+    <mat-card-header>
+      <img src="/logo2.jpg" alt="Logo Covaldys" class="cotisation-logo">
+      <mat-card-subtitle class="subtitle">Devenir Membre Effectif</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+
+      @if (authService.isMembershipUpToDate()) {
+        <div class="already-member">
+          <mat-icon>verified</mat-icon>
+          <p>Vous êtes déjà membre effectif ! ❤️</p>
+          <a mat-raised-button routerLink="/profile" class="btn-back">
+            Retour au profil
+          </a>
+        </div>
+      } @else {
+        <div class="cotisation-info">
+          <div class="info-item">
+            <mat-icon>euro</mat-icon>
+            <span>Cotisation annuelle : <strong>10€</strong></span>
+          </div>
+          <div class="info-item">
+            <mat-icon>verified</mat-icon>
+            <span>Badge <strong>Membre Effectif</strong> sur votre profil</span>
+          </div>
+          <div class="info-item">
+            <mat-icon>volunteer_activism</mat-icon>
+            <span>Soutenez la conservation de la Vallée d'Yves</span>
+          </div>
+          <div class="info-item">
+            <mat-icon>info</mat-icon>
+            <span>Paiement simulé — aucune transaction réelle</span>
+          </div>
+        </div>
+
+        <button mat-raised-button class="btn-pay full-width"
+                (click)="pay()"
+                [disabled]="isLoading()">
+          @if (isLoading()) {
+            <mat-spinner diameter="20"></mat-spinner>
+          } @else {
+            <ng-container>
+            <mat-icon>payment</mat-icon>
+            Payer ma cotisation (10€)
+            </ng-container>
+          }
+        </button>
+      }
+
+    </mat-card-content>
+
+    <mat-card-actions class="actions">
+      <a mat-button routerLink="/profile">
+        <mat-icon>arrow_back</mat-icon>
+        Retour au profil
+      </a>
+    </mat-card-actions>
+
+  </mat-card>
+</div>

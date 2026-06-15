@@ -1,0 +1,199 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Nunito:wght@400;600;700&display=swap');
+
+.profile-container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 20px auto;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.error-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #c0392b;
+  background-color: #fdecea;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.profile-grid {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.profile-card {
+  flex: 1;
+  min-width: 320px;
+  max-width: 420px;
+  padding: 20px;
+  box-shadow: 18px 18px 32px rgba(0, 0, 0, 0.4) !important;
+  border-radius: 12px !important;
+  border: solid 2px #7B3F00;
+  font-size: 1.2rem;
+
+  mat-card-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+
+    .profile-logo {
+      height: 120px;
+      width: auto;
+      border-radius: 50%;
+      margin-bottom: 12px;
+      border: 3px solid #7B3F00;
+      box-shadow: 0 6px 10px rgba(123, 63, 0, 0.6);
+      margin-top: 20px;
+    }
+  }
+}
+
+.signins-card {
+  flex: 2;
+  min-width: 320px;
+  padding: 20px;
+  box-shadow: 18px 18px 32px rgba(0, 0, 0, 1) !important;
+  border-radius: 12px !important;
+  border: solid 2px #7B3F00;
+  overflow: hidden;
+
+  mat-card-content {
+    max-height: 600px;
+    overflow-y: auto;
+    padding-right: 8px;
+    box-shadow: 10px 10px 22px rgba(0, 0, 0, 0.3) !important;
+    border-radius: 12px !important;
+
+    // Style de la scrollbar
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #7B3F00;
+      border-radius: 10px;
+    }
+  }
+}
+.profile-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  color: var(--covaldys-green-dark);
+  text-align: center;
+  margin-bottom: 2.5rem;
+  text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3) ;
+}
+
+.profile-subtitle {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(123, 63, 0, 0.1);
+  font-family: 'Playfair Display', serif;
+
+  mat-icon {
+    color: #7B3F00;
+  }
+}
+
+.profile-actions {
+  display: flex;
+  justify-content: center;
+  padding: 16px !important;
+}
+
+.btn-change-pwd {
+  background-color: var(--covaldys-green) !important;
+  color: white !important;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  box-shadow: 10px 10px 22px rgba(0, 0, 0, 0.6) !important;
+}
+
+.signin-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(123, 63, 0, 0.1);
+  mat-icon {
+    color: var(--covaldys-green);
+  }
+}
+
+.signin-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.signin-event {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--covaldys-green-dark);
+  margin-bottom: 1rem;
+  text-decoration: underline 2px var(--covaldys-green-dark);
+
+}
+
+.signin-date {
+  font-size: 1.6rem;
+  color: #666;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 40px;
+  color: #666;
+
+  mat-icon {
+    font-size: 3rem;
+    width: 3rem;
+    height: 3rem;
+    opacity: 0.4;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-grid {
+    flex-direction: column;
+  }
+
+  .profile-card {
+    max-width: 100%;
+  }
+}
+::ng-deep{
+  #wl-position{
+    height: 50px !important;
+    span{
+      font-size: 1.3rem !important;
+    }
+  }
+}
+

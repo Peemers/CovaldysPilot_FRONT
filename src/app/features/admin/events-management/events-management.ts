@@ -119,13 +119,23 @@ export class EventsManagement implements OnInit {
 
   getStatusColor(status: EventStatus): string {
     const colors: Record<EventStatus, string> = {
-      [EventStatus.EnAttente]: 'primary',
-      [EventStatus.EnCours]: 'accent',
-      [EventStatus.Termine]: '',
-      [EventStatus.Annule]: 'warn'
+      [EventStatus.EnAttente]: '#f39c12',
+      [EventStatus.EnCours]: '#2D6A4F',
+      [EventStatus.Termine]: '#7f8c8d',
+      [EventStatus.Annule]: '#c0392b'
     };
     return colors[status];
   }
+  getStatusClass(status: EventStatus): string {
+    const classes: Record<EventStatus, string> = {
+      [EventStatus.EnAttente]: 'chip-waiting',
+      [EventStatus.EnCours]: 'chip-active',
+      [EventStatus.Termine]: 'chip-done',
+      [EventStatus.Annule]: 'chip-cancelled'
+    };
+    return classes[status];
+  }
+
 
   sendReminder(id: string): void {
     if (!window.confirm('Envoyer un rappel à tous les inscrits ?')) return;

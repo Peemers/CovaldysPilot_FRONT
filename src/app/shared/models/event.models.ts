@@ -67,5 +67,6 @@ export interface EventResponseDto {
   canRegister: boolean;
   isRegistered: boolean;
   signInId: string;
+  isOnWaitingList: boolean;
 }
 

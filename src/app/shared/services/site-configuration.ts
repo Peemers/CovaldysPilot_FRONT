@@ -18,6 +18,9 @@ export class SiteConfigurationService {
       next: (config) => {
         console.log('Config chargée:', config);
         this.config.set(config)
+      },
+      error: (err) => {
+
       }
     });
   }

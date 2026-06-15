@@ -89,6 +89,21 @@ export const routes: Routes = [
       .then(m => m.ContactPage)
   },
   {
+    path: 'change-password',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/auth/change-password/change-password').then(m => m.ChangePassword)
+  },
+  {
+    path: 'profile',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/user-profile/user-profile').then(m => m.UserProfile)
+  },
+  {
+    path: 'cotisation',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/cotisation/cotisation').then(m => m.Cotisation)
+  },
+  {
     path: '**',
     redirectTo: ''
   }
