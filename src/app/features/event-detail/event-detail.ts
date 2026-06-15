@@ -1,5 +1,5 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
-import {ActivatedRoute, RouterLink} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {EventService} from '../../shared/services/event';
 import {SignInService} from '../../shared/services/sign-in';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
@@ -12,7 +12,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {DatePipe} from '@angular/common';
 import {AuthService} from '../../shared/services/auth';
 import {SignInResponseDto} from "../../shared/models/sign-in.models";
-import {MatTooltip, MatTooltipModule} from "@angular/material/tooltip";
+import {MatTooltipModule} from "@angular/material/tooltip";
 import {ReviewService} from '../../shared/services/review';
 import {ReviewResponseDto} from '../../shared/models/review.models';
 import {MatInputModule} from '@angular/material/input';
@@ -20,6 +20,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import {WeatherService} from "../../shared/services/weather";
 import {WeatherData} from "../../shared/models/weather.models";
+import {DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-event-detail',
@@ -44,6 +46,7 @@ export class EventDetail implements OnInit {
   private readonly signInService = inject(SignInService);
   private readonly reviewService = inject(ReviewService);
   private readonly snackBar = inject(MatSnackBar);
+  private readonly router = inject(Router);
   readonly authService = inject(AuthService);
   private readonly weatherService = inject(WeatherService);
 
@@ -59,7 +62,10 @@ export class EventDetail implements OnInit {
 
   weather = signal<WeatherData | null>(null);
   weatherError = signal<boolean>(false);
+  mapUrl = signal<SafeResourceUrl | null>(null);
 
+  private readonly sanitizer = inject(DomSanitizer);
+  private readonly http = inject(HttpClient);
   readonly EventStatus = EventStatus
 
   ngOnInit(): void {
@@ -229,6 +235,26 @@ export class EventDetail implements OnInit {
       }
     })
   }
+  delete(): void {
+    const id = this.event()?.id;
+    if (!id) return;
+    if (!window.confirm('Supprimer cet événement définitivement ?')) return;
+    this.eventService.delete(id).subscribe({
+      next: () => {
+        this.snackBar.open('Événement supprimé !', 'Fermer', {duration: 3000});
+        void this.router.navigate(['/admin/events']);
+      },
+      error: (err) => {
+        this.snackBar.open(err.error?.message ?? 'Erreur.', 'Fermer', {duration: 4000});
+      }
+    });
+  }
+
+  update(): void {
+    const id = this.event()?.id;
+    if (!id) return;
+    void this.router.navigate(['/admin/events', id, 'edit']);
+  }
 
   adminUnregister(signInId: string): void {
     const eventId = this.event()?.id;
@@ -267,6 +293,19 @@ export class EventDetail implements OnInit {
   }
 
   loadWeather(location: string, date: string): void{
+    const geocodeUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(location)}&format=json&limit=1`;
+    this.http.get<any[]>(geocodeUrl).subscribe({
+      next: (result) => {
+        if (result.length > 0) {
+          const lat = parseFloat(result[0].lat);
+          const lon = parseFloat(result[0].lon);
+
+          //generation url
+          const url = `https://www.openstreetmap.org/export/embed.html?bbox=${lon-0.01}%2C${lat-0.01}%2C${lon+0.01}%2C${lat+0.01}&layer=mapnik&marker=${lat}%2C${lon}`;
+          this.mapUrl.set(this.sanitizer.bypassSecurityTrustResourceUrl(url));
+        }
+      }
+    });
     this.weatherService.getWeatherForEvent(location, date).subscribe({
       next: (data) => this.weather.set(data),
       error: (err) => {this.weatherError.set(true)}

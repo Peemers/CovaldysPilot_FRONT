@@ -34,8 +34,8 @@ export class Cotisation {readonly authService = inject(AuthService);
     this.userService.payCotisation().subscribe({
       next: () => {
         this.isLoading.set(false);
-        // Met à jour le signal immédiatement → badge "Effectif" sans F5 !
         this.authService.updateMembershipStatus(true);
+        this.authService.refreshToken().subscribe()
         this.snackBar.open('🎉 Cotisation payée ! Vous êtes maintenant membre effectif !', 'Fermer', {
           duration: 5000,
           panelClass: ['snackbar-success']
