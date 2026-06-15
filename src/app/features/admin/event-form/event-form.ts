@@ -102,6 +102,9 @@ export class EventForm implements OnInit {
           isWaitingListActive: event.isWaitingListActive,
           categoryIds: event.categories.map(c => c.id)
         });
+        if (event.coverImage) {
+          this.previewUrl.set(event.coverImage);
+        }
         this.isLoading.set(false);
       },
       error: () => {
@@ -119,7 +122,10 @@ export class EventForm implements OnInit {
     const formValue = this.eventForm.value;
 
     if (this.isEditMode()) {
-      const dto: UpdateEventRequestDto = formValue as UpdateEventRequestDto;
+      const dto: UpdateEventRequestDto = {
+        ...formValue,
+        coverImage: this.selectedFile() ? undefined : (this.previewUrl() ?? undefined)
+      };
       this.eventService.update(this.eventId()!, dto).subscribe({
         next: () => {
           if (this.selectedFile()) {

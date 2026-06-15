@@ -122,6 +122,14 @@
             @if (previewUrl()) {
               <div class="image-preview">
                 <img [src]="previewUrl()" alt="Prévisualisation">
+                <!-- Bouton supprimer image -->
+                @if (isEditMode()) {
+                  <button mat-icon-button color="warn" type="button"
+                          (click)="previewUrl.set(null); selectedFile.set(null)"
+                          matTooltip="Supprimer l'image">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                }
               </div>
             }
 

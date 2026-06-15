@@ -40,6 +40,7 @@ export class ArticleForm implements OnInit {
   selectedFiles = signal<File[]>([]);
   previewUrls = signal<string[]>([]);
   isUploadingImage = signal(false);
+  existingImageIds = signal<string[]>([]);
 
   articleForm: FormGroup = this.fb.group({
     title: ['', [Validators.required, Validators.minLength(3)]],
@@ -65,6 +66,10 @@ export class ArticleForm implements OnInit {
           content: article.content,
           author: article.author,
         });
+        if (article.images && article.images.length > 0) {
+          this.previewUrls.set(article.images.map(img => img.url));
+          this.existingImageIds.set(article.images.map(img => img.id));
+        }
         this.isLoading.set(false);
       },
       error: () => {
@@ -123,7 +128,7 @@ export class ArticleForm implements OnInit {
       return;
     }
 
-    if (this.selectedFiles().length >= 2) {
+    if (this.existingImageIds().length + this.selectedFiles().length >= 2) {
       this.snackBar.open('Maximum 2 images par article.', 'Fermer', {duration: 3000});
       return;
     }
@@ -136,8 +141,26 @@ export class ArticleForm implements OnInit {
   }
 
   removeFile(index: number): void {
-    this.selectedFiles.update(files => files.filter((_, i) => i !== index));
-    this.previewUrls.update(urls => urls.filter((_, i) => i !== index));
+    const totalExisting = this.existingImageIds().length;
+
+    if (index < totalExisting) {
+      const imageId = this.existingImageIds()[index];
+      const articleId = this.articleId()!;
+      this.articleService.deleteImage(articleId, imageId).subscribe({
+        next: () => {
+          this.existingImageIds.update(ids => ids.filter((_, i) => i !== index));
+          this.previewUrls.update(urls => urls.filter((_, i) => i !== index));
+          this.snackBar.open('Image supprimée !', 'Fermer', {duration: 3000});
+        },
+        error: () => {
+          this.snackBar.open('Erreur suppression image.', 'Fermer', {duration: 3000});
+        }
+      });
+    } else {
+      const newIndex = index - totalExisting;
+      this.selectedFiles.update(files => files.filter((_, i) => i !== newIndex));
+      this.previewUrls.update(urls => urls.filter((_, i) => i !== index));
+    }
   }
 
   uploadImages(articleId: string): void {
