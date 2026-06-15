@@ -25,3 +25,27 @@ jobs:
 
       - name: Build Angular
         run: npm run build
+  docker:
+    runs-on: ubuntu-latest
+    needs: build  # ← seulement si le build passe !
+    if: github.ref == 'refs/heads/main'  # ← seulement sur main
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Angular image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/covaldys-angular:latest
+            ghcr.io/${{ github.repository_owner }}/covaldys-angular:${{ github.sha }}
