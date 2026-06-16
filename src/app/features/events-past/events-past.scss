@@ -244,7 +244,7 @@ mat-card-actions {
   border: #7B3F00 2px solid;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1300px) {
   .events-grid {
     display: flex;
     flex-wrap: nowrap;
@@ -267,7 +267,7 @@ mat-card-actions {
     border-radius: 12px !important;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    border: 2px solid #7B3F00;
+    border: 1px solid #7B3F00;
     min-height: 420px;
     background-size: cover !important;
     background-position: center !important;
@@ -276,6 +276,8 @@ mat-card-actions {
     flex: 0 0 300px;
     scroll-snap-align: start;
     box-sizing: border-box;
+    max-width: 350px;
+    min-width: 350px;
   }
   #details {
     margin-top: -1rem;

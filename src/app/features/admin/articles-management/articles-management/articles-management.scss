@@ -100,9 +100,9 @@
 // MEDIA QUERIES
 @media (max-width: 768px) {
 
-  .mat-column-date,
-  .mat-column-participants,
-  .mat-column-price {
+  .mat-column-publicationDate,
+  .mat-column-viewCount,
+  {
     display: none;
   }
 }
